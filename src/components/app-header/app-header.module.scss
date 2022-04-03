@@ -1,0 +1,23 @@
+.header {
+  background: #1C1C21;
+
+  &__navigation {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1280px;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style-type: none;
+  }
+
+  &__listItem {
+    display: flex;
+    cursor: pointer;
+  }
+}
