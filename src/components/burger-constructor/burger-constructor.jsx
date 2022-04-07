@@ -1,17 +1,47 @@
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
 
-const BurgerConstructor = () => {
-  const img = {};
+const BurgerConstructor = (props) => {
+  const bun = props.selectedElements.filter((item) => item.type === "bun");
+
+  const cost = props.selectedElements.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
 
   return (
-    <section>
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <ConstructorElement type="top" isLocked={true} text="Краторная булка N-200i (верх)" price={200} thumbnail={img} />
-        <ConstructorElement text="Краторная булка N-200i (верх)" price={50} thumbnail={img} />
-        <ConstructorElement type="bottom" isLocked={true} text="Краторная булка N-200i (низ)" price={200} thumbnail={img} />
+    <section className={`${styles.burgerConstructor} mt-25`}>
+      <div className={styles.elements}>
+        <div className={`${styles.ingredientElement} ml-2`}>
+          <ConstructorElement type="top" isLocked={true} text={`${bun[0].name} (верх)`} price={bun[0].price} thumbnail={bun[0].image} />
+        </div>
+        <ul className={styles.ingredientsList}>{ingredientsList(props.selectedElements.filter((item) => item.type !== "bun"))}</ul>
+        <div className={`${styles.ingredientElement} ml-2`}>
+          <ConstructorElement type="bottom" isLocked={true} text={`${bun[0].name} (низ)`} price={bun[0].price} thumbnail={bun[0].image} />
+        </div>
+      </div>
+      <div className={`${styles.purchase} mt-10`}>
+        <div className={`${styles.totalCost} mr-10`}>
+          <p className="text text_type_digits-medium mr-2">{cost}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <button className={styles.buyBtn}>
+          <span className="text text_type_main-default">Оформить заказ</span>
+        </button>
       </div>
     </section>
+  );
+};
+
+const ingredientsList = (ingredients) => {
+  return (
+    <>
+      {ingredients.map((ingredient) => (
+        <li className={styles.ingredientsItem} key={ingredient._id}>
+          <div className={"mr-2"}>
+            <DragIcon type="primary" />
+          </div>
+          <ConstructorElement isLocked={false} text={ingredient.name} price={ingredient.price} thumbnail={ingredient.image} />
+        </li>
+      ))}
+    </>
   );
 };
 

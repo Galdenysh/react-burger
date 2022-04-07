@@ -1,0 +1,49 @@
+.burgerConstructor {
+  .elements {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ingredientsList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .ingredientsItem {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+
+  .ingredientElement {
+    padding-left: 24px;
+  }
+
+  .purchase {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .totalCost {
+    display: flex;
+    align-items: center;
+  }
+
+  .buyBtn {
+    padding: 0;
+    min-width: 215px;
+    min-height: 64px;
+    background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+    border-radius: 64px;
+    border: none;
+    box-shadow: 0 0 30px 1px #4C4CFF;
+    color: #f2f2f3;
+    cursor: pointer;
+  }
+}

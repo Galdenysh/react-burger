@@ -6,7 +6,7 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState("bun");
 
   return (
-    <section className={`${styles.burgerIngredients} mt-10`}>
+    <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
       <h1 className={"text text_type_main-large"}>Собери бургер</h1>
       <div className={`${styles.tab} mt-5`}>
         <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
