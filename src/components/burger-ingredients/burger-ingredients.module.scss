@@ -1,0 +1,38 @@
+.burgerIngredients {
+  max-width: 600px;
+
+  .tab {
+    display: flex;
+  }
+
+  .ingredientsWrap {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .ingredientsList {
+    padding: 0;
+    display: grid;
+    grid-column: 2;
+    grid-template-columns: 272px 272px;
+    gap: calc(var(--offset-base-size) * 8) calc(var(--offset-base-size) * 6);
+    justify-content: center;
+    list-style-type: none;
+
+    :last-child {
+      margin-right: 0;
+    }
+  }
+
+  .ingredientsItem {
+    position: relative;
+    text-align: center;
+  }
+
+  .price {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
