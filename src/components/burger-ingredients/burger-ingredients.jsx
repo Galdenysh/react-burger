@@ -28,7 +28,7 @@ const BurgerIngredients = (props) => {
           Начинки
         </Tab>
       </div>
-      <div>
+      <div className={styles.container}>
         {ingredientsList(
           props.ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки"

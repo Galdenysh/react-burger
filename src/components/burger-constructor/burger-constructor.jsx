@@ -21,7 +21,7 @@ const BurgerConstructor = (props) => {
         <div className={`${styles.ingredientElement} ml-2`}>
           <ConstructorElement type="top" isLocked={true} text={`${bun[0].name} (верх)`} price={bun[0].price} thumbnail={bun[0].image} />
         </div>
-        <ul className={styles.ingredientsList}>{ingredientsList(props.selectedElements.filter((item) => item.type !== "bun"))}</ul>
+        <ul className={`${styles.ingredientsList} pr-2`}>{ingredientsList(props.selectedElements.filter((item) => item.type !== "bun"))}</ul>
         <div className={`${styles.ingredientElement} ml-2`}>
           <ConstructorElement type="bottom" isLocked={true} text={`${bun[0].name} (низ)`} price={bun[0].price} thumbnail={bun[0].image} />
         </div>
