@@ -26,7 +26,7 @@ const BurgerConstructor = (props) => {
           <ConstructorElement type="bottom" isLocked={true} text={`${bun[0].name} (низ)`} price={bun[0].price} thumbnail={bun[0].image} />
         </div>
       </div>
-      <div className={`${styles.purchase} mt-10`}>
+      <div className={`${styles.purchase} mt-10 mr-4`}>
         <div className={`${styles.totalCost} mr-10`}>
           <p className="text text_type_digits-medium mr-2">{cost}</p>
           <CurrencyIcon type="primary" />
