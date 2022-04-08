@@ -1,4 +1,4 @@
-import { ConstructorElement, DragIcon, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 
@@ -31,9 +31,9 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium mr-2">{cost}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <button className={styles.buyBtn}>
-          <span className="text text_type_main-default">Оформить заказ</span>
-        </button>
+        <Button type="primary" size="medium">
+          <p className="text text_type_main-default">Оформить заказ</p>
+        </Button>
       </div>
     </section>
   );
