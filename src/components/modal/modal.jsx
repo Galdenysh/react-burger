@@ -28,6 +28,7 @@ const Modal = (props) => {
   return ReactDOM.createPortal(
     <section className={styles.popup}>
       <div className={styles.container}>
+        {props.children}
         <div className={`${styles.closeBtn} mt-15 mr-10`} onClick={closePopup}>
           <CloseIcon type="primary" />
         </div>

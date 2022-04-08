@@ -15,6 +15,10 @@ const BurgerConstructor = (props) => {
 
   const cost = props.selectedElements.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
 
+  const openPopup = () => {
+    props.setVisible(true);
+  };
+
   return (
     <section className={`${styles.burgerConstructor} mt-25`}>
       <div className={styles.elements}>
@@ -31,7 +35,7 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium mr-2">{cost}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={openPopup}>
           <p className="text text_type_main-default">Оформить заказ</p>
         </Button>
       </div>
