@@ -16,6 +16,7 @@ const App = () => {
   const [visibleOrder, setVisibleOrder] = React.useState(false);
   const [visibleIngredient, setVisibleIngredient] = React.useState(false);
   const [ingredientId, setIngredientId] = React.useState();
+  const orderNumber = "034536";
 
   useEffect(() => {
     api
@@ -33,7 +34,7 @@ const App = () => {
       </main>
       {visibleOrder && (
         <Modal setVisible={setVisibleOrder}>
-          <OrderDetails />
+          <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
       {visibleIngredient && (
