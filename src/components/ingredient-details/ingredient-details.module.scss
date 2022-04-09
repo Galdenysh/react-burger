@@ -1,0 +1,18 @@
+.popupTitle {
+  min-width: calc(100% - var(--offset-base-size) * 10);
+}
+
+.caloricityList {
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+}
+
+.caloricityItem {
+  text-align: center;
+}
+
+.ingredientImage {
+  height: 240px;
+  width: 480px;
+}

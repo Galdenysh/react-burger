@@ -31,30 +31,38 @@ const BurgerIngredients = (props) => {
       <div className={styles.container}>
         {ingredientsList(
           props.ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
-          "Булки"
+          "Булки",
+          props
         )}
 
         {ingredientsList(
           props.ingredients.filter((item) => item.type === "sauce"), // Получаем массив с соусами
-          "Соусы"
+          "Соусы",
+          props
         )}
 
         {ingredientsList(
           props.ingredients.filter((item) => item.type === "main"), // Получаем массив с начинками
-          "Начинки"
+          "Начинки",
+          props
         )}
       </div>
     </section>
   );
 };
 
-const ingredientsList = (ingredients, name) => {
+const ingredientsList = (ingredients, name, props) => {
+  const openPopup = (id) => {
+    props.setVisible(true);
+    props.setIngredientId(id);
+  };
+
   return (
     <ul className={styles.ingredientsWrap} key={name}>
       <h2 className={`text text_type_main-medium mt-10`}>{name}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
         {ingredients.map((ingredient, count) => (
-          <li className={`${styles.ingredientsItem}`} key={ingredient._id}>
+          <li className={`${styles.ingredientsItem}`} key={ingredient._id} onClick={() => openPopup(ingredient._id)}>
             {count > 0 && <Counter count={count} size="default" />}
             <img src={ingredient.image} alt={ingredient.name} />
             <div className={styles.price}>
