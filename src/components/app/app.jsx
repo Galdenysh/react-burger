@@ -7,7 +7,7 @@ import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import { selectedElements } from "../../utils/data.js";
-import styles from "./App.module.scss";
+import styles from "./app.module.scss";
 
 const api = new Api({ baseUrl: "https://norma.nomoreparties.space/api" });
 
