@@ -6,7 +6,7 @@ const ModalOverlay = (props) => {
 };
 
 ModalOverlay.propTypes = {
-  closePopup: PropTypes.func,
+  closePopup: PropTypes.func.isRequired,
 };
 
 export default ModalOverlay;

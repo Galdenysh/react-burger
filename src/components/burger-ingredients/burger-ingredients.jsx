@@ -1,15 +1,8 @@
 import React from "react";
 import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-ingredients.module.scss";
-
-const ingredientsPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
-});
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState("bun");
@@ -78,7 +71,7 @@ const ingredientsList = (ingredients, name, props) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes),
+  ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
 };
 
 export default BurgerIngredients;

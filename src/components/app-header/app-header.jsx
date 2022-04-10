@@ -15,7 +15,9 @@ const AppHeader = () => {
             <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
           </li>
         </ul>
-        <Logo />
+        <div className={styles.logo}>
+          <Logo />
+        </div>
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
             <ProfileIcon type="secondary" />

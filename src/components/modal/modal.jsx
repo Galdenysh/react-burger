@@ -14,7 +14,7 @@ const Modal = (props) => {
 
   const closePopupEsc = (evt) => {
     if (evt.key === "Escape") {
-      props.setVisible(false);
+      closePopup();
     }
   };
 
@@ -41,8 +41,8 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.object,
-  setVisible: PropTypes.func,
+  children: PropTypes.object.isRequired,
+  setVisible: PropTypes.func.isRequired,
 };
 
 export default Modal;

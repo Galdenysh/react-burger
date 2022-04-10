@@ -1,6 +1,12 @@
 .header {
   background: #1C1C21;
 
+  .logo {
+    position: absolute;
+    left: 50%; 
+    transform: translate(-50%);
+  }
+
   .navigation {
     margin: auto;
     display: flex;

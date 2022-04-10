@@ -1,14 +1,7 @@
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-constructor.module.scss";
-
-const constructorPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
-});
 
 const BurgerConstructor = (props) => {
   const bun = props.selectedElements.filter((item) => item.type === "bun");
@@ -59,7 +52,7 @@ const ingredientsList = (ingredients) => {
 };
 
 BurgerConstructor.propTypes = {
-  selectedElements: PropTypes.arrayOf(constructorPropTypes),
+  selectedElements: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
 };
 
 export default BurgerConstructor;
