@@ -1,11 +1,13 @@
-import React from "react";
+import { useState, useContext } from "react";
 import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
 import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-ingredients.module.scss";
 
 const BurgerIngredients = (props) => {
-  const [current, setCurrent] = React.useState("bun");
+  const [current, setCurrent] = useState("bun");
+  const ingredients = useContext(IngredientsContext);
 
   return (
     <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
@@ -23,19 +25,19 @@ const BurgerIngredients = (props) => {
       </div>
       <div className={styles.container}>
         {ingredientsList(
-          props.ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
+          ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
           props
         )}
 
         {ingredientsList(
-          props.ingredients.filter((item) => item.type === "sauce"), // Получаем массив с соусами
+          ingredients.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
           props
         )}
 
         {ingredientsList(
-          props.ingredients.filter((item) => item.type === "main"), // Получаем массив с начинками
+          ingredients.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
           props
         )}
@@ -71,7 +73,7 @@ const ingredientsList = (ingredients, name, props) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired),
 };
 
 export default BurgerIngredients;

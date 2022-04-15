@@ -1,12 +1,14 @@
+import { useContext } from "react";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
 import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = (props) => {
-  const bun = props.selectedElements.filter((item) => item.type === "bun");
-
-  const cost = props.selectedElements.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
+  const ingredients = useContext(IngredientsContext);
+  const buns = ingredients.filter((item) => item.type === "bun");
+  const cost = ingredients.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
 
   const openPopup = () => {
     props.setVisible(true);
@@ -16,11 +18,11 @@ const BurgerConstructor = (props) => {
     <section className={`${styles.burgerConstructor} mt-25`}>
       <div className={styles.elements}>
         <div className={`${styles.ingredientElement} ml-2`}>
-          <ConstructorElement type="top" isLocked={true} text={`${bun[0].name} (верх)`} price={bun[0].price} thumbnail={bun[0].image} />
+          <ConstructorElement type="top" isLocked={true} text={`${buns[0].name} (верх)`} price={buns[0].price} thumbnail={buns[0].image} />
         </div>
-        <ul className={`${styles.ingredientsList} pr-2`}>{ingredientsList(props.selectedElements.filter((item) => item.type !== "bun"))}</ul>
+        <ul className={`${styles.ingredientsList} pr-2`}>{ingredientsList(ingredients.filter((item) => item.type !== "bun"))}</ul>
         <div className={`${styles.ingredientElement} ml-2`}>
-          <ConstructorElement type="bottom" isLocked={true} text={`${bun[0].name} (низ)`} price={bun[0].price} thumbnail={bun[0].image} />
+          <ConstructorElement type="bottom" isLocked={true} text={`${buns[0].name} (низ)`} price={buns[0].price} thumbnail={buns[0].image} />
         </div>
       </div>
       <div className={`${styles.purchase} mt-10`}>
@@ -52,7 +54,7 @@ const ingredientsList = (ingredients) => {
 };
 
 BurgerConstructor.propTypes = {
-  selectedElements: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired),
 };
 
 export default BurgerConstructor;
