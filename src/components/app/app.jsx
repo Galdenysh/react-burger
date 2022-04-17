@@ -20,6 +20,7 @@ const App = () => {
   const [visibleOrder, setVisibleOrder] = useState(false);
   const [visibleIngredient, setVisibleIngredient] = useState(false);
   const [ingredientId, setIngredientId] = useState();
+
   const orderNumber = "034536";
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const App = () => {
       .getIngredients()
       .then((ingredients) => setIngredients({ ...ingredients, data: ingredients.data, isLoading: false }))
       .catch((err) => {
-        setIngredientId({ ...ingredients, hasError: true, isLoading: false });
+        setIngredients({ ...ingredients, hasError: true, isLoading: false });
         console.log(err);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,16 +40,14 @@ const App = () => {
     <>
       <AppHeader />
       <main className={styles.content}>
-        <IngredientsContext.Provider value={ingredients.data}>
-          {ingredients.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-          {ingredients.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
-          {!ingredients.isLoading && !ingredients.hasError && ingredients.data.length && (
-            <>
-              <BurgerIngredients setVisible={setVisibleIngredient} setIngredientId={setIngredientId} />
-              <BurgerConstructor setVisible={setVisibleOrder} />
-            </>
-          )}
-        </IngredientsContext.Provider>
+        {ingredients.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+        {ingredients.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+        {!ingredients.isLoading && !ingredients.hasError && ingredients.data.length && (
+          <IngredientsContext.Provider value={ingredients.data}>
+            <BurgerIngredients setVisible={setVisibleIngredient} setIngredientId={setIngredientId} />
+            <BurgerConstructor setVisible={setVisibleOrder} />
+          </IngredientsContext.Provider>
+        )}
       </main>
 
       {visibleOrder && (
