@@ -2,35 +2,16 @@ import { useContext } from "react";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
-import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = (props) => {
-  const ingredients = useContext(IngredientsContext);
+  const bunSelect = useContext(IngredientsContext).bunSelect;
+  const fillingSelect = useContext(IngredientsContext).fillingSelect;
 
   const openPopup = () => {
     props.setVisible(true);
+    props.setNewOrder(!props.newOrder);
   };
-
-  const random = (select, amount) => {
-    const newArr = [];
-
-    for (let i = 0; i < amount; i++) {
-      let a = Math.floor(Math.random() * select.length);
-      newArr.push(select[a]);
-    }
-
-    return newArr;
-  };
-
-  const fillingSelect = random(
-    ingredients.filter((item) => item.type !== "bun"),
-    5
-  );
-  const bunSelect = random(
-    ingredients.filter((item) => item.type === "bun"),
-    1
-  )[0];
 
   const calcCost = (bunSelect, fillingSelect) => {
     const bunCost = bunSelect.price * 2;
@@ -79,7 +60,9 @@ const ingredientsList = (ingredients) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired),
+  setVisible: PropTypes.func.isRequired,
+  newOrder: PropTypes.bool.isRequired,
+  setNewOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

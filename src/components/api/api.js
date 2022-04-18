@@ -11,4 +11,16 @@ export default class Api {
   getIngredients() {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
+
+  sendOrder(id) {
+    return fetch(`${this._url}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients: id,
+      }),
+    }).then((res) => this._getResponseData(res));
+  }
 }

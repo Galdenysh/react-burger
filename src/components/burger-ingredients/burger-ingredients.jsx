@@ -2,12 +2,11 @@ import { useState, useContext } from "react";
 import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
-import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-ingredients.module.scss";
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = useState("bun");
-  const ingredients = useContext(IngredientsContext);
+  const ingredients = useContext(IngredientsContext).ingredients;
 
   return (
     <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
@@ -73,7 +72,8 @@ const ingredientsList = (ingredients, name, props) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired),
+  setVisible: PropTypes.func.isRequired,
+  setIngredientId: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
