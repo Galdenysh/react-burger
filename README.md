@@ -13,6 +13,10 @@
 Этот проект создан с помощью:
 
 - [Create React App](https://github.com/facebook/create-react-app).
+- [React Redux](https://github.com/reduxjs/react-redux).
+- [Redux Thunk](https://github.com/reduxjs/redux-thunk).
+- [Redux Toolkit](https://github.com/reduxjs/redux-toolkit).
+- [React DnD](https://github.com/react-dnd/react-dnd).
 - [Node Sass](https://github.com/sass/node-sass).
 - [Набора UI-компонентов](https://github.com/yandex-praktikum/react-developer-burger-ui-components).
 
