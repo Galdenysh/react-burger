@@ -9,7 +9,6 @@ const BurgerConstructor = (props) => {
   const fillingSelect = useContext(IngredientsContext).fillingSelect;
 
   const openPopup = () => {
-    props.setVisible(true);
     props.setNewOrder(!props.newOrder);
   };
 
@@ -60,7 +59,6 @@ const ingredientsList = (ingredients) => {
 };
 
 BurgerConstructor.propTypes = {
-  setVisible: PropTypes.func.isRequired,
   newOrder: PropTypes.bool.isRequired,
   setNewOrder: PropTypes.func.isRequired,
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import Api from "../api/api.js";
+import { api } from "../api/api.js";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
@@ -8,8 +8,6 @@ import OrderDetails from "../order-details/order-details.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import { IngredientsContext } from "../../services/appContext.js";
 import styles from "./app.module.scss";
-
-const api = new Api({ baseUrl: "https://norma.nomoreparties.space/api" });
 
 const random = (select, amount) => {
   const newArr = [];
@@ -31,7 +29,7 @@ const App = () => {
     fillingSelect: [],
   });
   const [ingredientId, setIngredientId] = useState();
-  const [orderNumber, setOrderNumber] = useState({ isLoading: false, hasError: false, data: "0000" });
+  const [orderNumber, setOrderNumber] = useState({ isLoading: false, hasError: false, data: parseInt("0000") });
   const [newOrder, setNewOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const [visibleIngredient, setVisibleIngredient] = useState(false);
@@ -70,6 +68,7 @@ const App = () => {
       isInitialMount.current = false;
     } else {
       setOrderNumber({ ...orderNumber, hasError: false, isLoading: true });
+      setVisibleOrder(true);
 
       api
         .sendOrder([...ingredients.fillingSelect, ingredients.bunSelect].map((item) => item._id))
@@ -92,7 +91,7 @@ const App = () => {
         {!ingredients.isLoading && !ingredients.hasError && ingredients.data.length && (
           <IngredientsContext.Provider value={{ ingredients: ingredients.data, bunSelect: ingredients.bunSelect, fillingSelect: ingredients.fillingSelect }}>
             <BurgerIngredients setVisible={setVisibleIngredient} setIngredientId={setIngredientId} />
-            <BurgerConstructor setVisible={setVisibleOrder} newOrder={newOrder} setNewOrder={setNewOrder} />
+            <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
           </IngredientsContext.Provider>
         )}
       </main>
