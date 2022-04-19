@@ -1,31 +1,38 @@
+import { useContext } from "react";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
-import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = (props) => {
-  const bun = props.selectedElements.filter((item) => item.type === "bun");
-
-  const cost = props.selectedElements.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
+  const bunSelect = useContext(IngredientsContext).bunSelect;
+  const fillingSelect = useContext(IngredientsContext).fillingSelect;
 
   const openPopup = () => {
-    props.setVisible(true);
+    props.setNewOrder(!props.newOrder);
+  };
+
+  const calcCost = (bunSelect, fillingSelect) => {
+    const bunCost = bunSelect.price * 2;
+    const fillingCost = fillingSelect.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
+
+    return bunCost + fillingCost;
   };
 
   return (
     <section className={`${styles.burgerConstructor} mt-25`}>
       <div className={styles.elements}>
         <div className={`${styles.ingredientElement} ml-2`}>
-          <ConstructorElement type="top" isLocked={true} text={`${bun[0].name} (верх)`} price={bun[0].price} thumbnail={bun[0].image} />
+          <ConstructorElement type="top" isLocked={true} text={`${bunSelect.name} (верх)`} price={bunSelect.price} thumbnail={bunSelect.image} />
         </div>
-        <ul className={`${styles.ingredientsList} pr-2`}>{ingredientsList(props.selectedElements.filter((item) => item.type !== "bun"))}</ul>
+        <ul className={`${styles.ingredientsList} pr-2`}>{ingredientsList(fillingSelect)}</ul>
         <div className={`${styles.ingredientElement} ml-2`}>
-          <ConstructorElement type="bottom" isLocked={true} text={`${bun[0].name} (низ)`} price={bun[0].price} thumbnail={bun[0].image} />
+          <ConstructorElement type="bottom" isLocked={true} text={`${bunSelect.name} (низ)`} price={bunSelect.price} thumbnail={bunSelect.image} />
         </div>
       </div>
       <div className={`${styles.purchase} mt-10`}>
         <div className={`${styles.totalCost} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">{cost}</p>
+          <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="medium" onClick={openPopup}>
@@ -52,7 +59,8 @@ const ingredientsList = (ingredients) => {
 };
 
 BurgerConstructor.propTypes = {
-  selectedElements: PropTypes.arrayOf(ingredientsPropTypes).isRequired,
+  newOrder: PropTypes.bool.isRequired,
+  setNewOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

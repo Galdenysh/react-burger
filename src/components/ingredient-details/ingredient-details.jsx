@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import ingredientsPropTypes from "../../utils/types.js";
 import styles from "./ingredient-details.module.scss";
 

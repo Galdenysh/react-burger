@@ -1,4 +1,4 @@
-export default class Api {
+class Api {
   constructor(options) {
     this._url = options.baseUrl;
   }
@@ -11,4 +11,18 @@ export default class Api {
   getIngredients() {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
+
+  sendOrder(id) {
+    return fetch(`${this._url}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients: id,
+      }),
+    }).then((res) => this._getResponseData(res));
+  }
 }
+
+export const api = new Api({ baseUrl: "https://norma.nomoreparties.space/api" });
