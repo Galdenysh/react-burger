@@ -1,12 +1,11 @@
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsContext } from "../../services/appContext.js";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = (props) => {
-  const bunSelect = useContext(IngredientsContext).bunSelect;
-  const fillingSelect = useContext(IngredientsContext).fillingSelect;
+  const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
+  const fillingSelect = useSelector((store) => store.burgerReducer.fillingSelect);
 
   const openPopup = () => {
     props.setNewOrder(!props.newOrder);

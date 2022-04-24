@@ -1,65 +1,25 @@
 import { useEffect, useState, useRef } from "react";
-import { api } from "../api/api.js";
+import { useDispatch, useSelector } from "react-redux";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
 import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
-import { IngredientsContext } from "../../services/appContext.js";
 import styles from "./app.module.scss";
-
-const random = (select, amount) => {
-  const newArr = [];
-
-  for (let i = 0; i < amount; i++) {
-    let a = Math.floor(Math.random() * select.length);
-    newArr.push(select[a]);
-  }
-
-  return newArr;
-};
+import { getIngredients, getOrder } from "../../services/actions/burger.js";
 
 const App = () => {
-  const [ingredients, setIngredients] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-    bunSelect: {},
-    fillingSelect: [],
-  });
-  const [ingredientId, setIngredientId] = useState();
-  const [orderNumber, setOrderNumber] = useState({ isLoading: false, hasError: false, data: parseInt("0000") });
   const [newOrder, setNewOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const [visibleIngredient, setVisibleIngredient] = useState(false);
-  const [visibleError, setVisibleError] = useState(false);
   const isInitialMount = useRef(true);
 
-  useEffect(() => {
-    setIngredients({ ...ingredients, hasError: false, isLoading: true });
+  const dispatch = useDispatch();
+  const data = useSelector((store) => store.burgerReducer);
 
-    api
-      .getIngredients()
-      .then((ingredients) =>
-        setIngredients({
-          ...ingredients,
-          data: ingredients.data,
-          bunSelect: random(
-            ingredients.data.filter((item) => item.type === "bun"),
-            1
-          )[0],
-          fillingSelect: random(
-            ingredients.data.filter((item) => item.type !== "bun"),
-            5
-          ),
-          isLoading: false,
-        })
-      )
-      .catch((err) => {
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-        console.log(err);
-      });
+  useEffect(() => {
+    dispatch(getIngredients());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,17 +27,8 @@ const App = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      setOrderNumber({ ...orderNumber, hasError: false, isLoading: true });
+      dispatch(getOrder(data));
       setVisibleOrder(true);
-
-      api
-        .sendOrder([...ingredients.fillingSelect, ingredients.bunSelect].map((item) => item._id))
-        .then((res) => setOrderNumber({ ...orderNumber, isLoading: false, data: res.order.number }))
-        .catch((err) => {
-          setOrderNumber({ ...orderNumber, hasError: true, isLoading: false });
-          setVisibleError(true);
-          console.log(err);
-        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newOrder]);
@@ -86,29 +37,24 @@ const App = () => {
     <>
       <AppHeader />
       <main className={styles.content}>
-        {ingredients.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-        {ingredients.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
-        {!ingredients.isLoading && !ingredients.hasError && ingredients.data.length && (
-          <IngredientsContext.Provider value={{ ingredients: ingredients.data, bunSelect: ingredients.bunSelect, fillingSelect: ingredients.fillingSelect }}>
-            <BurgerIngredients setVisible={setVisibleIngredient} setIngredientId={setIngredientId} />
+        {data.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+        {data.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+        {!data.isLoading && !data.hasError && data.ingredientsData.length && (
+          <>
+            <BurgerIngredients setVisible={setVisibleIngredient} />
             <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
-          </IngredientsContext.Provider>
+          </>
         )}
       </main>
 
-      {visibleOrder && !orderNumber.isLoading && !orderNumber.hasError && (
+      {visibleOrder && !data.isLoading && !data.hasError && (
         <Modal setVisible={setVisibleOrder}>
-          <OrderDetails orderNumber={orderNumber.data} />
+          <OrderDetails orderNumber={data.orderData} />
         </Modal>
       )}
       {visibleIngredient && (
         <Modal setVisible={setVisibleIngredient}>
-          <IngredientDetails ingredient={ingredients.data.find((ingredient) => ingredient._id === ingredientId)} />
-        </Modal>
-      )}
-      {visibleError && (
-        <Modal setVisible={setVisibleError}>
-          <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>
+          <IngredientDetails ingredient={data.ingredientSelect} />
         </Modal>
       )}
     </>

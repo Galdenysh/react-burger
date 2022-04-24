@@ -1,12 +1,14 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsContext } from "../../services/appContext.js";
+import { ADD_INFO_INGREDIENT } from "../../services/actions/burger.js";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.scss";
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = useState("bun");
-  const ingredients = useContext(IngredientsContext).ingredients;
+  const dispatch = useDispatch();
+  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
 
   return (
     <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
@@ -24,31 +26,34 @@ const BurgerIngredients = (props) => {
       </div>
       <div className={styles.container}>
         {ingredientsList(
-          ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
+          ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
-          props
+          props,
+          dispatch
         )}
 
         {ingredientsList(
-          ingredients.filter((item) => item.type === "sauce"), // Получаем массив с соусами
+          ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
-          props
+          props,
+          dispatch
         )}
 
         {ingredientsList(
-          ingredients.filter((item) => item.type === "main"), // Получаем массив с начинками
+          ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
-          props
+          props,
+          dispatch
         )}
       </div>
     </section>
   );
 };
 
-const ingredientsList = (ingredients, name, props) => {
-  const openPopup = (id) => {
+const ingredientsList = (ingredients, name, props, dispatch) => {
+  const openPopup = (ingredient) => {
     props.setVisible(true);
-    props.setIngredientId(id);
+    dispatch({ type: ADD_INFO_INGREDIENT, payload: ingredient });
   };
 
   return (
@@ -56,7 +61,7 @@ const ingredientsList = (ingredients, name, props) => {
       <h2 className={`text text_type_main-medium mt-10`}>{name}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
         {ingredients.map((ingredient, count) => (
-          <li className={`${styles.ingredientsItem}`} key={ingredient._id} onClick={() => openPopup(ingredient._id)}>
+          <li className={`${styles.ingredientsItem}`} key={ingredient._id} onClick={() => openPopup(ingredient)}>
             {count > 0 && <Counter count={count} size="default" />}
             <img src={ingredient.image} alt={ingredient.name} />
             <div className={styles.price}>
@@ -73,7 +78,6 @@ const ingredientsList = (ingredients, name, props) => {
 
 BurgerIngredients.propTypes = {
   setVisible: PropTypes.func.isRequired,
-  setIngredientId: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;
