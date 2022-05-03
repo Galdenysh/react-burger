@@ -1,17 +1,16 @@
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ADD_INFO_INGREDIENT } from "../../services/actions/burger.js";
+import { useSelector } from "react-redux";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import DraggableIngredient from "./draggable-ingredient.jsx";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.scss";
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = useState("bun");
-  const refContainer = useRef(null);
-  const refBun = useRef(null);
-  const refSauce = useRef(null);
-  const refMain = useRef(null);
-  const dispatch = useDispatch();
+  const containerRef = useRef(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
 
   const onTabClick = (ref) => {
@@ -19,9 +18,9 @@ const BurgerIngredients = (props) => {
   };
 
   const onContainterScroll = () => {
-    const scrollTop = refContainer.current.scrollTop;
-    const bunHeight = refBun.current.clientHeight;
-    const sauceHeight = refSauce.current.clientHeight;
+    const scrollTop = containerRef.current.scrollTop;
+    const bunHeight = bunRef.current.clientHeight;
+    const sauceHeight = sauceRef.current.clientHeight;
 
     if (scrollTop < bunHeight / 2) {
       setCurrent("bun");
@@ -41,7 +40,7 @@ const BurgerIngredients = (props) => {
           active={current === "bun"}
           onClick={(evt) => {
             setCurrent(evt);
-            onTabClick(refBun);
+            onTabClick(bunRef);
           }}
         >
           Булки
@@ -51,7 +50,7 @@ const BurgerIngredients = (props) => {
           active={current === "sauce"}
           onClick={(evt) => {
             setCurrent(evt);
-            onTabClick(refSauce);
+            onTabClick(sauceRef);
           }}
         >
           Соусы
@@ -61,61 +60,45 @@ const BurgerIngredients = (props) => {
           active={current === "main"}
           onClick={(evt) => {
             setCurrent(evt);
-            onTabClick(refMain);
+            onTabClick(mainRef);
           }}
         >
           Начинки
         </Tab>
       </div>
-      <div className={styles.container} onScroll={onContainterScroll} ref={refContainer}>
+      <div className={styles.container} onScroll={onContainterScroll} ref={containerRef}>
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
-          props,
-          dispatch,
-          refBun
+          props.setVisible,
+          bunRef
         )}
 
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
-          props,
-          dispatch,
-          refSauce
+          props.setVisible,
+          sauceRef
         )}
 
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
-          props,
-          dispatch,
-          refMain
+          props.setVisible,
+          mainRef
         )}
       </div>
     </section>
   );
 };
 
-const ingredientsList = (ingredients, name, props, dispatch, ref) => {
-  const openPopup = (ingredient) => {
-    props.setVisible(true);
-    dispatch({ type: ADD_INFO_INGREDIENT, payload: ingredient });
-  };
-
+const ingredientsList = (ingredients, type, setVisible, tabRef) => {
   return (
-    <ul className={styles.ingredientsWrap} key={name} ref={ref}>
-      <h2 className={`text text_type_main-medium pt-10`}>{name}</h2>
+    <ul className={styles.ingredientsWrap} ref={tabRef}>
+      <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
-        {ingredients.map((ingredient, count) => (
-          <li className={`${styles.ingredientsItem}`} key={ingredient._id} onClick={() => openPopup(ingredient)}>
-            {count > 0 && <Counter count={count} size="default" />}
-            <img src={ingredient.image} alt={ingredient.name} />
-            <div className={styles.price}>
-              <p className="text text_type_digits-default mt-2 mr-2">{ingredient.price}</p>
-              <CurrencyIcon type="primary" />
-            </div>
-            <p className="text text_type_main-default mt-2">{ingredient.name}</p>
-          </li>
+        {ingredients.map((ingredient) => (
+          <DraggableIngredient key={ingredient._id} ingredient={ingredient} setVisible={setVisible}></DraggableIngredient>
         ))}
       </ul>
     </ul>

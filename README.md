@@ -18,6 +18,7 @@
 - [Redux Thunk](https://github.com/reduxjs/redux-thunk).
 - [Redux Toolkit](https://github.com/reduxjs/redux-toolkit).
 - [React DnD](https://github.com/react-dnd/react-dnd).
+- [React DnD HTML5 Backend](https://github.com/react-dnd/react-dnd).
 - [Node Sass](https://github.com/sass/node-sass).
 - [Набора UI-компонентов](https://github.com/yandex-praktikum/react-developer-burger-ui-components).
 

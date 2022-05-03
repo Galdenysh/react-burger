@@ -5,12 +5,23 @@
     gap: 10px;
   }
 
+  .emptyList {
+    margin: auto;
+    padding-left: 32px;
+    text-align: center;
+    max-width: 488px;
+  }
+
   .ingredientsList {
     margin: 0;
     padding-left: 0;
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
 
+    min-height: 80px;
     max-height: 350px;
+    min-width: 568px;
     overflow-y: auto;
 
     // скролл бар для firefox

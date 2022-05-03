@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from "../app-header/app-header.jsx";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.jsx";
 import BurgerConstructor from "../burger-constructor/burger-constructor.jsx";
@@ -40,10 +42,10 @@ const App = () => {
         {data.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
         {data.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
         {!data.isLoading && !data.hasError && data.ingredientsData.length && (
-          <>
+          <DndProvider backend={HTML5Backend}>
             <BurgerIngredients setVisible={setVisibleIngredient} />
             <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
-          </>
+          </DndProvider>
         )}
       </main>
 
