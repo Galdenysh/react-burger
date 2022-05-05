@@ -9,7 +9,8 @@ import Modal from "../modal/modal.jsx";
 import OrderDetails from "../order-details/order-details.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import styles from "./app.module.scss";
-import { getIngredients, getOrder } from "../../services/actions/burger.js";
+import { getIngredients } from "../../services/actions/burger.js";
+import { getOrder } from "../../services/actions/order.js";
 
 const App = () => {
   const [newOrder, setNewOrder] = useState(false);
@@ -18,7 +19,8 @@ const App = () => {
   const isInitialMount = useRef(true);
 
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.burgerReducer);
+  const burderData = useSelector((store) => store.burgerReducer);
+  const orderData = useSelector((store) => store.orderReducer);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -29,7 +31,7 @@ const App = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      dispatch(getOrder(data));
+      dispatch(getOrder(burderData));
       setVisibleOrder(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,9 +41,9 @@ const App = () => {
     <>
       <AppHeader />
       <main className={styles.content}>
-        {data.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-        {data.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
-        {!data.isLoading && !data.hasError && data.ingredientsData.length && (
+        {burderData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+        {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+        {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients setVisible={setVisibleIngredient} />
             <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
@@ -49,14 +51,15 @@ const App = () => {
         )}
       </main>
 
-      {visibleOrder && !data.isLoading && !data.hasError && (
+      {visibleOrder && !orderData.isLoading && (
         <Modal setVisible={setVisibleOrder}>
-          <OrderDetails orderNumber={data.orderData} />
+          {orderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+          {!orderData.hasError && <OrderDetails orderNumber={orderData.orderData} />}
         </Modal>
       )}
       {visibleIngredient && (
         <Modal setVisible={setVisibleIngredient}>
-          <IngredientDetails ingredient={data.ingredientSelect} />
+          <IngredientDetails ingredient={burderData.ingredientSelect} />
         </Modal>
       )}
     </>

@@ -1,11 +1,7 @@
 import {
   GET_INGREDIENTS,
-  GET_CONSTRUCTOR,
-  GET_STATUS_LOADING,
-  GET_STATUS_LOADED,
-  GET_STATUS_FALSE,
+  GET_BUN_INGREDIENT,
   ADD_INFO_INGREDIENT,
-  GET_ORDER,
   REMOVE_INFO_INGREDIENT,
   ADD_FILLING_INGREDIENT,
   ADD_BUN_INGREDIENT,
@@ -13,8 +9,10 @@ import {
   DECREASE_FILLING_INGREDIENT,
   REMOVE_FILLING_INGREDIENT,
   SET_FILLING_INGREDIENT,
+  GET_INGREDIENTS_STATUS_LOADING,
+  GET_INGREDIENTS_STATUS_LOADED,
+  GET_INGREDIENTS_STATUS_FALSE,
 } from "../actions/burger.js";
-import { random } from "../../utils/random.js";
 
 const initialState = {
   isLoading: false,
@@ -23,27 +21,20 @@ const initialState = {
   bunSelect: {},
   fillingSelect: [],
   ingredientSelect: {},
-  orderData: 0,
 };
 
 export const burgerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_STATUS_LOADING:
+    case GET_INGREDIENTS_STATUS_LOADING:
       return { ...state, hasError: false, isLoading: true };
-    case GET_STATUS_LOADED:
+    case GET_INGREDIENTS_STATUS_LOADED:
       return { ...state, isLoading: false };
-    case GET_STATUS_FALSE:
+    case GET_INGREDIENTS_STATUS_FALSE:
       return { ...state, hasError: true, isLoading: false };
     case GET_INGREDIENTS:
       return { ...state, ingredientsData: action.payload.map((ingredient) => ({ ...ingredient, qty: 0 })) };
-    case GET_CONSTRUCTOR:
-      return {
-        ...state,
-        bunSelect: random(
-          action.payload.map((ingredient) => ({ ...ingredient, qty: 0 })).filter((item) => item.type === "bun"),
-          1
-        )[0],
-      };
+    case GET_BUN_INGREDIENT:
+      return { ...state, bunSelect: { ...action.payload, qty: 0 } };
     case ADD_BUN_INGREDIENT:
       return {
         ...state,
@@ -59,13 +50,10 @@ export const burgerReducer = (state = initialState, action) => {
     case ADD_FILLING_INGREDIENT:
       return {
         ...state,
-        fillingSelect: [action.payload, ...state.fillingSelect].map((ingredient) => ({
-          ...ingredient,
-          constructorId: ingredient._id + ingredient.qty,
-        })),
+        fillingSelect: [action.payload, ...state.fillingSelect],
       };
     case REMOVE_FILLING_INGREDIENT:
-      return { ...state, fillingSelect: [...state.fillingSelect].filter((ingredient) => ingredient._id + ingredient.qty !== action.id) };
+      return { ...state, fillingSelect: [...state.fillingSelect].filter((ingredient) => ingredient.constructorId !== action.id) };
     case INCREASE_FILLING_INGREDIENT: {
       return {
         ...state,
@@ -84,8 +72,6 @@ export const burgerReducer = (state = initialState, action) => {
       return { ...state, ingredientSelect: action.payload };
     case REMOVE_INFO_INGREDIENT:
       return { ...state, ingredientSelect: {} };
-    case GET_ORDER:
-      return { ...state, orderData: action.payload };
 
     default:
       return state;

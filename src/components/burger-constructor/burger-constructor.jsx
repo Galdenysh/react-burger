@@ -7,6 +7,7 @@ import styles from "./burger-constructor.module.scss";
 const BurgerConstructor = (props) => {
   const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
   const fillingSelect = useSelector((store) => store.burgerReducer.fillingSelect);
+  const orderData = useSelector((store) => store.orderReducer);
 
   const openPopup = () => {
     props.setNewOrder(!props.newOrder);
@@ -28,7 +29,8 @@ const BurgerConstructor = (props) => {
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="medium" onClick={openPopup}>
-          <p className="text text_type_main-default">Оформить заказ</p>
+          {orderData.isLoading && <p className="text text_type_main-default">Загружаю заказ</p>}
+          {!orderData.isLoading && <p className="text text_type_main-default">Оформить заказ</p>}
         </Button>
       </div>
     </section>

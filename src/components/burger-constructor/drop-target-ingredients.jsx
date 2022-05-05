@@ -11,7 +11,7 @@ const DropTargetIngredients = (props) => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (itemId) => onDropHandler(itemId),
+    drop: (itemId) => onDropHandler(itemId.id),
   });
   const dispatch = useDispatch();
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
@@ -22,12 +22,13 @@ const DropTargetIngredients = (props) => {
   }, []);
 
   const onDropHandler = (itemId) => {
-    const ingredientTarget = ingredientsData.filter((ingredient) => itemId.id === ingredient._id);
+    const ingredientTarget = ingredientsData.filter((ingredient) => itemId === ingredient._id);
+    const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: ingredientTarget[0]._id + ingredientTarget[0].qty };
 
     // eslint-disable-next-line no-unused-expressions
-    ingredientTarget[0].type === "bun"
-      ? dispatch({ type: ADD_BUN_INGREDIENT, payload: ingredientTarget[0] })
-      : (dispatch({ type: ADD_FILLING_INGREDIENT, payload: ingredientTarget[0] }), dispatch({ type: INCREASE_FILLING_INGREDIENT, id: itemId.id }));
+    ingredientTargetWithId.type === "bun"
+      ? dispatch({ type: ADD_BUN_INGREDIENT, payload: ingredientTargetWithId })
+      : (dispatch({ type: ADD_FILLING_INGREDIENT, payload: ingredientTargetWithId }), dispatch({ type: INCREASE_FILLING_INGREDIENT, id: itemId }));
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {
