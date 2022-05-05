@@ -21,9 +21,7 @@ const BurgerConstructor = (props) => {
 
   return (
     <section className={`${styles.burgerConstructor} mt-25`}>
-      <div className={styles.elements}>
-        <DropTargetIngredients bunSelect={bunSelect} fillingSelect={fillingSelect}></DropTargetIngredients>
-      </div>
+      <DropTargetIngredients bunSelect={bunSelect} fillingSelect={fillingSelect} />
       <div className={`${styles.purchase} pr-4 mt-10`}>
         <div className={`${styles.totalCost} mr-10`}>
           <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>

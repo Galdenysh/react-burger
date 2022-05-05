@@ -12,6 +12,7 @@ import {
   INCREASE_FILLING_INGREDIENT,
   DECREASE_FILLING_INGREDIENT,
   REMOVE_FILLING_INGREDIENT,
+  SET_FILLING_INGREDIENT,
 } from "../actions/burger.js";
 import { random } from "../../utils/random.js";
 
@@ -77,6 +78,8 @@ export const burgerReducer = (state = initialState, action) => {
         ingredientsData: [...state.ingredientsData].map((ingredient) => (ingredient._id === action.id ? { ...ingredient, qty: --ingredient.qty } : ingredient)),
       };
     }
+    case SET_FILLING_INGREDIENT:
+      return { ...state, fillingSelect: action.payload };
     case ADD_INFO_INGREDIENT:
       return { ...state, ingredientSelect: action.payload };
     case REMOVE_INFO_INGREDIENT:

@@ -98,7 +98,7 @@ const ingredientsList = (ingredients, type, setVisible, tabRef) => {
       <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
         {ingredients.map((ingredient) => (
-          <DraggableIngredient key={ingredient._id} ingredient={ingredient} setVisible={setVisible}></DraggableIngredient>
+          <DraggableIngredient key={ingredient._id} ingredient={ingredient} setVisible={setVisible} />
         ))}
       </ul>
     </ul>
