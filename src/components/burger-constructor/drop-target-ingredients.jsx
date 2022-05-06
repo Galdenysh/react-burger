@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { v4 as uuidv4 } from "uuid";
 import DraggabelConstructorIngredient from "./darggable-constructor-ingredient.jsx";
 import styles from "./burger-constructor.module.scss";
 import { ADD_BUN_INGREDIENT, ADD_FILLING_INGREDIENT, INCREASE_FILLING_INGREDIENT, SET_FILLING_INGREDIENT } from "../../services/actions/burger.js";
@@ -23,7 +24,7 @@ const DropTargetIngredients = (props) => {
 
   const onDropHandler = (itemId) => {
     const ingredientTarget = ingredientsData.filter((ingredient) => itemId === ingredient._id);
-    const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: ingredientTarget[0]._id + ingredientTarget[0].qty };
+    const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: uuidv4() };
 
     // eslint-disable-next-line no-unused-expressions
     ingredientTargetWithId.type === "bun"

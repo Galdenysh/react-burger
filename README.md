@@ -6,6 +6,8 @@
 
 ## Ссылки
 
+[Ссылка на GitHub Pages](https://galdenysh.github.io/react-burger/).
+
 [Ссылка на проект в фигме](<https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B8-(3-%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0)_external_link?node-id=0%3A1>).
 
 # Начало работы
@@ -23,6 +25,7 @@
 - [React DnD HTML5 Backend](https://github.com/react-dnd/react-dnd).
 - [Node Sass](https://github.com/sass/node-sass).
 - [Набора UI-компонентов](https://github.com/yandex-praktikum/react-developer-burger-ui-components).
+- [UUID] (https://github.com/uuidjs/uuid).
 
 ## Доступные скрипты
 
