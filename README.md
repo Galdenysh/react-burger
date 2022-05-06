@@ -25,7 +25,7 @@
 - [React DnD HTML5 Backend](https://github.com/react-dnd/react-dnd).
 - [Node Sass](https://github.com/sass/node-sass).
 - [Набора UI-компонентов](https://github.com/yandex-praktikum/react-developer-burger-ui-components).
-- [UUID] (https://github.com/uuidjs/uuid).
+- [UUID](https://github.com/uuidjs/uuid).
 
 ## Доступные скрипты
 
