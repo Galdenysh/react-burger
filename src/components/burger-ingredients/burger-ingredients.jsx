@@ -1,70 +1,104 @@
-import { useState, useContext } from "react";
-import { Tab, Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsContext } from "../../services/appContext.js";
+import { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import DraggableIngredient from "./draggable-ingredient.jsx";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.scss";
 
 const BurgerIngredients = (props) => {
   const [current, setCurrent] = useState("bun");
-  const ingredients = useContext(IngredientsContext).ingredients;
+  const containerRef = useRef(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+
+  const onTabClick = (ref) => {
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
+  const onContainterScroll = () => {
+    const scrollTop = containerRef.current.scrollTop;
+    const bunHeight = bunRef.current.clientHeight;
+    const sauceHeight = sauceRef.current.clientHeight;
+
+    if (scrollTop < bunHeight / 2) {
+      setCurrent("bun");
+    } else if (scrollTop > bunHeight / 2 && scrollTop < bunHeight + sauceHeight / 2) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
 
   return (
     <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
       <h1 className={"text text_type_main-large"}>Собери бургер</h1>
       <div className={`${styles.tab} mt-5`}>
-        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+        <Tab
+          value="bun"
+          active={current === "bun"}
+          onClick={(evt) => {
+            setCurrent(evt);
+            onTabClick(bunRef);
+          }}
+        >
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
+        <Tab
+          value="sauce"
+          active={current === "sauce"}
+          onClick={(evt) => {
+            setCurrent(evt);
+            onTabClick(sauceRef);
+          }}
+        >
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={setCurrent}>
+        <Tab
+          value="main"
+          active={current === "main"}
+          onClick={(evt) => {
+            setCurrent(evt);
+            onTabClick(mainRef);
+          }}
+        >
           Начинки
         </Tab>
       </div>
-      <div className={styles.container}>
+      <div className={styles.container} onScroll={onContainterScroll} ref={containerRef}>
         {ingredientsList(
-          ingredients.filter((item) => item.type === "bun"), // Получаем массив с булками
+          ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
-          props
+          props.setVisible,
+          bunRef
         )}
 
         {ingredientsList(
-          ingredients.filter((item) => item.type === "sauce"), // Получаем массив с соусами
+          ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
-          props
+          props.setVisible,
+          sauceRef
         )}
 
         {ingredientsList(
-          ingredients.filter((item) => item.type === "main"), // Получаем массив с начинками
+          ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
-          props
+          props.setVisible,
+          mainRef
         )}
       </div>
     </section>
   );
 };
 
-const ingredientsList = (ingredients, name, props) => {
-  const openPopup = (id) => {
-    props.setVisible(true);
-    props.setIngredientId(id);
-  };
-
+const ingredientsList = (ingredients, type, setVisible, tabRef) => {
   return (
-    <ul className={styles.ingredientsWrap} key={name}>
-      <h2 className={`text text_type_main-medium mt-10`}>{name}</h2>
+    <ul className={styles.ingredientsWrap} ref={tabRef}>
+      <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
-        {ingredients.map((ingredient, count) => (
-          <li className={`${styles.ingredientsItem}`} key={ingredient._id} onClick={() => openPopup(ingredient._id)}>
-            {count > 0 && <Counter count={count} size="default" />}
-            <img src={ingredient.image} alt={ingredient.name} />
-            <div className={styles.price}>
-              <p className="text text_type_digits-default mt-2 mr-2">{ingredient.price}</p>
-              <CurrencyIcon type="primary" />
-            </div>
-            <p className="text text_type_main-default mt-2">{ingredient.name}</p>
-          </li>
+        {ingredients.map((ingredient) => (
+          <DraggableIngredient key={ingredient._id} ingredient={ingredient} setVisible={setVisible} />
         ))}
       </ul>
     </ul>
@@ -73,7 +107,6 @@ const ingredientsList = (ingredients, name, props) => {
 
 BurgerIngredients.propTypes = {
   setVisible: PropTypes.func.isRequired,
-  setIngredientId: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

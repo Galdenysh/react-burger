@@ -1,15 +1,20 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import { REMOVE_INFO_INGREDIENT } from "../../services/actions/burger";
 import styles from "./modal.module.scss";
 
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = (props) => {
+  const dispatch = useDispatch();
+
   const closePopup = () => {
     props.setVisible(false);
+    dispatch({ type: REMOVE_INFO_INGREDIENT });
   };
 
   const closePopupEsc = (evt) => {
