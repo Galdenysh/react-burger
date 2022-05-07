@@ -47,7 +47,7 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.array.isRequired,
   setVisible: PropTypes.func.isRequired,
 };
 

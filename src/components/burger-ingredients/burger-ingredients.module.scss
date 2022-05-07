@@ -28,6 +28,12 @@
   .ingredientsItem {
     position: relative;
     text-align: center;
+    z-index: 10;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .price {
@@ -38,7 +44,8 @@
 
   .container {
     max-height: calc(100vh - 285px);
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     // скролл бар для firefox
     scrollbar-color: #8585ad #2f2f37;

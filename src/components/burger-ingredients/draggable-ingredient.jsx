@@ -7,9 +7,12 @@ import styles from "./burger-ingredients.module.scss";
 const DraggableIngredient = (props) => {
   const { ingredient, setVisible } = props;
   const dispatch = useDispatch();
-  const [, dragRef] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { id: ingredient._id },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
   const openPopup = (ingredient) => {
@@ -18,7 +21,7 @@ const DraggableIngredient = (props) => {
   };
 
   return (
-    <li className={`${styles.ingredientsItem}`} onClick={() => openPopup(ingredient)} ref={dragRef}>
+    <li className={`${styles.ingredientsItem}`} style={{ cursor: isDragging ? "grabbing" : "grab" }} onClick={() => openPopup(ingredient)} ref={dragRef}>
       {ingredient.qty > 0 && <Counter count={ingredient.qty} size="default" />}
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={styles.price}>

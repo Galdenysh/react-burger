@@ -28,7 +28,7 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium" onClick={openPopup}>
+        <Button type="primary" size="medium" onClick={openPopup} disabled={orderData.isLoading ? "disabled" : ""}>
           {orderData.isLoading && <p className="text text_type_main-default">Загружаю заказ</p>}
           {!orderData.isLoading && <p className="text text_type_main-default">Оформить заказ</p>}
         </Button>
