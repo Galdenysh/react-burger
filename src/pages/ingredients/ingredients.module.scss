@@ -1,0 +1,26 @@
+.container {
+  margin: 120px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 720px;
+}
+
+.popupTitle {
+  text-align: center;
+}
+
+.caloricityList {
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+}
+
+.caloricityItem {
+  text-align: center;
+}
+
+.ingredientImage {
+  height: 240px;
+  width: 480px;
+}

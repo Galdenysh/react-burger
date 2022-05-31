@@ -1,0 +1,24 @@
+.container {
+  margin: 120px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 64px;
+}
