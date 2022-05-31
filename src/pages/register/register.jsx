@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.scss";
 
@@ -29,9 +30,9 @@ const Register = () => {
       </form>
       <p className="text text_type_main-default mt-20">
         Уже зарегистрированы?{" "}
-        <a className={styles.link} href="#">
+        <Link className={styles.link} to="/login">
           Войти
-        </a>
+        </Link>
       </p>
     </section>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.scss";
 
@@ -18,9 +19,9 @@ const ForgotPassword = () => {
       </form>
       <p className="text text_type_main-default mt-20">
         Вспомнили пароль?{" "}
-        <a className={styles.link} href="#">
+        <Link className={styles.link} to="/login">
           Войти
-        </a>
+        </Link>
       </p>
     </section>
   );

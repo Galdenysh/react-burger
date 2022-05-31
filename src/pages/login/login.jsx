@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
 
@@ -26,15 +27,15 @@ const Login = () => {
       </form>
       <p className="text text_type_main-default mt-20">
         Вы — новый пользователь?{" "}
-        <a className={styles.link} href="#">
+        <Link className={styles.link} to="/register">
           Зарегистрироваться
-        </a>
+        </Link>
       </p>
       <p className="text text_type_main-default mt-4">
         Забыли пароль?{" "}
-        <a className={styles.link} href="#">
+        <Link className={styles.link} to="/forgot-password">
           Восстановить пароль
-        </a>
+        </Link>
       </p>
     </section>
   );
