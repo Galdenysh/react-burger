@@ -1,73 +1,59 @@
-import { useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useMatch } from "react-router-dom";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.scss";
 
-const initialState = {
-  constructorState: styles.link_active,
-  constructorIcon: "primary",
-  orderState: styles.link_inactive,
-  orderIcon: "secondary",
-  profileState: styles.link_inactive,
-  profileIcon: "secondary",
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "constructorActive":
-      return {
-        constructorState: styles.link_active,
-        constructorIcon: "primary",
-        orderState: styles.link_inactive,
-        orderIcon: "secondary",
-        profileState: styles.link_inactive,
-        profileIcon: "secondary",
-      };
-    case "orderActive":
-      return {
-        constructorState: styles.link_inactive,
-        constructorIcon: "secondary",
-        orderState: styles.link_active,
-        orderIcon: "primary",
-        profileState: styles.link_inactive,
-        profileIcon: "secondary",
-      };
-    case "profileActive":
-      return {
-        constructorState: styles.link_inactive,
-        constructorIcon: "secondary",
-        orderState: styles.link_inactive,
-        orderIcon: "secondary",
-        profileState: styles.link_active,
-        profileIcon: "primary",
-      };
-    default:
-      throw new Error();
-  }
+const links = {
+  main: "/",
+  order: "/order",
+  profile: "/profile",
 };
 
 const AppHeader = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [constructorIconState, setConstructorIconState] = useState("secondary");
+  const [orderIconState, setOrderIconState] = useState("secondary");
+  const [profileIconState, setProfileIconState] = useState("secondary");
+  const constructorMatch = useMatch(links.main);
+  const orderMatch = useMatch(links.order);
+  const profileMatch = useMatch(links.profile);
+
+  const setActive = ({ isActive }) => {
+    if (constructorMatch !== null && isActive) {
+      setConstructorIconState("primary");
+      setOrderIconState("secondary");
+      setProfileIconState("secondary");
+    }
+
+    if (orderMatch !== null && isActive) {
+      setConstructorIconState("secondary");
+      setOrderIconState("primary");
+      setProfileIconState("secondary");
+    }
+
+    if (profileMatch !== null && isActive) {
+      setConstructorIconState("secondary");
+      setOrderIconState("secondary");
+      setProfileIconState("primary");
+    }
+
+    return { color: isActive ? "#f2f2f3" : "#8585ad" };
+  };
 
   return (
     <header className={styles.header}>
       <nav className={styles.navigation}>
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4 mr-2`}>
-            <BurgerIcon type={state.constructorIcon} />
-            <Link
-              className={`${styles.link} ${state.constructorState} text text_type_main-default ml-2`}
-              to="/"
-              onClick={() => dispatch({ type: "constructorActive" })}
-            >
+            <BurgerIcon type={constructorIconState} />
+            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.main}>
               Конструктор
-            </Link>
+            </NavLink>
           </li>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
-            <ListIcon type={state.orderIcon} />
-            <Link className={`${styles.link} ${state.orderState} text text_type_main-default ml-2`} to="*" onClick={() => dispatch({ type: "orderActive" })}>
+            <ListIcon type={orderIconState} />
+            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.order}>
               Лента заказов
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <div className={styles.logo}>
@@ -75,14 +61,10 @@ const AppHeader = () => {
         </div>
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
-            <ProfileIcon type={state.profileIcon} />
-            <Link
-              className={`${styles.link} ${state.profileState} text text_type_main-default ml-2`}
-              to="/profile"
-              onClick={() => dispatch({ type: "profileActive" })}
-            >
+            <ProfileIcon type={profileIconState} />
+            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.profile}>
               Личный кабинет
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
