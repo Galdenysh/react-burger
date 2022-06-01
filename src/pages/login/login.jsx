@@ -1,26 +1,41 @@
-import React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { api } from "../../components/api/api";
 import styles from "./login.module.scss";
+import { LOGGEDIN } from "../../services/actions/auth";
 
 const Login = () => {
-  const [value, setValue] = React.useState("password");
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const [valueEmail, setValueEmail] = useState("");
+  const [valuePassword, setValuePassword] = useState("");
+  const dispatch = useDispatch();
+
+  const login = () => {
+    api
+      .login(valueEmail, valuePassword)
+      .then((res) => {
+        if (res.success) {
+          dispatch({ type: LOGGEDIN, payload: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
         <h1 className="text text_type_main-medium">Вход</h1>
         <span className="mt-6">
-          <Input placeholder={"E-mail"} size={"default"}></Input>
+          <Input placeholder={"E-mail"} size={"default"} value={valueEmail} onChange={(evt) => setValueEmail(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <PasswordInput onChange={onChange} value={value} name={"password"}></PasswordInput>
+          <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium">
+          <Button type="primary" size="medium" onClick={login}>
             Войти
           </Button>
         </span>

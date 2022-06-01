@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.scss";
+import { getUserData } from "../../services/actions/auth";
 
 const Profile = () => {
   const [valuePassword, setValuePassword] = useState("shadow123");
+  const dispatch = useDispatch();
 
   const setActive = ({ isActive }) => {
     return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
+
+  useEffect(() => {
+    dispatch(getUserData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className={styles.container}>

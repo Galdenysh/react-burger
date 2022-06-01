@@ -8,6 +8,11 @@ class Api {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  _getCookie(name) {
+    const matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
   getIngredients() {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
@@ -60,6 +65,34 @@ class Api {
         password: password,
         name: userName,
       }),
+    }).then((res) => this._getResponseData(res));
+  }
+
+  login(email, password) {
+    return fetch(`${this._url}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    }).then((res) => this._getResponseData(res));
+  }
+
+  getUserData() {
+    return fetch(`${this._url}/auth/user`, {
+      method: "GET",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this._getCookie("token"),
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
     }).then((res) => this._getResponseData(res));
   }
 }
