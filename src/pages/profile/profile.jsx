@@ -1,26 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.scss";
 
 const Profile = () => {
-  const [value, setValue] = React.useState("password");
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const [valuePassword, setValuePassword] = useState("shadow123");
+
+  const setActive = ({ isActive }) => {
+    return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
 
   return (
     <section className={styles.container}>
       <div className={`${styles.menu} mr-15`}>
-        <Link className={`${styles.link} ${styles.link_active} text text_type_main-medium`} to="/profile">
+        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile">
           Профиль
-        </Link>
-        <Link className={`${styles.link} text text_type_main-medium`} to="/profile/orders">
+        </NavLink>
+        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/orders">
           История заказов
-        </Link>
-        <Link className={`${styles.link} text text_type_main-medium`} to="/">
+        </NavLink>
+        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/">
           Выход
-        </Link>
+        </NavLink>
         <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
           В этом разделе вы можете изменить свои персональные данные
         </p>
@@ -33,7 +34,7 @@ const Profile = () => {
           <Input placeholder={"Логин"} value={"Galdenysh"} size={"default"} icon={"EditIcon"}></Input>
         </span>
         <span className="mt-6">
-          <PasswordInput onChange={onChange} value={value} name={"password"}></PasswordInput>
+          <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
       </form>
     </section>

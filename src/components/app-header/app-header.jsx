@@ -5,7 +5,7 @@ import styles from "./app-header.module.scss";
 
 const links = {
   main: "/",
-  order: "/order",
+  order: "/orders",
   profile: "/profile",
 };
 
