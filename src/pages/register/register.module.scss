@@ -16,4 +16,9 @@
 .link {
   text-decoration: none;
   color: #4c4cff;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }

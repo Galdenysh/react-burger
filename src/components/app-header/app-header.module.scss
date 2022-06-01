@@ -26,4 +26,12 @@
     display: flex;
     cursor: pointer;
   }
+
+  .link {
+    text-decoration: none;
+
+    &:active {
+      color: #f2f2f3;
+    }    
+  }
 }

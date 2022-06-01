@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AppHeader from "../app-header/app-header.jsx";
 import Login from "../../pages/login/login.jsx";
 import Register from "../../pages/register/register.jsx";

@@ -21,4 +21,9 @@
   align-items: center;
   text-decoration: none;
   height: 64px;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
