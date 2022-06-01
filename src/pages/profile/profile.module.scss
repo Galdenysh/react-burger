@@ -21,9 +21,14 @@
   align-items: center;
   text-decoration: none;
   height: 64px;
+  color: #8585ad;
   transition: opacity 0.2s ease-in-out;
 
   &:hover {
     opacity: 0.5;
+  }
+
+  &_active {
+   color: #f2f2f3; 
   }
 }

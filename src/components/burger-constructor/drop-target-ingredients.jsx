@@ -48,8 +48,10 @@ const DropTargetIngredients = (props) => {
       <ul className={`${styles.ingredientsList} pr-2`}>
         {!fillingSelect.length && (
           <>
-            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`}>Здесь пусто.</p>
-            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`}>
+            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`} style={{ opacity: "0.4" }}>
+              Здесь пусто.
+            </p>
+            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`} style={{ opacity: "0.4" }}>
               Вы можете добавить ингредиенты в список, перетащив их карточку из корзины сюда.
             </p>
           </>

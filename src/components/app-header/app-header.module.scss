@@ -25,13 +25,23 @@
   .listItem {
     display: flex;
     cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   .link {
     text-decoration: none;
+    color: #8585ad;
+    
+    &_active {
+      color: #f2f2f3; 
+    }
 
-    &:active {
-      color: #f2f2f3;
-    }    
+    &_inactive {
+      color: #8585ad;
+    }
   }
 }

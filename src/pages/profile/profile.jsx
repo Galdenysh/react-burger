@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.scss";
 
@@ -11,16 +12,18 @@ const Profile = () => {
   return (
     <section className={styles.container}>
       <div className={`${styles.menu} mr-15`}>
-        <a className={`${styles.link} text text_type_main-medium text_color_inactive`} href="#">
+        <Link className={`${styles.link} ${styles.link_active} text text_type_main-medium`} to="/profile">
           Профиль
-        </a>
-        <a className={`${styles.link} text text_type_main-medium text_color_inactive`} href="#">
+        </Link>
+        <Link className={`${styles.link} text text_type_main-medium`} to="/profile/orders">
           История заказов
-        </a>
-        <a className={`${styles.link} text text_type_main-medium text_color_inactive`} href="#">
+        </Link>
+        <Link className={`${styles.link} text text_type_main-medium`} to="/">
           Выход
-        </a>
-        <p className="text text_type_main-default text_color_inactive mt-20">В этом разделе вы можете изменить свои персональные данные</p>
+        </Link>
+        <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
+          В этом разделе вы можете изменить свои персональные данные
+        </p>
       </div>
       <form className={styles.form}>
         <span>
