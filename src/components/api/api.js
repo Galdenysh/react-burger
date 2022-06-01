@@ -81,6 +81,18 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
+  logout(refreshToken) {
+    return fetch(`${this._url}/auth/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: refreshToken,
+      }),
+    }).then((res) => this._getResponseData(res));
+  }
+
   getUserData() {
     return fetch(`${this._url}/auth/user`, {
       method: "GET",

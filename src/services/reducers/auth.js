@@ -1,4 +1,4 @@
-import { GET_USER_DATA, LOGGEDIN } from "../actions/auth";
+import { GET_USER_DATA, LOGGEDIN, LOGGEDOUT } from "../actions/auth";
 
 const initialState = {
   loggedIn: false,

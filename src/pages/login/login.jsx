@@ -5,6 +5,7 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import { api } from "../../components/api/api";
 import styles from "./login.module.scss";
 import { LOGGEDIN } from "../../services/actions/auth";
+import { setCookie } from "../../utils/setCookie";
 
 const Login = () => {
   const [valueEmail, setValueEmail] = useState("");
@@ -16,6 +17,16 @@ const Login = () => {
       .login(valueEmail, valuePassword)
       .then((res) => {
         if (res.success) {
+          let authToken;
+
+          if (res.accessToken.indexOf("Bearer") === 0) {
+            authToken = res.accessToken.split("Bearer ")[1];
+          }
+
+          if (authToken) {
+            setCookie("token", authToken);
+          }
+
           dispatch({ type: LOGGEDIN, payload: true });
         }
       })

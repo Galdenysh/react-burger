@@ -3,10 +3,12 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.scss";
-import { getUserData } from "../../services/actions/auth";
+import { getUserData, LOGGEDIN } from "../../services/actions/auth";
+import { api } from "../../components/api/api";
 
 const Profile = () => {
   const [valuePassword, setValuePassword] = useState("shadow123");
+  const [link, setLink] = useState("/profile");
   const dispatch = useDispatch();
 
   const setActive = ({ isActive }) => {
@@ -18,6 +20,21 @@ const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const logout = () => {
+    const refreshToken = {};
+    api
+      .logout(refreshToken)
+      .then((res) => {
+        if (res.success) {
+          dispatch({ type: LOGGEDIN, payload: false });
+          setLink("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <section className={styles.container}>
       <div className={`${styles.menu} mr-15`}>
@@ -27,7 +44,7 @@ const Profile = () => {
         <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/orders">
           История заказов
         </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/">
+        <NavLink className={`${styles.link} text text_type_main-medium`} to={link} onClick={logout}>
           Выход
         </NavLink>
         <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
