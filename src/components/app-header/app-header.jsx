@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink, useMatch } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.scss";
 
@@ -13,29 +13,15 @@ const AppHeader = () => {
   const [constructorIconState, setConstructorIconState] = useState("secondary");
   const [orderIconState, setOrderIconState] = useState("secondary");
   const [profileIconState, setProfileIconState] = useState("secondary");
-  const constructorMatch = useMatch(links.main);
-  const orderMatch = useMatch(links.order);
-  const profileMatch = useMatch(links.profile);
+  const location = useLocation();
+
+  useEffect(() => {
+    location.pathname === links.main ? setConstructorIconState("primary") : setConstructorIconState("secondary");
+    location.pathname === links.order ? setOrderIconState("primary") : setOrderIconState("secondary");
+    location.pathname === links.profile ? setProfileIconState("primary") : setProfileIconState("secondary");
+  }, [location]);
 
   const setActive = ({ isActive }) => {
-    if (constructorMatch !== null && isActive) {
-      setConstructorIconState("primary");
-      setOrderIconState("secondary");
-      setProfileIconState("secondary");
-    }
-
-    if (orderMatch !== null && isActive) {
-      setConstructorIconState("secondary");
-      setOrderIconState("primary");
-      setProfileIconState("secondary");
-    }
-
-    if (profileMatch !== null && isActive) {
-      setConstructorIconState("secondary");
-      setOrderIconState("secondary");
-      setProfileIconState("primary");
-    }
-
     return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
 

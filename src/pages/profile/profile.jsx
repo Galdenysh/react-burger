@@ -1,29 +1,24 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.scss";
-import { getUserData, LOGGEDIN } from "../../services/actions/auth";
+import { LOGGEDIN } from "../../services/actions/auth";
 import { api } from "../../components/api/api";
 
 const Profile = () => {
-  const [valuePassword, setValuePassword] = useState("shadow123");
+  const [valuePassword, setValuePassword] = useState("");
   const [link, setLink] = useState("/profile");
   const dispatch = useDispatch();
+  const userData = useSelector((store) => store.authReducer.user);
 
   const setActive = ({ isActive }) => {
     return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
 
-  useEffect(() => {
-    dispatch(getUserData());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const logout = () => {
-    const refreshToken = {};
     api
-      .logout(refreshToken)
+      .logout()
       .then((res) => {
         if (res.success) {
           dispatch({ type: LOGGEDIN, payload: false });
@@ -53,10 +48,10 @@ const Profile = () => {
       </div>
       <form className={styles.form}>
         <span>
-          <Input placeholder={"Имя"} value={"Igor"} size={"default"} icon={"EditIcon"}></Input>
+          <Input placeholder={"Имя"} value={userData.name} size={"default"} icon={"EditIcon"}></Input>
         </span>
         <span className="mt-6">
-          <Input placeholder={"Логин"} value={"Galdenysh"} size={"default"} icon={"EditIcon"}></Input>
+          <Input placeholder={"Логин"} value={userData.email} size={"default"} icon={"EditIcon"}></Input>
         </span>
         <span className="mt-6">
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>

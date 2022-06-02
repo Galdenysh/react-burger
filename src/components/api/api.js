@@ -81,14 +81,14 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  logout(refreshToken) {
+  logout() {
     return fetch(`${this._url}/auth/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: refreshToken,
+        token: this._getCookie("refreshToken"),
       }),
     }).then((res) => this._getResponseData(res));
   }
@@ -101,7 +101,7 @@ class Api {
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this._getCookie("token"),
+        Authorization: "Bearer " + this._getCookie("accessToken"),
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",

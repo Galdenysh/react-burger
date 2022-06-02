@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { api } from "../../components/api/api";
 import styles from "./login.module.scss";
-import { LOGGEDIN } from "../../services/actions/auth";
+import { LOGGEDIN, SET_USER_DATA } from "../../services/actions/auth";
 import { setCookie } from "../../utils/setCookie";
 
 const Login = () => {
@@ -17,17 +17,24 @@ const Login = () => {
       .login(valueEmail, valuePassword)
       .then((res) => {
         if (res.success) {
-          let authToken;
+          let accessToken;
+          let refreshToken;
 
           if (res.accessToken.indexOf("Bearer") === 0) {
-            authToken = res.accessToken.split("Bearer ")[1];
+            accessToken = res.accessToken.split("Bearer ")[1];
+          }
+          refreshToken = res.refreshToken;
+
+          if (accessToken) {
+            setCookie("accessToken", accessToken);
           }
 
-          if (authToken) {
-            setCookie("token", authToken);
+          if (refreshToken) {
+            setCookie("refreshToken", refreshToken);
           }
 
           dispatch({ type: LOGGEDIN, payload: true });
+          dispatch({ type: SET_USER_DATA, payload: res.user });
         }
       })
       .catch((err) => {
