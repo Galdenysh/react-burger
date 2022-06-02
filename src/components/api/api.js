@@ -107,6 +107,22 @@ class Api {
       referrerPolicy: "no-referrer",
     }).then((res) => this._getResponseData(res));
   }
+
+  setUserData(userData) {
+    return fetch(`${this._url}/auth/user`, {
+      method: "PATCH",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this._getCookie("accessToken"),
+      },
+      body: JSON.stringify(userData),
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+    }).then((res) => this._getResponseData(res));
+  }
 }
 
 export const api = new Api({ baseUrl: "https://norma.nomoreparties.space/api" });

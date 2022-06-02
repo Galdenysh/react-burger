@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile" element={loggedIn ? <Profile /> : <Login />} />
+        <Route path="/profile/" element={loggedIn ? <Profile /> : <Login />} />
         <Route path="/ingredients" element={<Ingredients ingredient={burderData.ingredientSelect} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

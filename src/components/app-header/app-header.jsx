@@ -6,7 +6,7 @@ import styles from "./app-header.module.scss";
 const links = {
   main: "/",
   order: "/orders",
-  profile: "/profile",
+  profile: "/profile/",
 };
 
 const AppHeader = () => {

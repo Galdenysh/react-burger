@@ -1,63 +1,24 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import PersonalAccount from "../../components/personal-account/personal-account";
 import styles from "./profile.module.scss";
-import { LOGGEDIN } from "../../services/actions/auth";
-import { api } from "../../components/api/api";
+import { getUserData } from "../../services/actions/auth";
 
 const Profile = () => {
-  const [valuePassword, setValuePassword] = useState("");
-  const [link, setLink] = useState("/profile");
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.authReducer.user);
+  const userData = useSelector((store) => store.authReducer);
 
-  const setActive = ({ isActive }) => {
-    return { color: isActive ? "#f2f2f3" : "#8585ad" };
-  };
-
-  const logout = () => {
-    api
-      .logout()
-      .then((res) => {
-        if (res.success) {
-          dispatch({ type: LOGGEDIN, payload: false });
-          setLink("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  useEffect(() => {
+    dispatch(getUserData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <section className={styles.container}>
-      <div className={`${styles.menu} mr-15`}>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile">
-          Профиль
-        </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/orders">
-          История заказов
-        </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} to={link} onClick={logout}>
-          Выход
-        </NavLink>
-        <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
-          В этом разделе вы можете изменить свои персональные данные
-        </p>
-      </div>
-      <form className={styles.form}>
-        <span>
-          <Input placeholder={"Имя"} value={userData.name} size={"default"} icon={"EditIcon"}></Input>
-        </span>
-        <span className="mt-6">
-          <Input placeholder={"Логин"} value={userData.email} size={"default"} icon={"EditIcon"}></Input>
-        </span>
-        <span className="mt-6">
-          <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
-        </span>
-      </form>
-    </section>
+    <main className={styles.content}>
+      {userData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+      {userData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+      {!userData.isLoading && !userData.hasError && <PersonalAccount />}
+    </main>
   );
 };
 

@@ -34,7 +34,6 @@ const Login = () => {
           }
 
           dispatch({ type: LOGGEDIN, payload: true });
-          dispatch({ type: SET_USER_DATA, payload: res.user });
         }
       })
       .catch((err) => {

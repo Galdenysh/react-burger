@@ -1,30 +1,10 @@
-.container {
-  margin: 120px auto 0;
+.content {
   display: flex;
   justify-content: center;
 }
 
-.menu {
-  display: flex;
-  flex-direction: column;
-  width: 320px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.link {
+.download {
   display: flex;
   align-items: center;
-  text-decoration: none;
-  height: 64px;
-  color: #8585ad;
-  transition: opacity 0.2s ease-in-out;
-
-  &:hover {
-    opacity: 0.5;
-  }
+  min-height: calc(100vh - 88px);
 }
