@@ -1,8 +1,9 @@
-import { LOGGEDIN, SET_USER_DATA, GET_USER_STATUS_LOADING, GET_USER_STATUS_LOADED, GET_USER_STATUS_FALSE } from "../actions/auth";
+import { LOGGEDIN, SET_USER_DATA, GET_USER_STATUS_LOADING, GET_USER_STATUS_LOADED, GET_USER_STATUS_FALSE, GET_ERROR_MESSAGE } from "../actions/auth";
 
 const initialState = {
   isLoading: false,
   hasError: false,
+  errorMessage: "",
   loggedIn: false,
   user: {
     email: "",
@@ -18,6 +19,8 @@ export const authReducer = (state = initialState, action) => {
       return { ...state, isLoading: false };
     case GET_USER_STATUS_FALSE:
       return { ...state, hasError: true, isLoading: false };
+    case GET_ERROR_MESSAGE:
+      return { ...state, errorMessage: action.payload };
     case LOGGEDIN:
       return { ...state, loggedIn: action.payload };
     case SET_USER_DATA:

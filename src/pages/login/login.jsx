@@ -20,7 +20,15 @@ const Login = () => {
       <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
         <h1 className="text text_type_main-medium">Вход</h1>
         <span className="mt-6">
-          <Input type={"email"} placeholder={"E-mail"} size={"default"} value={valueEmail} onChange={(evt) => setValueEmail(evt.target.value)}></Input>
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
+            size={"default"}
+            value={valueEmail}
+            onChange={(evt) => setValueEmail(evt.target.value)}
+            error={userData.hasError ? true : false}
+            errorText={userData.errorMessage}
+          ></Input>
         </span>
         <span className="mt-6">
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>

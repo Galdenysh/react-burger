@@ -6,6 +6,7 @@ export const SET_USER_DATA = "SET_USER_DATA";
 export const GET_USER_STATUS_LOADING = "GET_USER_STATUS_LOADING";
 export const GET_USER_STATUS_LOADED = "GET_USER_STATUS_LOADED";
 export const GET_USER_STATUS_FALSE = "GET_USER_STATUS_FALSE";
+export const GET_ERROR_MESSAGE = "GET_ERROR_MESSAGE";
 
 export const getUserData = () => {
   return (dispatch) => {
@@ -96,7 +97,7 @@ export const login = (email, password) => {
 
         const errMessage = async () => {
           let res = await err.err;
-          alert(res.message);
+          dispatch({ type: GET_ERROR_MESSAGE, payload: res.message });
         };
 
         errMessage();

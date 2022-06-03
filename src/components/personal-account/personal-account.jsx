@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
 import { logout, setUserData } from "../../services/actions/auth";
 
@@ -90,7 +90,7 @@ const PersonalAccount = () => {
           ></Input>
         </span>
         <div className={`${styles.buttons} mt-6`} style={{ opacity: visible ? "1" : "0" }}>
-          <span className="mr-4">
+          <span className="mr-6">
             <Button type="primary" size="medium" onClick={() => saveChanges(valueUserName, valueEmail, valuePassword)} disabled={visible ? "" : "disabled"}>
               Сохранить
             </Button>
