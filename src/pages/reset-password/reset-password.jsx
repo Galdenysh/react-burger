@@ -1,22 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { api } from "../../components/api/api";
 import styles from "./reset-password.module.scss";
+import { resetPassword } from "../../services/actions/auth";
 
 const ResetPassword = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueToken, setValueToken] = useState("");
+  const dispatch = useDispatch();
 
-  const resetPassword = () => {
-    api
-      .resetPassword(valuePassword, valueToken)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const sendPassword = (password, token) => {
+    dispatch(resetPassword(password, token));
   };
 
   return (
@@ -30,7 +25,7 @@ const ResetPassword = () => {
           <Input placeholder={"Введите код из письма"} size={"default"} value={valueToken} onChange={(evt) => setValueToken(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={resetPassword}>
+          <Button type="primary" size="medium" onClick={() => sendPassword(valuePassword, valueToken)}>
             Сохранить
           </Button>
         </span>

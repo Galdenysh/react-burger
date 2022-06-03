@@ -1,21 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { api } from "../../components/api/api";
 import styles from "./forgot-password.module.scss";
+import { forgotPassword } from "../../services/actions/auth";
 
 const ForgotPassword = () => {
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
 
-  const forgotPassword = () => {
-    api
-      .forgotPassword(value)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const sendEmail = (email) => {
+    dispatch(forgotPassword(email));
   };
 
   return (
@@ -26,7 +21,7 @@ const ForgotPassword = () => {
           <Input type={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={forgotPassword}>
+          <Button type="primary" size="medium" onClick={() => sendEmail(value)}>
             Восстановить
           </Button>
         </span>

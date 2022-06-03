@@ -10,7 +10,9 @@ export const getOrder = (data) => {
     dispatch({ type: GET_ORDER_STATUS_LOADING });
 
     api
-      .sendOrder([...data.fillingSelect, data.bunSelect].map((item) => item._id))
+      .sendOrder({
+        ingredients: [...data.fillingSelect, data.bunSelect].map((item) => item._id),
+      })
       .then((res) => {
         if (res.success) {
           dispatch({ type: GET_ORDER, payload: res.order.number });

@@ -1,23 +1,18 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.scss";
-import { api } from "../../components/api/api";
+import { register } from "../../services/actions/auth";
 
 const Register = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
+  const dispatch = useDispatch();
 
-  const register = () => {
-    api
-      .register(valueEmail, valuePassword, valueUserName)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const createUser = (email, password, userName) => {
+    dispatch(register(email, password, userName));
   };
 
   return (
@@ -34,7 +29,7 @@ const Register = () => {
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={register}>
+          <Button type="primary" size="medium" onClick={() => createUser(valueEmail, valuePassword, valueUserName)}>
             Зарегистрироваться
           </Button>
         </span>

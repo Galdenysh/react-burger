@@ -45,6 +45,20 @@ export const setUserData = (userName, email, password) => {
   };
 };
 
+export const register = (email, password, userName) => {
+  return (dispatch) => {
+    api
+      .register({
+        email: email,
+        password: password,
+        name: userName,
+      })
+      .catch((err) => {
+        console.log(err.status);
+      });
+  };
+};
+
 export const login = (email, password) => {
   return (dispatch) => {
     dispatch({ type: GET_USER_STATUS_LOADING });
@@ -98,6 +112,31 @@ export const logout = () => {
         if (res.success) {
           dispatch({ type: LOGGEDIN, payload: false });
         }
+      })
+      .catch((err) => {
+        console.log(err.status);
+      });
+  };
+};
+
+export const forgotPassword = (email) => {
+  return (dispatch) => {
+    api
+      .forgotPassword({
+        email: email,
+      })
+      .catch((err) => {
+        console.log(err.status);
+      });
+  };
+};
+
+export const resetPassword = (password, token) => {
+  return (dispatch) => {
+    api
+      .resetPassword({
+        password: password,
+        token: token,
       })
       .catch((err) => {
         console.log(err.status);

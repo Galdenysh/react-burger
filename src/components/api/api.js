@@ -17,64 +17,53 @@ class Api {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
 
-  sendOrder(id) {
+  sendOrder(data) {
     return fetch(`${this._url}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        ingredients: id,
-      }),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 
-  forgotPassword(value) {
+  forgotPassword(data) {
     return fetch(`${this._url}/password-reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: value,
-      }),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 
-  resetPassword(password, token) {
-    return fetch(`${this._url}/password-reset`, {
+  resetPassword(data) {
+    return fetch(`${this._url}/password-reset/reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        password: password,
-        token: token,
-      }),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 
-  register(email, password, userName) {
+  register(data) {
     return fetch(`${this._url}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        name: userName,
-      }),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 
-  login(userData) {
+  login(data) {
     return fetch(`${this._url}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 
@@ -100,14 +89,14 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  setUserData(userData) {
+  setUserData(data) {
     return fetch(`${this._url}/auth/user`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this._getCookie("accessToken"),
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
 }
