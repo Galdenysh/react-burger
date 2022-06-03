@@ -12,12 +12,14 @@ export const getOrder = (data) => {
     api
       .sendOrder([...data.fillingSelect, data.bunSelect].map((item) => item._id))
       .then((res) => {
-        dispatch({ type: GET_ORDER, payload: res.order.number });
-        dispatch({ type: GET_ORDER_STATUS_LOADED });
+        if (res.success) {
+          dispatch({ type: GET_ORDER, payload: res.order.number });
+          dispatch({ type: GET_ORDER_STATUS_LOADED });
+        }
       })
       .catch((err) => {
         dispatch({ type: GET_ORDER_STATUS_FALSE });
-        console.log(err);
+        console.log(err.status);
       });
   };
 };

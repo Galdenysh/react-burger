@@ -1,4 +1,4 @@
-import { LOGGEDIN, SET_USER_DATA, GET_USER_DATA, GET_USER_STATUS_LOADING, GET_USER_STATUS_LOADED, GET_USER_STATUS_FALSE } from "../actions/auth";
+import { LOGGEDIN, SET_USER_DATA, GET_USER_STATUS_LOADING, GET_USER_STATUS_LOADED, GET_USER_STATUS_FALSE } from "../actions/auth";
 
 const initialState = {
   isLoading: false,
@@ -21,8 +21,6 @@ export const authReducer = (state = initialState, action) => {
     case LOGGEDIN:
       return { ...state, loggedIn: action.payload };
     case SET_USER_DATA:
-      return { ...state, user: action.payload };
-    case GET_USER_DATA:
       return { ...state, user: action.payload };
 
     default:

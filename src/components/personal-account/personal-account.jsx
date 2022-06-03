@@ -2,15 +2,13 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { api } from "../api/api";
 import styles from "./personal-account.module.scss";
-import { LOGGEDIN } from "../../services/actions/auth";
+import { logout, setUserData } from "../../services/actions/auth";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
-  const [link, setLink] = useState("/profile/");
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer.user);
@@ -22,26 +20,17 @@ const PersonalAccount = () => {
   }, [userData]);
 
   useEffect(() => {
-    valueUserName === userData.name && valueEmail === userData.email ? setVisible(false) : setVisible(true);
+    valueUserName === userData.name && valueEmail === userData.email && valuePassword.length === 0 ? setVisible(false) : setVisible(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [valueUserName, valueEmail]);
+  }, [valueUserName, valueEmail, valuePassword]);
 
   const setActive = ({ isActive }) => {
     return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
 
-  const setUserData = (userName, email) => {
-    api
-      .setUserData({
-        name: userName,
-        email: email,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const saveChanges = (userName, email, password) => {
+    dispatch(setUserData(userName, email, password));
+    setVisible(false);
   };
 
   const undoChanges = () => {
@@ -49,18 +38,8 @@ const PersonalAccount = () => {
     setValueEmail(userData.email);
   };
 
-  const logout = () => {
-    api
-      .logout()
-      .then((res) => {
-        if (res.success) {
-          dispatch({ type: LOGGEDIN, payload: false });
-          setLink("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const exit = () => {
+    dispatch(logout());
   };
 
   return (
@@ -72,7 +51,7 @@ const PersonalAccount = () => {
         <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/orders">
           История заказов
         </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} to={link} onClick={logout}>
+        <NavLink className={`${styles.link} text text_type_main-medium`} to={"/"} onClick={exit}>
           Выход
         </NavLink>
         <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
@@ -81,17 +60,38 @@ const PersonalAccount = () => {
       </div>
       <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
         <span>
-          <Input placeholder={"Имя"} size={"default"} icon={"EditIcon"} value={valueUserName} onChange={(evt) => setValueUserName(evt.target.value)}></Input>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            size={"default"}
+            icon={"EditIcon"}
+            value={valueUserName}
+            onChange={(evt) => setValueUserName(evt.target.value)}
+          ></Input>
         </span>
         <span className="mt-6">
-          <Input placeholder={"Логин"} size={"default"} icon={"EditIcon"} value={valueEmail} onChange={(evt) => setValueEmail(evt.target.value)}></Input>
+          <Input
+            type={"email"}
+            placeholder={"Логин"}
+            size={"default"}
+            icon={"EditIcon"}
+            value={valueEmail}
+            onChange={(evt) => setValueEmail(evt.target.value)}
+          ></Input>
         </span>
         <span className="mt-6">
-          <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
+          <Input
+            type={"password"}
+            placeholder={"Пароль"}
+            size={"default"}
+            icon={"EditIcon"}
+            value={valuePassword}
+            onChange={(evt) => setValuePassword(evt.target.value)}
+          ></Input>
         </span>
         <div className={`${styles.buttons} mt-6`} style={{ opacity: visible ? "1" : "0" }}>
           <span className="mr-4">
-            <Button type="primary" size="medium" onClick={() => setUserData(valueUserName, valueEmail)} disabled={visible ? "" : "disabled"}>
+            <Button type="primary" size="medium" onClick={() => saveChanges(valueUserName, valueEmail, valuePassword)} disabled={visible ? "" : "disabled"}>
               Сохранить
             </Button>
           </span>

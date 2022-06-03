@@ -5,7 +5,7 @@ class Api {
 
   // Универсальная функция для проверки ответа от сервера
   _getResponseData(res) {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+    return res.ok ? res.json() : Promise.reject({ status: `Ошибка: ${res.status}`, err: res.json() });
   }
 
   _getCookie(name) {
@@ -68,16 +68,13 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  login(email, password) {
+  login(userData) {
     return fetch(`${this._url}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
+      body: JSON.stringify(userData),
     }).then((res) => this._getResponseData(res));
   }
 
@@ -96,31 +93,21 @@ class Api {
   getUserData() {
     return fetch(`${this._url}/auth/user`, {
       method: "GET",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this._getCookie("accessToken"),
       },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
     }).then((res) => this._getResponseData(res));
   }
 
   setUserData(userData) {
     return fetch(`${this._url}/auth/user`, {
       method: "PATCH",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + this._getCookie("accessToken"),
       },
       body: JSON.stringify(userData),
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
     }).then((res) => this._getResponseData(res));
   }
 }

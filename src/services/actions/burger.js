@@ -21,13 +21,15 @@ export const getIngredients = () => {
     api
       .getIngredients()
       .then((ingredients) => {
-        dispatch({ type: GET_INGREDIENTS, payload: ingredients.data });
-        dispatch({ type: GET_BUN_INGREDIENT, payload: ingredients.data.filter((item) => item.type === "bun")[0] });
-        dispatch({ type: GET_INGREDIENTS_STATUS_LOADED });
+        if (ingredients.success) {
+          dispatch({ type: GET_INGREDIENTS, payload: ingredients.data });
+          dispatch({ type: GET_BUN_INGREDIENT, payload: ingredients.data.filter((item) => item.type === "bun")[0] });
+          dispatch({ type: GET_INGREDIENTS_STATUS_LOADED });
+        }
       })
       .catch((err) => {
         dispatch({ type: GET_INGREDIENTS_STATUS_FALSE });
-        console.log(err);
+        console.log(err.status);
       });
   };
 };
