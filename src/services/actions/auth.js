@@ -29,6 +29,8 @@ export const getUserData = () => {
 
 export const setUserData = (userName, email, password) => {
   return (dispatch) => {
+    dispatch({ type: GET_USER_STATUS_LOADING });
+
     api
       .setUserData({
         name: userName,
@@ -38,9 +40,11 @@ export const setUserData = (userName, email, password) => {
       .then((data) => {
         if (data.success) {
           dispatch({ type: SET_USER_DATA, payload: data.user });
+          dispatch({ type: GET_USER_STATUS_LOADED });
         }
       })
       .catch((err) => {
+        dispatch({ type: GET_USER_STATUS_FALSE });
         console.log(err.status);
       });
   };

@@ -11,17 +11,27 @@ const Login = () => {
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer);
 
-  const enter = (valueEmail, valuePassword) => {
-    dispatch(login(valueEmail, valuePassword));
+  const signin = (email, password) => {
+    dispatch(login(email, password));
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const form = evt.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    signin(email, password);
   };
 
   return (
     <section className={styles.container}>
-      <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Вход</h1>
         <span className="mt-6">
           <Input
             type={"email"}
+            name={"email"}
             placeholder={"E-mail"}
             size={"default"}
             value={valueEmail}
@@ -34,7 +44,7 @@ const Login = () => {
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={() => enter(valueEmail, valuePassword)} disabled={userData.isLoading ? "disabled" : ""}>
+          <Button type="primary" size="medium" disabled={userData.isLoading}>
             Войти
           </Button>
         </span>

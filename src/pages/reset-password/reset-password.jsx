@@ -14,18 +14,34 @@ const ResetPassword = () => {
     dispatch(resetPassword(password, token));
   };
 
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const form = evt.target;
+    const password = form.password.value;
+    const token = form.token.value;
+
+    sendPassword(password, token);
+  };
+
   return (
     <section className={styles.container}>
-      <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <span className="mt-6">
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Input placeholder={"Введите код из письма"} size={"default"} value={valueToken} onChange={(evt) => setValueToken(evt.target.value)}></Input>
+          <Input
+            type={"text"}
+            name={"token"}
+            placeholder={"Введите код из письма"}
+            size={"default"}
+            value={valueToken}
+            onChange={(evt) => setValueToken(evt.target.value)}
+          ></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={() => sendPassword(valuePassword, valueToken)}>
+          <Button type="primary" size="medium">
             Сохранить
           </Button>
         </span>

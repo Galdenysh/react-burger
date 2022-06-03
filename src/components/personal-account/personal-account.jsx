@@ -1,21 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
-import { logout, setUserData } from "../../services/actions/auth";
+import { getUserData, logout, setUserData } from "../../services/actions/auth";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
+  const isInitialMount = useRef(true);
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer.user);
 
   useEffect(() => {
-    setValueUserName(userData.name);
-    setValueEmail(userData.email);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      setValueUserName(userData.name);
+      setValueEmail(userData.email);
+    } else {
+      dispatch(getUserData());
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
@@ -42,6 +48,16 @@ const PersonalAccount = () => {
     dispatch(logout());
   };
 
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const form = evt.target;
+    const userName = form.userName.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    saveChanges(userName, email, password);
+  };
+
   return (
     <section className={styles.container}>
       <div className={`${styles.menu} mr-15`}>
@@ -58,10 +74,11 @@ const PersonalAccount = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <span>
           <Input
             type={"text"}
+            name={"userName"}
             placeholder={"Имя"}
             size={"default"}
             icon={"EditIcon"}
@@ -72,6 +89,7 @@ const PersonalAccount = () => {
         <span className="mt-6">
           <Input
             type={"email"}
+            name={"email"}
             placeholder={"Логин"}
             size={"default"}
             icon={"EditIcon"}
@@ -82,6 +100,7 @@ const PersonalAccount = () => {
         <span className="mt-6">
           <Input
             type={"password"}
+            name={"password"}
             placeholder={"Пароль"}
             size={"default"}
             icon={"EditIcon"}
@@ -91,11 +110,11 @@ const PersonalAccount = () => {
         </span>
         <div className={`${styles.buttons} mt-6`} style={{ opacity: visible ? "1" : "0" }}>
           <span className="mr-6">
-            <Button type="primary" size="medium" onClick={() => saveChanges(valueUserName, valueEmail, valuePassword)} disabled={visible ? "" : "disabled"}>
+            <Button type="primary" size="medium" disabled={!visible}>
               Сохранить
             </Button>
           </span>
-          <Button type="primary" size="medium" onClick={undoChanges} disabled={visible ? "" : "disabled"}>
+          <Button type="primary" size="medium" disabled={!visible} onClick={undoChanges} htmlType="button">
             Отмена
           </Button>
         </div>

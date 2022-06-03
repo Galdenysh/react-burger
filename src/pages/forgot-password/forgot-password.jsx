@@ -13,15 +13,23 @@ const ForgotPassword = () => {
     dispatch(forgotPassword(email));
   };
 
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    const form = evt.target;
+    const email = form.email.value;
+
+    sendEmail(email);
+  };
+
   return (
     <section className={styles.container}>
-      <form className={styles.form} onSubmit={(evt) => evt.preventDefault()}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <span className="mt-6">
-          <Input type={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
+          <Input type={"email"} name={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={() => sendEmail(value)}>
+          <Button type="primary" size="medium">
             Восстановить
           </Button>
         </span>
