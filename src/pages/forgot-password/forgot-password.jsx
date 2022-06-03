@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.scss";
 import { forgotPassword } from "../../services/actions/auth";
@@ -8,9 +8,11 @@ import { forgotPassword } from "../../services/actions/auth";
 const ForgotPassword = () => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
+  const userData = useSelector((store) => store.authReducer);
+  const navigate = useNavigate();
 
-  const sendEmail = (email) => {
-    dispatch(forgotPassword(email));
+  const sendEmail = (email, callback) => {
+    dispatch(forgotPassword(email, callback));
   };
 
   const handleSubmit = (evt) => {
@@ -18,7 +20,7 @@ const ForgotPassword = () => {
     const form = evt.target;
     const email = form.email.value;
 
-    sendEmail(email);
+    sendEmail(email, () => navigate("/reset-password"));
   };
 
   return (
@@ -29,7 +31,7 @@ const ForgotPassword = () => {
           <Input type={"email"} name={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium">
+          <Button type="primary" size="medium" disabled={userData.isLoading}>
             Восстановить
           </Button>
         </span>

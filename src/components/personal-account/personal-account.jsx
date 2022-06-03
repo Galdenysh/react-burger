@@ -64,7 +64,7 @@ const PersonalAccount = () => {
         <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/">
           Профиль
         </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/orders">
+        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/order">
           История заказов
         </NavLink>
         <NavLink className={`${styles.link} text text_type_main-medium`} to={"/"} onClick={exit}>

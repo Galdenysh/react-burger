@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import DropTargetIngredients from "./drop-target-ingredients";
 import PropTypes from "prop-types";
@@ -8,9 +9,15 @@ const BurgerConstructor = (props) => {
   const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
   const fillingSelect = useSelector((store) => store.burgerReducer.fillingSelect);
   const orderData = useSelector((store) => store.orderReducer);
+  const userData = useSelector((store) => store.authReducer);
+  const navigate = useNavigate();
 
   const openPopup = () => {
     props.setNewOrder(!props.newOrder);
+  };
+
+  const redirection = () => {
+    navigate("/login");
   };
 
   const calcCost = (bunSelect, fillingSelect) => {
@@ -28,7 +35,7 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium" onClick={openPopup} disabled={orderData.isLoading ? "disabled" : ""}>
+        <Button type="primary" size="medium" onClick={userData.loggedIn ? openPopup : redirection} disabled={orderData.isLoading ? "disabled" : ""}>
           {orderData.isLoading && <p className="text text_type_main-default">Загружаю заказ</p>}
           {!orderData.isLoading && <p className="text text_type_main-default">Оформить заказ</p>}
         </Button>

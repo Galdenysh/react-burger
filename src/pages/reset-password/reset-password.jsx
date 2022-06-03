@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.scss";
 import { resetPassword } from "../../services/actions/auth";
@@ -9,9 +9,11 @@ const ResetPassword = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueToken, setValueToken] = useState("");
   const dispatch = useDispatch();
+  const userData = useSelector((store) => store.authReducer);
+  const navigate = useNavigate();
 
-  const sendPassword = (password, token) => {
-    dispatch(resetPassword(password, token));
+  const sendPassword = (password, token, callback) => {
+    dispatch(resetPassword(password, token, callback));
   };
 
   const handleSubmit = (evt) => {
@@ -20,7 +22,7 @@ const ResetPassword = () => {
     const password = form.password.value;
     const token = form.token.value;
 
-    sendPassword(password, token);
+    sendPassword(password, token, () => navigate("/login"));
   };
 
   return (
@@ -41,7 +43,7 @@ const ResetPassword = () => {
           ></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium">
+          <Button type="primary" size="medium" disabled={userData.isLoading}>
             Сохранить
           </Button>
         </span>

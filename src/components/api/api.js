@@ -22,6 +22,7 @@ class Api {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + this._getCookie("accessToken"),
       },
       body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));

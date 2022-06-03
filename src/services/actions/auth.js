@@ -2,6 +2,8 @@ import { api } from "../../components/api/api";
 import { setCookie } from "../../utils/setCookie";
 
 export const LOGGEDIN = "LOGGEDIN";
+export const LOGGEDOUT = "LOGGEDOUT";
+export const RESET_PASSWORD_ACCESS = "RESET_PASSWORD_ACCESS";
 export const SET_USER_DATA = "SET_USER_DATA";
 export const GET_USER_STATUS_LOADING = "GET_USER_STATUS_LOADING";
 export const GET_USER_STATUS_LOADED = "GET_USER_STATUS_LOADED";
@@ -64,7 +66,7 @@ export const register = (email, password, userName) => {
   };
 };
 
-export const login = (email, password) => {
+export const login = (email, password, callback) => {
   return (dispatch) => {
     dispatch({ type: GET_USER_STATUS_LOADING });
 
@@ -91,8 +93,9 @@ export const login = (email, password) => {
             setCookie("refreshToken", refreshToken);
           }
 
-          dispatch({ type: LOGGEDIN, payload: true });
-          dispatch({ type: GET_USER_STATUS_LOADING });
+          dispatch({ type: LOGGEDIN });
+          dispatch({ type: GET_USER_STATUS_LOADED });
+          callback();
         }
       })
       .catch((err) => {
@@ -115,7 +118,7 @@ export const logout = () => {
       .logout()
       .then((res) => {
         if (res.success) {
-          dispatch({ type: LOGGEDIN, payload: false });
+          dispatch({ type: LOGGEDOUT });
         }
       })
       .catch((err) => {
@@ -124,26 +127,46 @@ export const logout = () => {
   };
 };
 
-export const forgotPassword = (email) => {
+export const forgotPassword = (email, callback) => {
   return (dispatch) => {
+    dispatch({ type: GET_USER_STATUS_LOADING });
+
     api
       .forgotPassword({
         email: email,
       })
+      .then((res) => {
+        if (res.success) {
+          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch({ type: RESET_PASSWORD_ACCESS, payload: true });
+          callback();
+        }
+      })
       .catch((err) => {
+        dispatch({ type: GET_USER_STATUS_FALSE });
         console.log(err.status);
       });
   };
 };
 
-export const resetPassword = (password, token) => {
+export const resetPassword = (password, token, callback) => {
   return (dispatch) => {
+    dispatch({ type: GET_USER_STATUS_LOADING });
+
     api
       .resetPassword({
         password: password,
         token: token,
       })
+      .then((res) => {
+        if (res.success) {
+          dispatch({ type: GET_USER_STATUS_LOADED });
+          callback();
+          dispatch({ type: RESET_PASSWORD_ACCESS, payload: false });
+        }
+      })
       .catch((err) => {
+        dispatch({ type: GET_USER_STATUS_FALSE });
         console.log(err.status);
       });
   };

@@ -9,21 +9,57 @@ import Profile from "../../pages/profile/profile.jsx";
 import Ingredients from "../../pages/ingredients/ingredients.jsx";
 import NotFoundPage from "../../pages/not-found-page/not-found-page.jsx";
 import Main from "../../pages/main/main.jsx";
+import ProtectedRoute from "../protected-route/protected-route.jsx";
 
 const App = () => {
   const burderData = useSelector((store) => store.burgerReducer);
-  const loggedIn = useSelector((store) => store.authReducer.loggedIn);
+  const userData = useSelector((store) => store.authReducer);
 
   return (
     <>
       <AppHeader />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={loggedIn ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile/" element={loggedIn ? <Profile /> : <Login />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute anonymous={true}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRoute anonymous={true}>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRoute anonymous={true}>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRoute anonymous={true}>
+              {userData.resetPasswordAccess ? <ResetPassword /> : <Navigate to="/forgot-password" replace={true} />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/"
+          element={
+            <ProtectedRoute anonymous={false}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/ingredients" element={<Ingredients ingredient={burderData.ingredientSelect} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
