@@ -35,9 +35,8 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium" onClick={userData.loggedIn ? openPopup : redirection} disabled={orderData.isLoading ? "disabled" : ""}>
-          {orderData.isLoading && <p className="text text_type_main-default">Загружаю заказ</p>}
-          {!orderData.isLoading && <p className="text text_type_main-default">Оформить заказ</p>}
+        <Button type="primary" size="medium" onClick={userData.loggedIn ? openPopup : redirection} disabled={orderData.isLoading}>
+          {orderData.isLoading ? "Идет загрузка..." : "Оформить заказ"}
         </Button>
       </div>
     </section>

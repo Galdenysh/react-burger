@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
-import { getUserData, logout, setUserData } from "../../services/actions/auth";
+import { getUserData, GET_USER_STATUS_LOADING, logout, setUserData } from "../../services/actions/auth";
+import { GET_INGREDIENTS_STATUS_LOADING } from "../../services/actions/burger";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
@@ -45,6 +46,7 @@ const PersonalAccount = () => {
   };
 
   const exit = () => {
+    dispatch({ type: GET_INGREDIENTS_STATUS_LOADING });
     dispatch(logout());
   };
 
@@ -61,7 +63,12 @@ const PersonalAccount = () => {
   return (
     <section className={styles.container}>
       <div className={`${styles.menu} mr-15`}>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/">
+        <NavLink
+          className={`${styles.link} text text_type_main-medium`}
+          style={setActive}
+          to="/profile/"
+          onClick={() => dispatch({ type: GET_USER_STATUS_LOADING })}
+        >
           Профиль
         </NavLink>
         <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/order">

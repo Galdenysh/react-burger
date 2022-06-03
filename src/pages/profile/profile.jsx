@@ -15,9 +15,9 @@ const Profile = () => {
 
   return (
     <main className={styles.content}>
-      {userData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-      {userData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
-      {!userData.isLoading && !userData.hasError && <PersonalAccount />}
+      {userData.isLoadingUser && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+      {userData.hasErrorUser && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+      {!userData.isLoadingUser && !userData.hasErrorUser && <PersonalAccount />}
     </main>
   );
 };

@@ -31,8 +31,8 @@ const ForgotPassword = () => {
           <Input type={"email"} name={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" disabled={userData.isLoading}>
-            Восстановить
+          <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
+            {userData.isLoadingAuth ? "Идет загрузка..." : "Восстановить"}
           </Button>
         </span>
       </form>

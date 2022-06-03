@@ -40,16 +40,16 @@ const Login = () => {
             size={"default"}
             value={valueEmail}
             onChange={(evt) => setValueEmail(evt.target.value)}
-            error={userData.hasError ? true : false}
-            errorText={userData.errorMessage}
+            error={userData.hasErrorAuth && userData.loginErrorMessage}
+            errorText={userData.loginErrorMessage}
           ></Input>
         </span>
         <span className="mt-6">
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" disabled={userData.isLoading}>
-            Войти
+          <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
+            {userData.isLoadingAuth ? "Идет загрузка..." : "Вход"}
           </Button>
         </span>
       </form>

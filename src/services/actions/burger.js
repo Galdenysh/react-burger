@@ -1,7 +1,7 @@
 import { api } from "../../components/api/api.js";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
-export const GET_BUN_INGREDIENT = "GET_CONSTRUCTOR";
+export const GET_BUN_INGREDIENT = "GET_BUN_INGREDIENT";
 export const ADD_INFO_INGREDIENT = "ADD_INFO_INGREDIENT";
 export const REMOVE_INFO_INGREDIENT = "REMOVE_INFO_INGREDIENT";
 export const ADD_BUN_INGREDIENT = "ADD_BUN_INGREDIENT";

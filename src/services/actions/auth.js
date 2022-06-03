@@ -1,4 +1,5 @@
 import { api } from "../../components/api/api";
+import { errMessage } from "../../utils/errMessage";
 import { setCookie } from "../../utils/setCookie";
 
 export const LOGGEDIN = "LOGGEDIN";
@@ -8,7 +9,12 @@ export const SET_USER_DATA = "SET_USER_DATA";
 export const GET_USER_STATUS_LOADING = "GET_USER_STATUS_LOADING";
 export const GET_USER_STATUS_LOADED = "GET_USER_STATUS_LOADED";
 export const GET_USER_STATUS_FALSE = "GET_USER_STATUS_FALSE";
-export const GET_ERROR_MESSAGE = "GET_ERROR_MESSAGE";
+export const GET_AUTH_STATUS_LOADING = "GET_AUTH_STATUS_LOADING";
+export const GET_AUTH_STATUS_LOADED = "GET_AUTH_STATUS_LOADED";
+export const GET_AUTH_STATUS_FALSE = "GET_AUTH_STATUS_FALSE";
+export const GET_REGISTER_ERROR_MESSAGE = "GET_REGISTER_ERROR_MESSAGE";
+export const GET_LOGIN_ERROR_MESSAGE = "GET_LOGIN_ERROR_MESSAGE";
+export const GET_RESET_ERROR_MESSAGE = "GET_RESET_ERROR_MESSAGE";
 
 export const getUserData = () => {
   return (dispatch) => {
@@ -52,15 +58,25 @@ export const setUserData = (userName, email, password) => {
   };
 };
 
-export const register = (email, password, userName) => {
+export const register = (email, password, userName, callback) => {
   return (dispatch) => {
+    dispatch({ type: GET_AUTH_STATUS_LOADING });
+
     api
       .register({
         email: email,
         password: password,
         name: userName,
       })
+      .then((res) => {
+        if (res.success) {
+          dispatch({ type: GET_AUTH_STATUS_LOADED });
+          callback();
+        }
+      })
       .catch((err) => {
+        dispatch({ type: GET_AUTH_STATUS_FALSE });
+        errMessage(err, dispatch, GET_REGISTER_ERROR_MESSAGE);
         console.log(err.status);
       });
   };
@@ -68,7 +84,7 @@ export const register = (email, password, userName) => {
 
 export const login = (email, password, callback) => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_STATUS_LOADING });
+    dispatch({ type: GET_AUTH_STATUS_LOADING });
 
     api
       .login({
@@ -94,20 +110,14 @@ export const login = (email, password, callback) => {
           }
 
           dispatch({ type: LOGGEDIN });
-          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch({ type: GET_AUTH_STATUS_LOADED });
           callback();
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_STATUS_FALSE });
+        dispatch({ type: GET_AUTH_STATUS_FALSE });
+        errMessage(err, dispatch, GET_LOGIN_ERROR_MESSAGE);
         console.log(err.status);
-
-        const errMessage = async () => {
-          let res = await err.err;
-          dispatch({ type: GET_ERROR_MESSAGE, payload: res.message });
-        };
-
-        errMessage();
       });
   };
 };
@@ -129,7 +139,7 @@ export const logout = () => {
 
 export const forgotPassword = (email, callback) => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_STATUS_LOADING });
+    dispatch({ type: GET_AUTH_STATUS_LOADING });
 
     api
       .forgotPassword({
@@ -137,13 +147,13 @@ export const forgotPassword = (email, callback) => {
       })
       .then((res) => {
         if (res.success) {
-          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch({ type: GET_AUTH_STATUS_LOADED });
           dispatch({ type: RESET_PASSWORD_ACCESS, payload: true });
           callback();
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_STATUS_FALSE });
+        dispatch({ type: GET_AUTH_STATUS_FALSE });
         console.log(err.status);
       });
   };
@@ -151,7 +161,7 @@ export const forgotPassword = (email, callback) => {
 
 export const resetPassword = (password, token, callback) => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_STATUS_LOADING });
+    dispatch({ type: GET_AUTH_STATUS_LOADING });
 
     api
       .resetPassword({
@@ -160,13 +170,14 @@ export const resetPassword = (password, token, callback) => {
       })
       .then((res) => {
         if (res.success) {
-          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch({ type: GET_AUTH_STATUS_LOADED });
           callback();
           dispatch({ type: RESET_PASSWORD_ACCESS, payload: false });
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_STATUS_FALSE });
+        dispatch({ type: GET_AUTH_STATUS_FALSE });
+        errMessage(err, dispatch, GET_RESET_ERROR_MESSAGE);
         console.log(err.status);
       });
   };

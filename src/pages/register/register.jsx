@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.scss";
 import { register } from "../../services/actions/auth";
@@ -10,9 +10,11 @@ const Register = () => {
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const dispatch = useDispatch();
+  const userData = useSelector((store) => store.authReducer);
+  const navigate = useNavigate();
 
-  const createUser = (email, password, userName) => {
-    dispatch(register(email, password, userName));
+  const createUser = (email, password, userName, callback) => {
+    dispatch(register(email, password, userName, callback));
   };
 
   const handleSubmit = (evt) => {
@@ -22,7 +24,7 @@ const Register = () => {
     const password = form.password.value;
     const userName = form.userName.value;
 
-    createUser(email, password, userName);
+    createUser(email, password, userName, () => navigate("/login"));
   };
 
   return (
@@ -37,6 +39,8 @@ const Register = () => {
             size={"default"}
             value={valueUserName}
             onChange={(evt) => setValueUserName(evt.target.value)}
+            error={userData.hasErrorAuth && userData.registerErrorMessage}
+            errorText={userData.registerErrorMessage}
           ></Input>
         </span>
         <span className="mt-6">
@@ -47,14 +51,16 @@ const Register = () => {
             size={"default"}
             value={valueEmail}
             onChange={(evt) => setValueEmail(evt.target.value)}
+            error={userData.hasErrorAuth && userData.registerErrorMessage}
+            errorText={userData.registerErrorMessage}
           ></Input>
         </span>
         <span className="mt-6">
           <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" onClick={() => createUser(valueEmail, valuePassword, valueUserName)}>
-            Зарегистрироваться
+          <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
+            {userData.isLoadingAuth ? "Идет загрузка..." : "Зарегистрироваться"}
           </Button>
         </span>
       </form>

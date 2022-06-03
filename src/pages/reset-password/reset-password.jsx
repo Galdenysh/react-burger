@@ -40,11 +40,13 @@ const ResetPassword = () => {
             size={"default"}
             value={valueToken}
             onChange={(evt) => setValueToken(evt.target.value)}
+            error={userData.hasErrorAuth && userData.resetErrorMessage}
+            errorText={userData.resetErrorMessage}
           ></Input>
         </span>
         <span className="mt-6">
-          <Button type="primary" size="medium" disabled={userData.isLoading}>
-            Сохранить
+          <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
+            {userData.isLoadingAuth ? "Идет загрузка..." : "Сохранить"}
           </Button>
         </span>
       </form>

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,11 +15,6 @@ const DropTargetIngredients = (props) => {
   });
   const dispatch = useDispatch();
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
-
-  useEffect(() => {
-    dispatch({ type: ADD_BUN_INGREDIENT, payload: bunSelect });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onDropHandler = (itemId) => {
     const ingredientTarget = ingredientsData.filter((ingredient) => itemId === ingredient._id);
