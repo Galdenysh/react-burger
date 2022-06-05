@@ -2,10 +2,9 @@ import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import DraggableIngredient from "./draggable-ingredient.jsx";
-import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.scss";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
   const containerRef = useRef(null);
   const bunRef = useRef(null);
@@ -70,21 +69,21 @@ const BurgerIngredients = (props) => {
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
-          props.setVisible,
+
           bunRef
         )}
 
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
-          props.setVisible,
+
           sauceRef
         )}
 
         {ingredientsList(
           ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
-          props.setVisible,
+
           mainRef
         )}
       </div>
@@ -92,21 +91,17 @@ const BurgerIngredients = (props) => {
   );
 };
 
-const ingredientsList = (ingredients, type, setVisible, tabRef) => {
+const ingredientsList = (ingredients, type, tabRef) => {
   return (
     <ul className={styles.ingredientsWrap} ref={tabRef}>
       <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
         {ingredients.map((ingredient) => (
-          <DraggableIngredient key={ingredient._id} ingredient={ingredient} setVisible={setVisible} />
+          <DraggableIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </ul>
     </ul>
   );
-};
-
-BurgerIngredients.propTypes = {
-  setVisible: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

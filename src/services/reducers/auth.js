@@ -12,6 +12,7 @@ import {
   GET_AUTH_STATUS_FALSE,
   GET_LOGIN_ERROR_MESSAGE,
   GET_RESET_ERROR_MESSAGE,
+  SET_AUTH_CHECK,
 } from "../actions/auth";
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   loginErrorMessage: "",
   resetErrorMessage: "",
   loggedIn: false,
+  isAuthChecked: false,
   resetPasswordAccess: false,
   user: {},
 };
@@ -51,6 +53,8 @@ export const authReducer = (state = initialState, action) => {
       return { ...state, loggedIn: true };
     case LOGGEDOUT:
       return { ...state, loggedIn: false, user: {} };
+    case SET_AUTH_CHECK:
+      return { ...state, isAuthChecked: action.payload };
     case RESET_PASSWORD_ACCESS:
       return { ...state, resetPasswordAccess: action.payload };
     case SET_USER_DATA:

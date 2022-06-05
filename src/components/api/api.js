@@ -100,6 +100,16 @@ class Api {
       body: JSON.stringify(data),
     }).then((res) => this._getResponseData(res));
   }
+
+  setRefreshToken() {
+    return fetch(`${this._url}/auth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: this._getCookie("refreshToken") }),
+    }).then((res) => this._getResponseData(res));
+  }
 }
 
 export const api = new Api({ baseUrl: "https://norma.nomoreparties.space/api" });

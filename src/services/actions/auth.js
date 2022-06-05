@@ -1,9 +1,10 @@
 import { api } from "../../components/api/api";
 import { errMessage } from "../../utils/errMessage";
-import { setCookie } from "../../utils/setCookie";
+import { setCookie } from "../../utils/cookie";
 
 export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
+export const SET_AUTH_CHECK = "SET_AUTH_CHECK";
 export const RESET_PASSWORD_ACCESS = "RESET_PASSWORD_ACCESS";
 export const SET_USER_DATA = "SET_USER_DATA";
 export const GET_USER_STATUS_LOADING = "GET_USER_STATUS_LOADING";
@@ -102,7 +103,7 @@ export const login = (email, password, callback) => {
           refreshToken = res.refreshToken;
 
           if (accessToken) {
-            setCookie("accessToken", accessToken);
+            setCookie("accessToken", accessToken, { expires: 1200 });
           }
 
           if (refreshToken) {
@@ -111,11 +112,14 @@ export const login = (email, password, callback) => {
 
           dispatch({ type: LOGGEDIN });
           dispatch({ type: GET_AUTH_STATUS_LOADED });
+          dispatch({ type: SET_USER_DATA, payload: res.user });
+          dispatch({ type: GET_USER_STATUS_LOADED });
           callback();
         }
       })
       .catch((err) => {
         dispatch({ type: GET_AUTH_STATUS_FALSE });
+        dispatch({ type: GET_USER_STATUS_FALSE });
         errMessage(err, dispatch, GET_LOGIN_ERROR_MESSAGE);
         console.log(err.status);
       });
@@ -178,6 +182,42 @@ export const resetPassword = (password, token, callback) => {
       .catch((err) => {
         dispatch({ type: GET_AUTH_STATUS_FALSE });
         errMessage(err, dispatch, GET_RESET_ERROR_MESSAGE);
+        console.log(err.status);
+      });
+  };
+};
+
+export const setRefreshToken = () => {
+  return (dispatch) => {
+    dispatch({ type: SET_AUTH_CHECK, payload: false });
+
+    api
+      .setRefreshToken()
+      .then((res) => {
+        if (res.success) {
+          let accessToken;
+          let refreshToken;
+
+          if (res.accessToken.indexOf("Bearer") === 0) {
+            accessToken = res.accessToken.split("Bearer ")[1];
+          }
+          refreshToken = res.refreshToken;
+
+          if (accessToken) {
+            setCookie("accessToken", accessToken, { expires: 1200 });
+          }
+
+          if (refreshToken) {
+            setCookie("refreshToken", refreshToken);
+          }
+
+          dispatch({ type: LOGGEDIN });
+          dispatch({ type: SET_AUTH_CHECK, payload: true });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: LOGGEDOUT });
+        dispatch({ type: SET_AUTH_CHECK, payload: true });
         console.log(err.status);
       });
   };

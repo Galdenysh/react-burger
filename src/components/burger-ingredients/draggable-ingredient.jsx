@@ -3,10 +3,13 @@ import { useDrag } from "react-dnd";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ADD_INFO_INGREDIENT } from "../../services/actions/burger.js";
 import styles from "./burger-ingredients.module.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const DraggableIngredient = (props) => {
-  const { ingredient, setVisible } = props;
+  const { ingredient } = props;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: { id: ingredient._id },
@@ -16,8 +19,8 @@ const DraggableIngredient = (props) => {
   });
 
   const openPopup = (ingredient) => {
-    setVisible(true);
     dispatch({ type: ADD_INFO_INGREDIENT, payload: ingredient });
+    navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
 
   return (

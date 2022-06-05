@@ -6,7 +6,6 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor.jsx";
 import Modal from "../../components/modal/modal.jsx";
 import OrderDetails from "../../components/order-details/order-details.jsx";
-import IngredientDetails from "../../components/ingredient-details/ingredient-details.jsx";
 import styles from "./main.module.scss";
 import { getIngredients } from "../../services/actions/burger.js";
 import { getOrder } from "../../services/actions/order.js";
@@ -14,12 +13,15 @@ import { getOrder } from "../../services/actions/order.js";
 const Main = () => {
   const [newOrder, setNewOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
-  const [visibleIngredient, setVisibleIngredient] = useState(false);
   const isInitialMount = useRef(true);
 
   const dispatch = useDispatch();
   const burderData = useSelector((store) => store.burgerReducer);
   const orderData = useSelector((store) => store.orderReducer);
+
+  const closePopup = () => {
+    setVisibleOrder(false);
+  };
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -43,21 +45,16 @@ const Main = () => {
         {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
         {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
           <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients setVisible={setVisibleIngredient} />
+            <BurgerIngredients />
             <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
           </DndProvider>
         )}
       </main>
 
       {visibleOrder && !orderData.isLoading && (
-        <Modal setVisible={setVisibleOrder}>
+        <Modal closePopup={closePopup}>
           {orderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
           {!orderData.hasError && <OrderDetails orderNumber={orderData.orderData} />}
-        </Modal>
-      )}
-      {visibleIngredient && (
-        <Modal setVisible={setVisibleIngredient}>
-          <IngredientDetails ingredient={burderData.ingredientSelect} />
         </Modal>
       )}
     </>

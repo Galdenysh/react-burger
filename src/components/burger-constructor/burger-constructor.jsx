@@ -1,16 +1,24 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import DropTargetIngredients from "./drop-target-ingredients";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
+import { ADD_BUN_INGREDIENT } from "../../services/actions/burger";
 
 const BurgerConstructor = (props) => {
   const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
   const fillingSelect = useSelector((store) => store.burgerReducer.fillingSelect);
   const orderData = useSelector((store) => store.orderReducer);
   const userData = useSelector((store) => store.authReducer);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch({ type: ADD_BUN_INGREDIENT, payload: bunSelect });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openPopup = () => {
     props.setNewOrder(!props.newOrder);
