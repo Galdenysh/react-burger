@@ -7,7 +7,6 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import Modal from "../../components/modal/modal.jsx";
 import OrderDetails from "../../components/order-details/order-details.jsx";
 import styles from "./main.module.scss";
-import { getIngredients } from "../../services/actions/burger.js";
 import { getOrder } from "../../services/actions/order.js";
 
 const Main = () => {
@@ -22,11 +21,6 @@ const Main = () => {
   const closePopup = () => {
     setVisibleOrder(false);
   };
-
-  useEffect(() => {
-    dispatch(getIngredients());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (isInitialMount.current) {

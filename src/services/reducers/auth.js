@@ -34,7 +34,7 @@ export const authReducer = (state = initialState, action) => {
     case GET_USER_STATUS_LOADING:
       return { ...state, hasErrorUser: false, isLoadingUser: true };
     case GET_USER_STATUS_LOADED:
-      return { ...state, isLoadingUser: false };
+      return { ...state, hasErrorUser: false, isLoadingUser: false };
     case GET_USER_STATUS_FALSE:
       return { ...state, hasErrorUser: true, isLoadingUser: false };
     case GET_AUTH_STATUS_LOADING:

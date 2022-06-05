@@ -15,9 +15,9 @@ import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import { getCookie } from "../../utils/cookie.js";
 import { getUserData, setRefreshToken } from "../../services/actions/auth.js";
+import { getIngredients } from "../../services/actions/burger.js";
 
 const App = () => {
-  const burderData = useSelector((store) => store.burgerReducer);
   const userData = useSelector((store) => store.authReducer);
   const location = useLocation();
   const background = location.state?.background;
@@ -30,6 +30,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setRefreshToken());
+    dispatch(getIngredients());
 
     if (getCookie("accessToken")) {
       dispatch(getUserData());
@@ -82,10 +83,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/ingredients/:id"
-          element={burderData.ingredientSelect.length ? <Ingredients ingredient={burderData.ingredientSelect} /> : <Navigate to="*" />}
-        />
+        <Route path="/ingredients/:id" element={<Ingredients />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {background && (
@@ -94,7 +92,7 @@ const App = () => {
             path="/ingredients/:id"
             element={
               <Modal closePopup={closePopup}>
-                <IngredientDetails ingredient={burderData.ingredientSelect} />
+                <IngredientDetails />
               </Modal>
             }
           />

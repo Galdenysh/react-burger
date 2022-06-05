@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
 import { getUserData, GET_USER_STATUS_LOADING, logout, setUserData } from "../../services/actions/auth";
-import { GET_INGREDIENTS_STATUS_LOADING } from "../../services/actions/burger";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
@@ -46,7 +45,6 @@ const PersonalAccount = () => {
   };
 
   const exit = () => {
-    dispatch({ type: GET_INGREDIENTS_STATUS_LOADING });
     dispatch(logout());
   };
 

@@ -132,6 +132,8 @@ export const logout = () => {
       .logout()
       .then((res) => {
         if (res.success) {
+          setCookie("accessToken", "");
+          setCookie("refreshToken", "");
           dispatch({ type: LOGGEDOUT });
         }
       })

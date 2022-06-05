@@ -11,7 +11,7 @@ export const orderReducer = (state = initialState, action) => {
     case GET_ORDER_STATUS_LOADING:
       return { ...state, hasError: false, isLoading: true };
     case GET_ORDER_STATUS_LOADED:
-      return { ...state, isLoading: false };
+      return { ...state, hasError: false, isLoading: false };
     case GET_ORDER_STATUS_FALSE:
       return { ...state, hasError: true, isLoading: false };
     case GET_ORDER:
