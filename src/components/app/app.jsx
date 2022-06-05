@@ -14,11 +14,13 @@ import ProtectedRoute from "../protected-route/protected-route.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import { getCookie } from "../../utils/cookie.js";
+import styles from "./app.module.scss";
 import { getUserData, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
+  const burderData = useSelector((store) => store.burgerReducer);
   const location = useLocation();
   const background = location.state?.background;
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ const App = () => {
           }
         />
         <Route
-          path="/profile/"
+          path="/profile"
           element={
             <ProtectedRoute anonymous={false}>
               <Profile />
@@ -92,7 +94,9 @@ const App = () => {
             path="/ingredients/:id"
             element={
               <Modal closePopup={closePopup}>
-                <IngredientDetails />
+                {burderData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+                {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+                {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <IngredientDetails />}
               </Modal>
             }
           />

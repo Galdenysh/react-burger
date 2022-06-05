@@ -1,35 +1,20 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import styles from "./ingredients.module.scss";
 
 const Ingredients = () => {
-  const ingredients = useSelector((store) => store.burgerReducer.ingredientsData);
-  const ingredientSelect = useParams();
-  const ingredient = ingredients.filter((item) => item._id === ingredientSelect.id);
+  const burderData = useSelector((store) => store.burgerReducer);
 
   return (
     <section className={styles.container}>
-      <h2 className={`${styles.popupTitle} text text_type_main-large`}>Детали ингредиента</h2>
-      <img src={ingredient[0]?.image_large} alt="ингредиент" className={styles.ingredientImage} />
-      <p className="text text_type_main-medium mt-4">{ingredient[0]?.name}</p>
-      <ul className={`${styles.caloricityList} mt-8 mb-15`}>
-        <li className={`${styles.caloricityItem} mr-5`}>
-          <p className="text text_type_main-default text_color_inactive">Калории,ккал</p>
-          <p className="text text_type_main-default text_color_inactive">{ingredient[0]?.calories}</p>
-        </li>
-        <li className={`${styles.caloricityItem} mr-5`}>
-          <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-          <p className="text text_type_main-default text_color_inactive">{ingredient[0]?.proteins}</p>
-        </li>
-        <li className={`${styles.caloricityItem} mr-5`}>
-          <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-          <p className="text text_type_main-default text_color_inactive">{ingredient[0]?.fat}</p>
-        </li>
-        <li className={styles.caloricityItem}>
-          <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-          <p className="text text_type_main-default text_color_inactive">{ingredient[0]?.carbohydrates}</p>
-        </li>
-      </ul>
+      {burderData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
+      {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+      {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
+        <>
+          <h2 className={`${styles.popupTitle} text text_type_main-large`}>Детали ингредиента</h2>
+          <IngredientDetails titleStyle={{ display: "none" }} />
+        </>
+      )}
     </section>
   );
 };

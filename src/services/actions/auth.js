@@ -27,6 +27,8 @@ export const getUserData = () => {
         if (data.success) {
           dispatch({ type: SET_USER_DATA, payload: data.user });
           dispatch({ type: GET_USER_STATUS_LOADED });
+        } else {
+          dispatch(setRefreshToken());
         }
       })
       .catch((err) => {
@@ -50,6 +52,8 @@ export const setUserData = (userName, email, password) => {
         if (data.success) {
           dispatch({ type: SET_USER_DATA, payload: data.user });
           dispatch({ type: GET_USER_STATUS_LOADED });
+        } else {
+          dispatch(setRefreshToken());
         }
       })
       .catch((err) => {

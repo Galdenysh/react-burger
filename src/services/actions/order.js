@@ -1,4 +1,5 @@
 import { api } from "../../components/api/api.js";
+import { setRefreshToken } from "./auth.js";
 
 export const GET_ORDER = "GET_ORDER";
 export const GET_ORDER_STATUS_LOADING = "GET_ORDER_STATUS_LOADING";
@@ -17,6 +18,8 @@ export const getOrder = (data) => {
         if (res.success) {
           dispatch({ type: GET_ORDER, payload: res.order.number });
           dispatch({ type: GET_ORDER_STATUS_LOADED });
+        } else {
+          dispatch(setRefreshToken());
         }
       })
       .catch((err) => {

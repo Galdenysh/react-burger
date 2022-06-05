@@ -2,14 +2,17 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.scss";
 
-const IngredientDetails = () => {
+const IngredientDetails = (props) => {
+  const { titleStyle } = props;
   const ingredients = useSelector((store) => store.burgerReducer.ingredientsData);
   const ingredientSelect = useParams();
   const ingredient = ingredients.filter((item) => item._id === ingredientSelect.id);
 
   return (
     <>
-      <h2 className={`${styles.popupTitle} text text_type_main-large mt-10 ml-10`}>Детали ингредиента</h2>
+      <h2 className={`${styles.popupTitle} text text_type_main-large mt-10 ml-10`} style={titleStyle}>
+        Детали ингредиента
+      </h2>
       <img src={ingredient[0]?.image_large} alt="ингредиент" className={styles.ingredientImage} />
       <p className="text text_type_main-medium mt-4">{ingredient[0]?.name}</p>
       <ul className={`${styles.caloricityList} mt-8 mb-15`}>
