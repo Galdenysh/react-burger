@@ -26,7 +26,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <section className={styles.container}>
+    <main className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <span className="mt-6">
@@ -56,7 +56,7 @@ const ResetPassword = () => {
           Войти
         </Link>
       </p>
-    </section>
+    </main>
   );
 };
 

@@ -28,7 +28,7 @@ const Register = () => {
   };
 
   return (
-    <section className={styles.container}>
+    <main className={styles.content}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Регистрация</h1>
         <span className="mt-6">
@@ -70,7 +70,7 @@ const Register = () => {
           Войти
         </Link>
       </p>
-    </section>
+    </main>
   );
 };
 

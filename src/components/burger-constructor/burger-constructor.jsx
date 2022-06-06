@@ -36,7 +36,7 @@ const BurgerConstructor = (props) => {
   };
 
   return (
-    <section className={`${styles.burgerConstructor} mt-25`}>
+    <section className={`${styles.burgerConstructor} pt-25`}>
       <DropTargetIngredients bunSelect={bunSelect} fillingSelect={fillingSelect} />
       <div className={`${styles.purchase} pr-4 mt-10`}>
         <div className={`${styles.totalCost} mr-10`}>

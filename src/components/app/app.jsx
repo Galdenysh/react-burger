@@ -13,8 +13,8 @@ import Main from "../../pages/main/main.jsx";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
+import Preloader from "../preloader/preloader.jsx";
 import { getCookie } from "../../utils/cookie.js";
-import styles from "./app.module.scss";
 import { getUserData, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
 
@@ -88,14 +88,15 @@ const App = () => {
         <Route path="/ingredients/:id" element={<Ingredients />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
       {background && (
         <Routes>
           <Route
             path="/ingredients/:id"
             element={
               <Modal closePopup={closePopup}>
-                {burderData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-                {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+                {burderData.isLoading && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
+                {burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
                 {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <IngredientDetails />}
               </Modal>
             }

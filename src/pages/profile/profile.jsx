@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import PersonalAccount from "../../components/personal-account/personal-account";
+import Preloader from "../../components/preloader/preloader";
 import styles from "./profile.module.scss";
 
 const Profile = () => {
@@ -7,8 +8,8 @@ const Profile = () => {
 
   return (
     <main className={styles.content}>
-      {userData.isLoadingUser && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-      {userData.hasErrorUser && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+      {userData.isLoadingUser && <Preloader type={"preloader"} />}
+      {userData.hasErrorUser && <Preloader type={"error"} />}
       {!userData.isLoadingUser && !userData.hasErrorUser && <PersonalAccount />}
     </main>
   );

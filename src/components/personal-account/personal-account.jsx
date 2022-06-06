@@ -1,27 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
-import { getUserData, LOGGEDOUT, logout, setUserData } from "../../services/actions/auth";
+import { LOGGEDOUT, logout, setUserData } from "../../services/actions/auth";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
-  const isInitialMount = useRef(true);
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer.user);
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      setValueUserName(userData.name);
-      setValueEmail(userData.email);
-    } else {
-      dispatch(getUserData());
-    }
+    setValueUserName(userData.name);
+    setValueEmail(userData.email);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 

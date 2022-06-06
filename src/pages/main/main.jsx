@@ -6,6 +6,7 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor.jsx";
 import Modal from "../../components/modal/modal.jsx";
 import OrderDetails from "../../components/order-details/order-details.jsx";
+import Preloader from "../../components/preloader/preloader.jsx";
 import styles from "./main.module.scss";
 import { getOrder } from "../../services/actions/order.js";
 
@@ -35,8 +36,8 @@ const Main = () => {
   return (
     <>
       <main className={styles.content}>
-        {burderData.isLoading && <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>}
-        {burderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+        {burderData.isLoading && <Preloader type={"preloader"} />}
+        {burderData.hasError && <Preloader type={"error"} />}
         {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
@@ -47,7 +48,7 @@ const Main = () => {
 
       {visibleOrder && !orderData.isLoading && (
         <Modal closePopup={closePopup}>
-          {orderData.hasError && <p className={`${styles.download} text text_type_main-large`}>Произошла ошибка...</p>}
+          {orderData.hasError && <Preloader type={"error"} />}
           {!orderData.hasError && <OrderDetails orderNumber={orderData.orderData} />}
         </Modal>
       )}

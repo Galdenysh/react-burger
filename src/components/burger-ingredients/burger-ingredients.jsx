@@ -31,7 +31,7 @@ const BurgerIngredients = () => {
   };
 
   return (
-    <section className={`${styles.burgerIngredients} mt-10 mr-10`}>
+    <section className={`${styles.burgerIngredients} pt-10 mr-10`}>
       <h1 className={"text text_type_main-large"}>Собери бургер</h1>
       <div className={`${styles.tab} mt-5`}>
         <Tab
