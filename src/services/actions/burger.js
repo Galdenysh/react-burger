@@ -1,7 +1,6 @@
 import { api } from "../../components/api/api.js";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
-export const GET_BUN_INGREDIENT = "GET_BUN_INGREDIENT";
 export const ADD_BUN_INGREDIENT = "ADD_BUN_INGREDIENT";
 export const ADD_FILLING_INGREDIENT = "ADD_FILLING_INGREDIENT";
 export const REMOVE_FILLING_INGREDIENT = "REMOVE_FILLING_INGREDIENT";
@@ -21,7 +20,6 @@ export const getIngredients = () => {
       .then((ingredients) => {
         if (ingredients.success) {
           dispatch({ type: GET_INGREDIENTS, payload: ingredients.data });
-          dispatch({ type: GET_BUN_INGREDIENT, payload: ingredients.data.filter((item) => item.type === "bun")[0] });
           dispatch({ type: GET_INGREDIENTS_STATUS_LOADED });
         }
       })

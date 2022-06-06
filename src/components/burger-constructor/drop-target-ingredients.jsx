@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { ADD_BUN_INGREDIENT, ADD_FILLING_INGREDIENT, INCREASE_FILLING_INGREDIENT, SET_FILLING_INGREDIENT } from "../../services/actions/burger.js";
 import ingredientsPropTypes from "../../utils/types.js";
+import bunImage from "../../images/bun.png";
 
 const DropTargetIngredients = (props) => {
   const { bunSelect, fillingSelect } = props;
@@ -39,7 +40,12 @@ const DropTargetIngredients = (props) => {
   return (
     <div className={styles.elements} ref={dropTarget}>
       <div className={`${styles.ingredientElement} ml-2`}>
-        <ConstructorElement type="top" isLocked={true} text={`${bunSelect.name} (верх)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+        {Object.keys(bunSelect).length !== 0 && (
+          <ConstructorElement type="top" isLocked={true} text={`${bunSelect.name} (верх)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+        )}
+        {Object.keys(bunSelect).length === 0 && (
+          <ConstructorElement type="top" isLocked={true} text="Пожалуйста, перенесите сюда булку для создания заказа" price={0} thumbnail={bunImage} />
+        )}
       </div>
       <ul className={`${styles.ingredientsList} pr-2`}>
         {!fillingSelect.length && (
@@ -57,14 +63,19 @@ const DropTargetIngredients = (props) => {
         ))}
       </ul>
       <div className={`${styles.ingredientElement} ml-2`}>
-        <ConstructorElement type="bottom" isLocked={true} text={`${bunSelect.name} (низ)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+        {Object.keys(bunSelect).length !== 0 && (
+          <ConstructorElement type="bottom" isLocked={true} text={`${bunSelect.name} (низ)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+        )}
+        {Object.keys(bunSelect).length === 0 && (
+          <ConstructorElement type="bottom" isLocked={true} text="Пожалуйста, перенесите сюда булку для создания заказа" price={0} thumbnail={bunImage} />
+        )}
       </div>
     </div>
   );
 };
 
 DropTargetIngredients.propTypes = {
-  bunSelect: ingredientsPropTypes.isRequired,
+  bunSelect: PropTypes.object.isRequired,
   fillingSelect: PropTypes.arrayOf(ingredientsPropTypes),
 };
 

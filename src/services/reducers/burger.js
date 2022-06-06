@@ -1,6 +1,5 @@
 import {
   GET_INGREDIENTS,
-  GET_BUN_INGREDIENT,
   ADD_FILLING_INGREDIENT,
   ADD_BUN_INGREDIENT,
   INCREASE_FILLING_INGREDIENT,
@@ -30,8 +29,6 @@ export const burgerReducer = (state = initialState, action) => {
       return { ...state, hasError: true, isLoading: false };
     case GET_INGREDIENTS:
       return { ...state, ingredientsData: action.payload.map((ingredient) => ({ ...ingredient, qty: 0 })) };
-    case GET_BUN_INGREDIENT:
-      return { ...state, bunSelect: { ...action.payload, qty: 0 } };
     case ADD_BUN_INGREDIENT:
       return {
         ...state,
