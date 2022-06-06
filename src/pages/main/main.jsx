@@ -23,6 +23,13 @@ const Main = () => {
     setVisibleOrder(false);
   };
 
+  // при использования React.StrictMode надо выполнить код
+  // useEffect(() => {
+  //   return () => {
+  //     isInitialMount.current = true;
+  //   };
+  // }, []);
+
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
