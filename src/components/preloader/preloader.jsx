@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styles from "./preloader.module.scss";
 
 const Preloader = (props) => {
@@ -17,6 +18,11 @@ const Preloader = (props) => {
       )}
     </section>
   );
+};
+
+Preloader.propTypes = {
+  type: PropTypes.string.isRequired,
+  style: PropTypes.object,
 };
 
 export default Preloader;

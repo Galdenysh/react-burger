@@ -2,9 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
-import DraggabelConstructorIngredient from "./darggable-constructor-ingredient.jsx";
+import DraggableConstructorIngredient from "./darggable-constructor-ingredient.jsx";
+import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { ADD_BUN_INGREDIENT, ADD_FILLING_INGREDIENT, INCREASE_FILLING_INGREDIENT, SET_FILLING_INGREDIENT } from "../../services/actions/burger.js";
+import ingredientsPropTypes from "../../utils/types.js";
 
 const DropTargetIngredients = (props) => {
   const { bunSelect, fillingSelect } = props;
@@ -51,7 +53,7 @@ const DropTargetIngredients = (props) => {
           </>
         )}
         {fillingSelect.map((ingredient, index) => (
-          <DraggabelConstructorIngredient ingredient={ingredient} index={index} moveIngredient={moveIngredient} key={ingredient.constructorId} />
+          <DraggableConstructorIngredient ingredient={ingredient} index={index} moveIngredient={moveIngredient} key={ingredient.constructorId} />
         ))}
       </ul>
       <div className={`${styles.ingredientElement} ml-2`}>
@@ -59,6 +61,11 @@ const DropTargetIngredients = (props) => {
       </div>
     </div>
   );
+};
+
+DropTargetIngredients.propTypes = {
+  bunSelect: ingredientsPropTypes.isRequired,
+  fillingSelect: PropTypes.arrayOf(ingredientsPropTypes),
 };
 
 export default DropTargetIngredients;

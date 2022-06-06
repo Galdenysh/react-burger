@@ -23,6 +23,7 @@
 - [Redux Toolkit](https://github.com/reduxjs/redux-toolkit).
 - [React DnD](https://github.com/react-dnd/react-dnd).
 - [React DnD HTML5 Backend](https://github.com/react-dnd/react-dnd).
+- [React Router DOM](https://github.com/remix-run/react-router).
 - [Node Sass](https://github.com/sass/node-sass).
 - [Набора UI-компонентов](https://github.com/yandex-praktikum/react-developer-burger-ui-components).
 - [UUID](https://github.com/uuidjs/uuid).
@@ -31,7 +32,7 @@
 
 В каталоге проекта вы можете запустить:
 
-### `npm start`
+### `npm run start`
 
 ### `npm run build`
 

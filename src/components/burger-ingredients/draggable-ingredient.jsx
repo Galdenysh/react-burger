@@ -2,6 +2,7 @@ import { useDrag } from "react-dnd";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import ingredientsPropTypes from "../../utils/types";
 
 const DraggableIngredient = (props) => {
   const { ingredient } = props;
@@ -30,6 +31,10 @@ const DraggableIngredient = (props) => {
       <p className="text text_type_main-default mt-2">{ingredient.name}</p>
     </li>
   );
+};
+
+DraggableIngredient.propTypes = {
+  ingredient: ingredientsPropTypes.isRequired,
 };
 
 export default DraggableIngredient;

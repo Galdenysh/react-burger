@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import styles from "./protected-route.module.scss";
 
 const ProtectedRoute = ({ anonymous, children }) => {
@@ -23,6 +24,11 @@ const ProtectedRoute = ({ anonymous, children }) => {
   }
 
   return children;
+};
+
+ProtectedRoute.propTypes = {
+  anonymous: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default ProtectedRoute;

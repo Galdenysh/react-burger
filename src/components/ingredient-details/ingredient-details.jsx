@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.scss";
 
 const IngredientDetails = (props) => {
@@ -35,6 +36,10 @@ const IngredientDetails = (props) => {
       </ul>
     </>
   );
+};
+
+IngredientDetails.propTypes = {
+  titleStyle: PropTypes.object,
 };
 
 export default IngredientDetails;
