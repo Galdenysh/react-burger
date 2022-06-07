@@ -106,13 +106,11 @@ const PersonalAccount = () => {
           ></Input>
         </span>
         <div className={`${styles.buttons} mt-6`} style={{ opacity: visible ? "1" : "0" }}>
-          <span className="mr-6">
-            <Button type="primary" size="medium" disabled={!visible}>
-              Сохранить
-            </Button>
-          </span>
-          <Button type="primary" size="medium" disabled={!visible} onClick={undoChanges} htmlType="button">
+          <Button type="secondary" size="medium" disabled={!visible} onClick={undoChanges} htmlType="button">
             Отмена
+          </Button>
+          <Button type="primary" size="medium" disabled={!visible}>
+            Сохранить
           </Button>
         </div>
       </form>
