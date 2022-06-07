@@ -20,8 +20,8 @@
     list-style-type: none;
     min-height: 80px;
     max-height: 350px;
-    min-width: 568px;
-    overflow-y: auto;
+    min-width: 576px;
+    overflow-y: scroll;
 
     // скролл бар для firefox
     scrollbar-color: #8585ad #2f2f37;
@@ -46,6 +46,7 @@
     display: flex;
     align-items: center;
     min-width: 568px;
+    cursor: move;
 
     &:last-of-type {
       margin: 0;

@@ -1,9 +1,6 @@
 import { api } from "../../components/api/api.js";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
-export const GET_BUN_INGREDIENT = "GET_CONSTRUCTOR";
-export const ADD_INFO_INGREDIENT = "ADD_INFO_INGREDIENT";
-export const REMOVE_INFO_INGREDIENT = "REMOVE_INFO_INGREDIENT";
 export const ADD_BUN_INGREDIENT = "ADD_BUN_INGREDIENT";
 export const ADD_FILLING_INGREDIENT = "ADD_FILLING_INGREDIENT";
 export const REMOVE_FILLING_INGREDIENT = "REMOVE_FILLING_INGREDIENT";
@@ -13,21 +10,89 @@ export const SET_FILLING_INGREDIENT = "SET_FILLING_INGREDIENT";
 export const GET_INGREDIENTS_STATUS_LOADING = "GET_INGREDIENTS_STATUS_LOADING";
 export const GET_INGREDIENTS_STATUS_LOADED = "GET_INGREDIENTS_STATUS_LOADED";
 export const GET_INGREDIENTS_STATUS_FALSE = "GET_INGREDIENTS_STATUS_FALSE";
+export const CLEAR_FILLING_INGREDIENT = "CLEAR_FILLING_INGREDIENT";
 
 export const getIngredients = () => {
   return (dispatch) => {
-    dispatch({ type: GET_INGREDIENTS_STATUS_LOADING });
+    dispatch(getIngredientsStatusLoading());
 
     api
       .getIngredients()
       .then((ingredients) => {
-        dispatch({ type: GET_INGREDIENTS, payload: ingredients.data });
-        dispatch({ type: GET_BUN_INGREDIENT, payload: ingredients.data.filter((item) => item.type === "bun")[0] });
-        dispatch({ type: GET_INGREDIENTS_STATUS_LOADED });
+        if (ingredients.success) {
+          dispatch({ type: GET_INGREDIENTS, payload: ingredients.data });
+          dispatch(getIngredientsStatusLoaded());
+        }
       })
       .catch((err) => {
-        dispatch({ type: GET_INGREDIENTS_STATUS_FALSE });
-        console.log(err);
+        dispatch(getIngredientsStatusFalse());
+        console.log(err.status);
       });
+  };
+};
+
+export const addBunIngredient = (payload) => {
+  return {
+    type: ADD_BUN_INGREDIENT,
+    payload,
+  };
+};
+
+export const addFillingIngredient = (payload) => {
+  return {
+    type: ADD_FILLING_INGREDIENT,
+    payload,
+  };
+};
+
+export const removeFillingIngredient = (id) => {
+  return {
+    type: REMOVE_FILLING_INGREDIENT,
+    id,
+  };
+};
+
+export const increaseFillingIngredient = (id) => {
+  return {
+    type: INCREASE_FILLING_INGREDIENT,
+    id,
+  };
+};
+
+export const decreaseFillingIngredient = (id) => {
+  return {
+    type: DECREASE_FILLING_INGREDIENT,
+    id,
+  };
+};
+
+export const setFillingIngredient = (payload) => {
+  return {
+    type: SET_FILLING_INGREDIENT,
+    payload,
+  };
+};
+
+export const getIngredientsStatusLoading = () => {
+  return {
+    type: GET_INGREDIENTS_STATUS_LOADING,
+  };
+};
+
+export const getIngredientsStatusLoaded = () => {
+  return {
+    type: GET_INGREDIENTS_STATUS_LOADED,
+  };
+};
+
+export const getIngredientsStatusFalse = () => {
+  return {
+    type: GET_INGREDIENTS_STATUS_FALSE,
+  };
+};
+
+export const clearFillingIngredients = () => {
+  return {
+    type: CLEAR_FILLING_INGREDIENT,
   };
 };

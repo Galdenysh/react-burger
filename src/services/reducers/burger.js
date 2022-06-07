@@ -1,8 +1,5 @@
 import {
   GET_INGREDIENTS,
-  GET_BUN_INGREDIENT,
-  ADD_INFO_INGREDIENT,
-  REMOVE_INFO_INGREDIENT,
   ADD_FILLING_INGREDIENT,
   ADD_BUN_INGREDIENT,
   INCREASE_FILLING_INGREDIENT,
@@ -12,6 +9,7 @@ import {
   GET_INGREDIENTS_STATUS_LOADING,
   GET_INGREDIENTS_STATUS_LOADED,
   GET_INGREDIENTS_STATUS_FALSE,
+  CLEAR_FILLING_INGREDIENT,
 } from "../actions/burger.js";
 
 const initialState = {
@@ -20,7 +18,6 @@ const initialState = {
   ingredientsData: [],
   bunSelect: {},
   fillingSelect: [],
-  ingredientSelect: {},
 };
 
 export const burgerReducer = (state = initialState, action) => {
@@ -28,13 +25,11 @@ export const burgerReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_STATUS_LOADING:
       return { ...state, hasError: false, isLoading: true };
     case GET_INGREDIENTS_STATUS_LOADED:
-      return { ...state, isLoading: false };
+      return { ...state, hasError: false, isLoading: false };
     case GET_INGREDIENTS_STATUS_FALSE:
       return { ...state, hasError: true, isLoading: false };
     case GET_INGREDIENTS:
       return { ...state, ingredientsData: action.payload.map((ingredient) => ({ ...ingredient, qty: 0 })) };
-    case GET_BUN_INGREDIENT:
-      return { ...state, bunSelect: { ...action.payload, qty: 0 } };
     case ADD_BUN_INGREDIENT:
       return {
         ...state,
@@ -68,10 +63,13 @@ export const burgerReducer = (state = initialState, action) => {
     }
     case SET_FILLING_INGREDIENT:
       return { ...state, fillingSelect: action.payload };
-    case ADD_INFO_INGREDIENT:
-      return { ...state, ingredientSelect: action.payload };
-    case REMOVE_INFO_INGREDIENT:
-      return { ...state, ingredientSelect: {} };
+    case CLEAR_FILLING_INGREDIENT:
+      return {
+        ...state,
+        bunSelect: {},
+        fillingSelect: [],
+        ingredientsData: [...state.ingredientsData].map((ingredient) => ({ ...ingredient, qty: 0 })),
+      };
 
     default:
       return state;

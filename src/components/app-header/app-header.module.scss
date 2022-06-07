@@ -1,29 +1,39 @@
 .header {
   background: #1C1C21;
+}
 
-  .logo {
-    position: absolute;
-    left: 50%; 
-    transform: translate(-50%);
-  }
+.logo {
+  position: absolute;
+  left: 50%; 
+  transform: translate(-50%);
+}
 
-  .navigation {
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1280px;
-  }
+.navigation {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1280px;
+}
 
-  .list {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    list-style-type: none;
-  }
+.list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style-type: none;
+}
 
-  .listItem {
-    display: flex;
-    cursor: pointer;
+.listItem {
+  display: flex;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
   }
+}
+
+.link {
+  text-decoration: none;
+  color: #8585ad;
 }
