@@ -9,6 +9,7 @@ import {
   GET_INGREDIENTS_STATUS_LOADING,
   GET_INGREDIENTS_STATUS_LOADED,
   GET_INGREDIENTS_STATUS_FALSE,
+  CLEAR_FILLING_INGREDIENT,
 } from "../actions/burger.js";
 
 const initialState = {
@@ -62,6 +63,13 @@ export const burgerReducer = (state = initialState, action) => {
     }
     case SET_FILLING_INGREDIENT:
       return { ...state, fillingSelect: action.payload };
+    case CLEAR_FILLING_INGREDIENT:
+      return {
+        ...state,
+        bunSelect: {},
+        fillingSelect: [],
+        ingredientsData: [...state.ingredientsData].map((ingredient) => ({ ...ingredient, qty: 0 })),
+      };
 
     default:
       return state;

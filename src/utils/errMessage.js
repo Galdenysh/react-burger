@@ -1,4 +1,4 @@
-export const errMessage = async (err, dispatch, type) => {
+export const errMessage = async (err, dispatch, callback) => {
   let res = await err.err;
-  dispatch({ type: type, payload: res.message });
+  dispatch(callback(res.message));
 };

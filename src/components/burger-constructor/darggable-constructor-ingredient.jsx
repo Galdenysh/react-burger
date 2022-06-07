@@ -4,7 +4,7 @@ import { useDrop, useDrag } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
-import { DECREASE_FILLING_INGREDIENT, REMOVE_FILLING_INGREDIENT } from "../../services/actions/burger.js";
+import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger.js";
 import ingredientsPropTypes from "../../utils/types";
 
 const DraggableConstructorIngredient = (props) => {
@@ -53,9 +53,9 @@ const DraggableConstructorIngredient = (props) => {
     },
   });
 
-  const removeFillingIngredient = (ingredient) => {
-    dispatch({ type: REMOVE_FILLING_INGREDIENT, id: ingredient.constructorId });
-    dispatch({ type: DECREASE_FILLING_INGREDIENT, id: ingredient._id });
+  const remove = (ingredient) => {
+    dispatch(removeFillingIngredient(ingredient.constructorId));
+    dispatch(decreaseFillingIngredient(ingredient._id));
   };
 
   dragRef(dropRef(ref));
@@ -66,7 +66,7 @@ const DraggableConstructorIngredient = (props) => {
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
-        handleClose={() => removeFillingIngredient(ingredient)}
+        handleClose={() => remove(ingredient)}
         isLocked={false}
         text={ingredient.name}
         price={ingredient.price}

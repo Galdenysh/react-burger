@@ -13,7 +13,9 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const sendPassword = (password, token, callback) => {
-    dispatch(resetPassword(password, token, callback));
+    dispatch(resetPassword(password, token)).then(() => {
+      if (!userData.hasErrorUser) callback();
+    });
   };
 
   const handleSubmit = (evt) => {

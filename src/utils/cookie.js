@@ -31,3 +31,7 @@ export const setCookie = (name, value, props) => {
 
   document.cookie = updatedCookie;
 };
+
+export function deleteCookie(name) {
+  setCookie(name, null, { expires: -1 });
+}

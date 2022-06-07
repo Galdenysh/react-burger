@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.scss";
 
@@ -42,9 +42,9 @@ const AppHeader = () => {
             </NavLink>
           </li>
         </ul>
-        <div className={styles.logo}>
+        <Link className={styles.logo} to={links.main}>
           <Logo />
-        </div>
+        </Link>
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
             <ProfileIcon type={profileIconState} />

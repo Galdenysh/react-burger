@@ -1,6 +1,6 @@
 import { api } from "../../components/api/api";
 import { errMessage } from "../../utils/errMessage";
-import { setCookie } from "../../utils/cookie";
+import { deleteCookie, setCookie } from "../../utils/cookie";
 
 export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
@@ -19,20 +19,20 @@ export const GET_RESET_ERROR_MESSAGE = "GET_RESET_ERROR_MESSAGE";
 
 export const getUserData = () => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_STATUS_LOADING });
+    dispatch(getUserStatusLoading());
 
     api
       .getUserData()
       .then((data) => {
         if (data.success) {
           dispatch({ type: SET_USER_DATA, payload: data.user });
-          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch(getUserStatusLoaded());
         } else {
           dispatch(setRefreshToken());
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_STATUS_FALSE });
+        dispatch(getUserStatusFalse());
         console.log(err.status);
       });
   };
@@ -40,7 +40,7 @@ export const getUserData = () => {
 
 export const setUserData = (userName, email, password) => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_STATUS_LOADING });
+    dispatch(getUserStatusLoading());
 
     api
       .setUserData({
@@ -51,23 +51,23 @@ export const setUserData = (userName, email, password) => {
       .then((data) => {
         if (data.success) {
           dispatch({ type: SET_USER_DATA, payload: data.user });
-          dispatch({ type: GET_USER_STATUS_LOADED });
+          dispatch(getUserStatusLoaded());
         } else {
           dispatch(setRefreshToken());
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_STATUS_FALSE });
+        dispatch(getUserStatusFalse());
         console.log(err.status);
       });
   };
 };
 
-export const register = (email, password, userName, callback) => {
+export const register = (email, password, userName) => {
   return (dispatch) => {
-    dispatch({ type: GET_AUTH_STATUS_LOADING });
+    dispatch(getAuthStatusLoading());
 
-    api
+    return api
       .register({
         email: email,
         password: password,
@@ -75,21 +75,20 @@ export const register = (email, password, userName, callback) => {
       })
       .then((res) => {
         if (res.success) {
-          dispatch({ type: GET_AUTH_STATUS_LOADED });
-          callback();
+          dispatch(getAuthStatusLoaded());
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_AUTH_STATUS_FALSE });
-        errMessage(err, dispatch, GET_REGISTER_ERROR_MESSAGE);
+        dispatch(getAuthStatusFalse());
+        errMessage(err, dispatch, getRegisterErrorMessage);
         console.log(err.status);
       });
   };
 };
 
-export const login = (email, password, callback) => {
+export const login = (email, password) => {
   return (dispatch) => {
-    dispatch({ type: GET_AUTH_STATUS_LOADING });
+    dispatch(getAuthStatusLoading());
 
     api
       .login({
@@ -114,17 +113,16 @@ export const login = (email, password, callback) => {
             setCookie("refreshToken", refreshToken);
           }
 
-          dispatch({ type: LOGGEDIN });
-          dispatch({ type: GET_AUTH_STATUS_LOADED });
+          dispatch(loggedIn());
+          dispatch(getAuthStatusLoaded);
           dispatch({ type: SET_USER_DATA, payload: res.user });
-          dispatch({ type: GET_USER_STATUS_LOADED });
-          callback();
+          dispatch(getUserStatusLoaded());
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_AUTH_STATUS_FALSE });
-        dispatch({ type: GET_USER_STATUS_FALSE });
-        errMessage(err, dispatch, GET_LOGIN_ERROR_MESSAGE);
+        dispatch(getAuthStatusFalse());
+        dispatch(getUserStatusFalse());
+        errMessage(err, dispatch, getLoginErrorMessage);
         console.log(err.status);
       });
   };
@@ -132,13 +130,13 @@ export const login = (email, password, callback) => {
 
 export const logout = () => {
   return (dispatch) => {
-    api
+    return api
       .logout()
       .then((res) => {
         if (res.success) {
-          setCookie("accessToken", "");
-          setCookie("refreshToken", "");
-          dispatch({ type: LOGGEDOUT });
+          deleteCookie("accessToken", null, { expires: -1 });
+          deleteCookie("refreshToken", null, { expires: -1 });
+          dispatch(loggedOut());
         }
       })
       .catch((err) => {
@@ -147,47 +145,45 @@ export const logout = () => {
   };
 };
 
-export const forgotPassword = (email, callback) => {
+export const forgotPassword = (email) => {
   return (dispatch) => {
-    dispatch({ type: GET_AUTH_STATUS_LOADING });
+    dispatch(getAuthStatusLoading());
 
-    api
+    return api
       .forgotPassword({
         email: email,
       })
       .then((res) => {
         if (res.success) {
-          dispatch({ type: GET_AUTH_STATUS_LOADED });
-          dispatch({ type: RESET_PASSWORD_ACCESS, payload: true });
-          callback();
+          dispatch(getAuthStatusLoaded());
+          dispatch(resetPasswordAccess(true));
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_AUTH_STATUS_FALSE });
+        dispatch(getAuthStatusFalse());
         console.log(err.status);
       });
   };
 };
 
-export const resetPassword = (password, token, callback) => {
+export const resetPassword = (password, token) => {
   return (dispatch) => {
-    dispatch({ type: GET_AUTH_STATUS_LOADING });
+    dispatch(getAuthStatusLoading());
 
-    api
+    return api
       .resetPassword({
         password: password,
         token: token,
       })
       .then((res) => {
         if (res.success) {
-          dispatch({ type: GET_AUTH_STATUS_LOADED });
-          callback();
-          dispatch({ type: RESET_PASSWORD_ACCESS, payload: false });
+          dispatch(getAuthStatusLoaded());
+          dispatch(resetPasswordAccess(false));
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_AUTH_STATUS_FALSE });
-        errMessage(err, dispatch, GET_RESET_ERROR_MESSAGE);
+        dispatch(getAuthStatusFalse());
+        errMessage(err, dispatch, getResetErrorMessage);
         console.log(err.status);
       });
   };
@@ -195,7 +191,7 @@ export const resetPassword = (password, token, callback) => {
 
 export const setRefreshToken = () => {
   return (dispatch) => {
-    dispatch({ type: SET_AUTH_CHECK, payload: false });
+    dispatch(setAuthCheck(false));
 
     api
       .setRefreshToken()
@@ -217,14 +213,97 @@ export const setRefreshToken = () => {
             setCookie("refreshToken", refreshToken);
           }
 
-          dispatch({ type: LOGGEDIN });
-          dispatch({ type: SET_AUTH_CHECK, payload: true });
+          dispatch(loggedIn());
+          dispatch(setAuthCheck(true));
         }
       })
       .catch((err) => {
-        dispatch({ type: LOGGEDOUT });
-        dispatch({ type: SET_AUTH_CHECK, payload: true });
+        dispatch(loggedOut());
+        dispatch(setAuthCheck(true));
         console.log(err.status);
       });
+  };
+};
+
+export const loggedIn = () => {
+  return {
+    type: LOGGEDIN,
+  };
+};
+
+export const loggedOut = () => {
+  return {
+    type: LOGGEDOUT,
+  };
+};
+
+export const setAuthCheck = (payload) => {
+  return {
+    type: SET_AUTH_CHECK,
+    payload,
+  };
+};
+
+export const resetPasswordAccess = (payload) => {
+  return {
+    type: RESET_PASSWORD_ACCESS,
+    payload,
+  };
+};
+
+export const getUserStatusLoading = () => {
+  return {
+    type: GET_USER_STATUS_LOADING,
+  };
+};
+
+export const getUserStatusLoaded = () => {
+  return {
+    type: GET_USER_STATUS_LOADED,
+  };
+};
+
+export const getUserStatusFalse = () => {
+  return {
+    type: GET_USER_STATUS_FALSE,
+  };
+};
+
+export const getAuthStatusLoading = () => {
+  return {
+    type: GET_AUTH_STATUS_LOADING,
+  };
+};
+
+export const getAuthStatusLoaded = () => {
+  return {
+    type: GET_AUTH_STATUS_LOADED,
+  };
+};
+
+export const getAuthStatusFalse = () => {
+  return {
+    type: GET_AUTH_STATUS_FALSE,
+  };
+};
+
+export const getRegisterErrorMessage = (payload) => {
+  return {
+    type: GET_REGISTER_ERROR_MESSAGE,
+    payload,
+  };
+};
+
+export const getLoginErrorMessage = (payload) => {
+  return {
+    type: GET_LOGIN_ERROR_MESSAGE,
+    payload,
+  };
+};
+
+export const getResetErrorMessage = (payload) => {
+  return {
+    type: GET_RESET_ERROR_MESSAGE,
+    payload,
   };
 };

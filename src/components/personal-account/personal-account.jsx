@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
 import { LOGGEDOUT, logout, setUserData } from "../../services/actions/auth";
@@ -11,16 +11,17 @@ const PersonalAccount = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.authReducer.user);
+  const userData = useSelector((store) => store.authReducer);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setValueUserName(userData.name);
-    setValueEmail(userData.email);
+    setValueUserName(userData.user.name);
+    setValueEmail(userData.user.email);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  }, [userData.user]);
 
   useEffect(() => {
-    valueUserName === userData.name && valueEmail === userData.email && valuePassword.length === 0 ? setVisible(false) : setVisible(true);
+    valueUserName === userData.user.name && valueEmail === userData.user.email && valuePassword.length === 0 ? setVisible(false) : setVisible(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueUserName, valueEmail, valuePassword]);
 
@@ -34,13 +35,14 @@ const PersonalAccount = () => {
   };
 
   const undoChanges = () => {
-    setValueUserName(userData.name);
-    setValueEmail(userData.email);
+    setValueUserName(userData.user.name);
+    setValueEmail(userData.user.email);
   };
 
   const exit = () => {
-    dispatch({ type: LOGGEDOUT });
-    dispatch(logout());
+    dispatch(logout()).then(() => {
+      if (!userData.loggenIn) navigate("/login");
+    });
   };
 
   const handleSubmit = (evt) => {
@@ -62,7 +64,7 @@ const PersonalAccount = () => {
         <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/order">
           История заказов
         </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} to={"/login"} onClick={exit}>
+        <NavLink className={`${styles.link} text text_type_main-medium`} to="" onClick={exit}>
           Выход
         </NavLink>
         <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>

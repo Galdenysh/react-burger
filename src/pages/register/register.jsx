@@ -14,7 +14,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   const createUser = (email, password, userName, callback) => {
-    dispatch(register(email, password, userName, callback));
+    dispatch(register(email, password, userName)).then(() => {
+      if (!userData.hasErrorAuth) callback();
+    });
   };
 
   const handleSubmit = (evt) => {

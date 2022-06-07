@@ -12,7 +12,9 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const sendEmail = (email, callback) => {
-    dispatch(forgotPassword(email, callback));
+    dispatch(forgotPassword(email)).then(() => {
+      if (!userData.hasErrorUser) callback();
+    });
   };
 
   const handleSubmit = (evt) => {

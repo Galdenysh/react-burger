@@ -1,5 +1,6 @@
 import { api } from "../../components/api/api.js";
 import { setRefreshToken } from "./auth.js";
+import { clearFillingIngredients } from "./burger.js";
 
 export const GET_ORDER = "GET_ORDER";
 export const GET_ORDER_STATUS_LOADING = "GET_ORDER_STATUS_LOADING";
@@ -8,7 +9,7 @@ export const GET_ORDER_STATUS_FALSE = "GET_ORDER_STATUS_FALSE";
 
 export const getOrder = (data) => {
   return (dispatch) => {
-    dispatch({ type: GET_ORDER_STATUS_LOADING });
+    dispatch(getOrderStatusLoading());
 
     api
       .sendOrder({
@@ -17,14 +18,33 @@ export const getOrder = (data) => {
       .then((res) => {
         if (res.success) {
           dispatch({ type: GET_ORDER, payload: res.order.number });
-          dispatch({ type: GET_ORDER_STATUS_LOADED });
+          dispatch(getOrderStatusLoaded());
+          dispatch(clearFillingIngredients());
         } else {
           dispatch(setRefreshToken());
         }
       })
       .catch((err) => {
-        dispatch({ type: GET_ORDER_STATUS_FALSE });
+        dispatch(getOrderStatusFalse());
         console.log(err.status);
       });
+  };
+};
+
+export const getOrderStatusLoading = () => {
+  return {
+    type: GET_ORDER_STATUS_LOADING,
+  };
+};
+
+export const getOrderStatusLoaded = () => {
+  return {
+    type: GET_ORDER_STATUS_LOADED,
+  };
+};
+
+export const getOrderStatusFalse = () => {
+  return {
+    type: GET_ORDER_STATUS_FALSE,
   };
 };

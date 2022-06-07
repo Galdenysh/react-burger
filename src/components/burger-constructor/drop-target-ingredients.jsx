@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import DraggableConstructorIngredient from "./darggable-constructor-ingredient.jsx";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
-import { ADD_BUN_INGREDIENT, ADD_FILLING_INGREDIENT, INCREASE_FILLING_INGREDIENT, SET_FILLING_INGREDIENT } from "../../services/actions/burger.js";
+import { addBunIngredient, addFillingIngredient, increaseFillingIngredient, setFillingIngredient } from "../../services/actions/burger.js";
 import ingredientsPropTypes from "../../utils/types.js";
 import bunImage from "../../images/bun.png";
 
@@ -25,8 +25,8 @@ const DropTargetIngredients = (props) => {
 
     // eslint-disable-next-line no-unused-expressions
     ingredientTargetWithId.type === "bun"
-      ? dispatch({ type: ADD_BUN_INGREDIENT, payload: ingredientTargetWithId })
-      : (dispatch({ type: ADD_FILLING_INGREDIENT, payload: ingredientTargetWithId }), dispatch({ type: INCREASE_FILLING_INGREDIENT, id: itemId }));
+      ? dispatch(addBunIngredient(ingredientTargetWithId))
+      : (dispatch(addFillingIngredient(ingredientTargetWithId)), dispatch(increaseFillingIngredient(itemId)));
   };
 
   const moveIngredient = (dragIndex, hoverIndex) => {
@@ -34,7 +34,7 @@ const DropTargetIngredients = (props) => {
     const dragItem = newFillingSelect.splice(dragIndex, 1);
     newFillingSelect.splice(hoverIndex, 0, dragItem[0]);
 
-    dispatch({ type: SET_FILLING_INGREDIENT, payload: newFillingSelect });
+    dispatch(setFillingIngredient(newFillingSelect));
   };
 
   return (

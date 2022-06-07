@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import { legacy_createStore as createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";

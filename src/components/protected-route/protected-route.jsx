@@ -1,18 +1,15 @@
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import styles from "./protected-route.module.scss";
+import Preloader from "../preloader/preloader";
 
 const ProtectedRoute = ({ anonymous, children }) => {
   const userData = useSelector((store) => store.authReducer);
   const location = useLocation();
+  const fromPage = location.state?.from?.pathname || "/";
 
   if (!userData.isAuthChecked) {
-    return (
-      <main className={styles.content}>
-        <p className={`${styles.download} text text_type_main-large`}>Загрузка...</p>
-      </main>
-    );
+    return <Preloader type={"preloader"} />;
   }
 
   if (!anonymous && !userData.loggedIn) {
@@ -20,7 +17,7 @@ const ProtectedRoute = ({ anonymous, children }) => {
   }
 
   if (anonymous && userData.loggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to={fromPage} />;
   }
 
   return children;

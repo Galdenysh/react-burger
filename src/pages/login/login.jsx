@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
 import { login } from "../../services/actions/auth";
@@ -10,13 +10,9 @@ const Login = () => {
   const [valuePassword, setValuePassword] = useState("");
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer);
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const fromPage = location.state?.from?.pathname || "/";
-
-  const signin = (email, password, callback) => {
-    dispatch(login(email, password, callback));
+  const signIn = (email, password) => {
+    dispatch(login(email, password));
   };
 
   const handleSubmit = (evt) => {
@@ -25,7 +21,7 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    signin(email, password, () => navigate(fromPage, { replace: true }));
+    signIn(email, password);
   };
 
   return (
