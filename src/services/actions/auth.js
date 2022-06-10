@@ -114,7 +114,7 @@ export const login = (email, password) => {
           }
 
           dispatch(loggedIn());
-          dispatch(getAuthStatusLoaded);
+          dispatch(getAuthStatusLoaded());
           dispatch({ type: SET_USER_DATA, payload: res.user });
           dispatch(getUserStatusLoaded());
         }
@@ -193,7 +193,7 @@ export const setRefreshToken = () => {
   return (dispatch) => {
     dispatch(setAuthCheck(false));
 
-    api
+    return api
       .setRefreshToken()
       .then((res) => {
         if (res.success) {

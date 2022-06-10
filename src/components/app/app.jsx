@@ -15,8 +15,9 @@ import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
 import Preloader from "../preloader/preloader.jsx";
 import { getCookie } from "../../utils/cookie.js";
-import { getUserData, setRefreshToken } from "../../services/actions/auth.js";
+import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
+import Feed from "../../pages/feed/feed.jsx";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
@@ -31,12 +32,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    dispatch(setRefreshToken());
+    dispatch(setAuthCheck(false));
     dispatch(getIngredients());
+    dispatch(setRefreshToken()).then(() => {
+      if (getCookie("accessToken")) {
+        dispatch(getUserData());
+      }
+    });
 
-    if (getCookie("accessToken")) {
-      dispatch(getUserData());
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,6 +89,7 @@ const App = () => {
           }
         />
         <Route path="/ingredients/:id" element={<Ingredients />} />
+        <Route path="/feed" element={<Feed />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 

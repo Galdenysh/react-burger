@@ -1,0 +1,39 @@
+.content {
+  margin: auto;
+  max-width: 1240px;
+}
+
+.title {
+  margin: 40px 0 0;
+}
+
+.container {
+  margin-top: 20px;
+  width: 584px;
+}
+
+.feedsList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  background-color: #1C1C21;
+  border-radius: 40px;
+}
+
+.idWrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ingredientsWrap {
+  display: flex;
+}
+
+.ingredientsList {
+  padding: 0;
+  list-style-type: none;
+}
+
+.ingredientsText {
+  margin-left: auto;
+}

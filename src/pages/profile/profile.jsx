@@ -7,11 +7,15 @@ const Profile = () => {
   const userData = useSelector((store) => store.authReducer);
 
   return (
-    <main className={styles.content}>
+    <>
       {userData.isLoadingUser && <Preloader type={"preloader"} />}
       {userData.hasErrorUser && <Preloader type={"error"} />}
-      {!userData.isLoadingUser && !userData.hasErrorUser && <PersonalAccount />}
-    </main>
+      {!userData.isLoadingUser && !userData.hasErrorUser && (
+        <main className={styles.content}>
+          <PersonalAccount />
+        </main>
+      )}
+    </>
   );
 };
 
