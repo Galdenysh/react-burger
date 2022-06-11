@@ -1,29 +1,29 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
+import CardOrder from "../../components/card-order/card-order";
+import Preloader from "../../components/preloader/preloader";
 import styles from "./feed.module.scss";
+import { feeds } from "../../utils/feeds";
 
 const Feed = () => {
+  const burderData = useSelector((store) => store.burgerReducer);
+
   return (
-    <main className={styles.content}>
-      <h1 className={`${styles.title} text text_type_main-large`}>Лента заказов</h1>
-      <div className={styles.container}>
-        <ul className={styles.feedsList}>
-          <li className={`${styles.feedsItem} pt-6 pb-6 pl-6 pr-6`}>
-            <div className={`${styles.idWrap}`}>
-              <p className="text text_type_digits-default">#034535</p>
-              <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
-            </div>
-            <h2 className="text text_type_main-medium mt-6">Death Star Starship Main бургер</h2>
-            <div className={`${styles.ingredientsWrap} mt-6`}>
-              <ul className={styles.ingredientsList}>
-                <li className={styles.ingredientsItem}></li>
-              </ul>
-              <p className={`${styles.ingredientsText} text text_type_digits-default mr-2`}>480</p>
-              <CurrencyIcon type="primary" />
-            </div>
-          </li>
-        </ul>
-      </div>
-    </main>
+    <>
+      {burderData.isLoading && <Preloader type={"preloader"} />}
+      {burderData.hasError && <Preloader type={"error"} />}
+      {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
+        <main className={styles.content}>
+          <section className={styles.cardsOrder}>
+            <h1 className="text text_type_main-large">Лента заказов</h1>
+            <ul className={`${styles.feedsList} pr-2`}>
+              {feeds.orders.map((order) => (
+                <CardOrder order={order} key={order._id} />
+              ))}
+            </ul>
+          </section>
+        </main>
+      )}
+    </>
   );
 };
 
