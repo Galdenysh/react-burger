@@ -18,6 +18,7 @@ import { getCookie } from "../../utils/cookie.js";
 import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
 import Feed from "../../pages/feed/feed.jsx";
+import OrderInfo from "../order-info/order-info.jsx";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
@@ -102,6 +103,16 @@ const App = () => {
                 {burderData.isLoading && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
                 {burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
                 {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <IngredientDetails />}
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal closePopup={closePopup}>
+                {burderData.isLoading && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
+                {burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <OrderInfo />}
               </Modal>
             }
           />

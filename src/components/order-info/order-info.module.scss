@@ -1,12 +1,14 @@
-.cardsOrder {
-  width: 584px;
+.container {
+  padding: 60px 0 40px;
+  min-width: 640px;
 }
 
-.feedsList {
-  margin: 0px;
+.ingredientsList {
   padding-left: 0;
-  max-height: calc(100vh - 230px);
-  overflow: auto;
+  margin-bottom: 0;
+  list-style-type: none;
+  max-height: 312px;
+  overflow-y: scroll;
 
   // скролл бар для firefox
   scrollbar-color: #8585ad #2f2f37;
@@ -26,40 +28,17 @@
   }
 }
 
-.feedsItem {
-  margin: 16px 0 0;
-  list-style-type: none;
-  background-color: #1C1C21;
-  border-radius: 40px;
-  transition: opacity 0.2s ease-in-out;
+.ingredientsItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   &:first-child {
     margin-top: 0;
   }
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 }
 
-.idWrap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.ingredientsWrap {
-  display: flex;
-  align-items: center;
-}
-
-.ingredientsList {
-  padding: 0;
-  display: flex;
-  list-style-type: none;
-}
-
-.ingredientsItem {
+.ingredientsGradient {
   position: relative;
   display: flex;
   align-items: center;
@@ -86,10 +65,6 @@
   }
 }
 
-.ingredientsText {
-  margin-left: auto;
-}
-
 .ingredientsImage {
   position: absolute;
   height: 56px;
@@ -102,4 +77,16 @@
   z-index: 20;
 }
 
+.ingredientsText {
+  max-width: 320px;
+}
 
+.priceText {
+  margin-left: auto;
+}
+
+
+.priceWrap {
+  display: flex;
+  justify-content: space-between;
+}

@@ -4,11 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 import CardIngredient from "./card-ingredient";
 import styles from "./cards-order.module.scss";
 import { calcCost } from "../../utils/cost";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CardOrder = (props) => {
   const { order } = props;
   const ingredientQty = 6;
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const ingredients = order.ingredients
     .map((ingredient) => {
@@ -21,9 +24,13 @@ const CardOrder = (props) => {
   const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
   const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
 
+  const openPopup = () => {
+    navigate(`/feed/${order._id}`, { state: { background: location } });
+  };
+
   return (
     <>
-      <li className={`${styles.feedsItem} pt-6 pb-6 pl-6 pr-6`}>
+      <li className={`${styles.feedsItem} pt-6 pb-6 pl-6 pr-6`} onClick={openPopup}>
         <div className={`${styles.idWrap}`}>
           <p className="text text_type_digits-default">{`#${order.number}`}</p>
           <p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
