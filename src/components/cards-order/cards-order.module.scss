@@ -1,3 +1,31 @@
+.cardsOrder {
+  width: 584px;
+}
+
+.feedsList {
+  margin: 0px;
+  padding-left: 0;
+  max-height: calc(100vh - 230px);
+  overflow: auto;
+
+  // скролл бар для firefox
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: thin;
+
+  // скролл бар для chrome
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background-color: #2f2f37;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #8585ad;
+  }
+}
+
 .feedsItem {
   margin: 16px 0 0;
   list-style-type: none;

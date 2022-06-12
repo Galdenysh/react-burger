@@ -8,8 +8,8 @@ const OrderBoard = () => {
         <li className={`${styles.orderItem} mr-9`}>
           <h2 className="text text_type_main-medium">Готовы:</h2>
           <ul className={styles.numberList}>
-            {orderBoard.ready_orders.map((order) => (
-              <li className={`${styles.numberItem} text text_type_digits-default`} style={{ color: "#00cccc" }}>
+            {orderBoard.ready_orders.map((order, index) => (
+              <li className={`${styles.numberItem} text text_type_digits-default`} style={{ color: "#00cccc" }} key={index}>
                 {order}
               </li>
             ))}
@@ -18,8 +18,10 @@ const OrderBoard = () => {
         <li className={styles.orderItem}>
           <h2 className="text text_type_main-medium">В работе:</h2>
           <ul className={styles.numberList}>
-            {orderBoard.work_orders.map((order) => (
-              <li className={`${styles.numberItem} text text_type_digits-default`}>{order}</li>
+            {orderBoard.work_orders.map((order, index) => (
+              <li className={`${styles.numberItem} text text_type_digits-default`} key={index}>
+                {order}
+              </li>
             ))}
           </ul>
         </li>

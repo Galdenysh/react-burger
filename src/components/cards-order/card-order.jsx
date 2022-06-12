@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import CardIngredient from "./card-ingredient";
-import styles from "./card-order.module.scss";
+import styles from "./cards-order.module.scss";
 import { calcCost } from "../../utils/cost";
 
 const CardOrder = (props) => {

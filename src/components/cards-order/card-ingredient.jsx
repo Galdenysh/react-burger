@@ -1,4 +1,4 @@
-import styles from "./card-order.module.scss";
+import styles from "./cards-order.module.scss";
 
 const CardIngredient = (props) => {
   const { ingredient, index, ingredientQty, total } = props;

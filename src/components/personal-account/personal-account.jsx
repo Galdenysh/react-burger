@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
-import { LOGGEDOUT, logout, setUserData } from "../../services/actions/auth";
+import { setUserData } from "../../services/actions/auth";
 
 const PersonalAccount = () => {
   const [valuePassword, setValuePassword] = useState("");
@@ -12,7 +11,6 @@ const PersonalAccount = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const userData = useSelector((store) => store.authReducer);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setValueUserName(userData.user.name);
@@ -25,10 +23,6 @@ const PersonalAccount = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueUserName, valueEmail, valuePassword]);
 
-  const setActive = ({ isActive }) => {
-    return { color: isActive ? "#f2f2f3" : "#8585ad" };
-  };
-
   const saveChanges = (userName, email, password) => {
     dispatch(setUserData(userName, email, password));
     setVisible(false);
@@ -37,12 +31,6 @@ const PersonalAccount = () => {
   const undoChanges = () => {
     setValueUserName(userData.user.name);
     setValueEmail(userData.user.email);
-  };
-
-  const exit = () => {
-    dispatch(logout()).then(() => {
-      if (!userData.loggenIn) navigate("/login");
-    });
   };
 
   const handleSubmit = (evt) => {
@@ -56,21 +44,7 @@ const PersonalAccount = () => {
   };
 
   return (
-    <section className={styles.container}>
-      <div className={`${styles.menu} mr-15`}>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile">
-          Профиль
-        </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} style={setActive} to="/profile/order">
-          История заказов
-        </NavLink>
-        <NavLink className={`${styles.link} text text_type_main-medium`} to="" onClick={exit}>
-          Выход
-        </NavLink>
-        <p className="text text_type_main-default text_color_inactive mt-20" style={{ opacity: "0.4" }}>
-          В этом разделе вы можете изменить свои персональные данные
-        </p>
-      </div>
+    <section className={styles.personalAccount}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <span>
           <Input
