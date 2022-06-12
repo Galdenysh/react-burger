@@ -56,3 +56,10 @@ export const feeds = {
   total: 1,
   totalToday: 1,
 };
+
+export const orderBoard = {
+  ready_orders: [34534, 34535, 34536, 34537, 34538, 34539, 34540, 34541, 34542, 34543],
+  work_orders: [34534, 34535, 34536, 34537, 34538, 34539, 34540, 34541, 34542, 34543],
+  total_orders: [28752],
+  today_orders: [138],
+};
