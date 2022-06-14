@@ -13,12 +13,13 @@ import Main from "../../pages/main/main.jsx";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
+import Feed from "../../pages/feed/feed.jsx";
+import FeedDetails from "../../pages/feed-details/feed-details.jsx";
+import OrderInfo from "../order-info/order-info.jsx";
 import Preloader from "../preloader/preloader.jsx";
 import { getCookie } from "../../utils/cookie.js";
 import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
-import Feed from "../../pages/feed/feed.jsx";
-import OrderInfo from "../order-info/order-info.jsx";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
@@ -91,6 +92,7 @@ const App = () => {
         />
         <Route path="/ingredients/:id" element={<Ingredients />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<FeedDetails />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
