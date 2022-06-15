@@ -1,11 +1,15 @@
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import OrderInfo from "../../components/order-info/order-info";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./feed-details.module.scss";
 
 const FeedDetails = (props) => {
-  const { data } = props;
+  const { wsAuth } = props;
   const burderData = useSelector((store) => store.burgerReducer);
+  const feedData = useSelector((store) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
+  const data = wsAuth ? feedDataAuth : feedData;
 
   return (
     <>
@@ -18,6 +22,10 @@ const FeedDetails = (props) => {
       )}
     </>
   );
+};
+
+FeedDetails.propTypes = {
+  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default FeedDetails;

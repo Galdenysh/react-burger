@@ -1,13 +1,17 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./order-info.module.scss";
 import { calcCost } from "../../utils/cost";
 
 const OrderInfo = (props) => {
-  const { titleStyle, data } = props;
+  const { titleStyle, wsAuth } = props;
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const feedData = useSelector((store) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
+  const data = wsAuth ? feedDataAuth : feedData;
   const orderSelect = useParams();
   const order = data.messages[0].orders.filter((item) => item._id === orderSelect.id)[0];
   let status;
@@ -64,6 +68,11 @@ const OrderInfo = (props) => {
       </div>
     </section>
   );
+};
+
+OrderInfo.propTypes = {
+  titleStyle: PropTypes.object,
+  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default OrderInfo;

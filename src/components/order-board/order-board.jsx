@@ -20,7 +20,7 @@ const OrderBoard = () => {
           </ul>
         </li>
         <li className={styles.orderItem}>
-          <h2 className="text text_type_main-medium">В работе:</h2>
+          <h2 className="text text_type_main-medium mb-6">В работе:</h2>
           <ul className={styles.numberList}>
             {ordersPending.slice(0, 10).map((order, index) => (
               <li className={`${styles.numberItem} text text_type_digits-default`} key={index}>

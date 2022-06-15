@@ -96,13 +96,13 @@ const App = () => {
           path="/profile/orders/:id"
           element={
             <ProtectedRoute anonymous={false}>
-              <FeedDetails data={feedDataAuth} />
+              <FeedDetails wsAuth={true} />
             </ProtectedRoute>
           }
         />
         <Route path="/ingredients/:id" element={<Ingredients />} />
         <Route path="/feed" element={<Feed />} />
-        <Route path="/feed/:id" element={<FeedDetails data={feedData} />} />
+        <Route path="/feed/:id" element={<FeedDetails wsAuth={false} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
@@ -129,7 +129,7 @@ const App = () => {
                   !!feedData.messages.length &&
                   !burderData.isLoading &&
                   !burderData.hasError &&
-                  !!burderData.ingredientsData.length && <OrderInfo data={feedData} />}
+                  !!burderData.ingredientsData.length && <OrderInfo wsAuth={false} />}
               </Modal>
             }
           />
@@ -146,7 +146,7 @@ const App = () => {
                   !!feedDataAuth.messages.length &&
                   !burderData.isLoading &&
                   !burderData.hasError &&
-                  !!burderData.ingredientsData.length && <OrderInfo data={feedDataAuth} />}
+                  !!burderData.ingredientsData.length && <OrderInfo wsAuth={true} />}
               </Modal>
             }
           />

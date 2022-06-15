@@ -27,7 +27,7 @@ const OrderHistory = () => {
         !!feedData.messages.length &&
         !burderData.isLoading &&
         !burderData.hasError &&
-        !!burderData.ingredientsData.length && <CardsOrder data={feedData.messages[0]} auth={true} />}
+        !!burderData.ingredientsData.length && <CardsOrder wsAuth={true} />}
     </section>
   );
 };

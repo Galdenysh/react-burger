@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styles from "./cards-order.module.scss";
 
 const CardIngredient = (props) => {
@@ -21,6 +22,13 @@ const CardIngredient = (props) => {
       </li>
     </>
   );
+};
+
+CardIngredient.propTypes = {
+  ingredient: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  ingredientQty: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
 };
 
 export default CardIngredient;

@@ -32,7 +32,7 @@ const Feed = () => {
           <main className={styles.content}>
             <section className={styles.container}>
               <h1 className={`${styles.title} text text_type_main-large`}>Лента заказов</h1>
-              <CardsOrder data={feedData.messages[0]} />
+              <CardsOrder wsAuth={false} />
             </section>
             <OrderBoard />
           </main>

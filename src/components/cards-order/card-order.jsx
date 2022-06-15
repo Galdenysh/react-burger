@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import CardIngredient from "./card-ingredient";
@@ -7,7 +8,7 @@ import { calcCost } from "../../utils/cost";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CardOrder = (props) => {
-  const { order, auth } = props;
+  const { order, wsAuth } = props;
   const ingredientQty = 6;
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const CardOrder = (props) => {
           <p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
         </div>
         <h2 className="text text_type_main-medium mt-6">{order.name}</h2>
-        {auth && (
+        {wsAuth && (
           <p className="text text_type_main-default mt-2" style={{ color: order.status === "done" ? "#00cccc" : "" }}>
             {status}
           </p>
@@ -74,6 +75,11 @@ const CardOrder = (props) => {
       </li>
     </>
   );
+};
+
+CardOrder.propTypes = {
+  order: PropTypes.object.isRequired,
+  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default CardOrder;
