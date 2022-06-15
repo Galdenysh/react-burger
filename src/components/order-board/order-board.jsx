@@ -7,7 +7,7 @@ const OrderBoard = () => {
   const ordersPending = feedData.orders.filter((order) => order.status === "pending");
 
   return (
-    <section className={styles.orderBoard}>
+    <section className={`${styles.orderBoard} ml-15`}>
       <ul className={styles.orderList}>
         <li className={`${styles.orderItem} mr-9`}>
           <h2 className="text text_type_main-medium mb-6">Готовы:</h2>

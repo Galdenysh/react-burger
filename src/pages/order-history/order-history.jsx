@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CardsOrder from "../../components/cards-order/cards-order";
 import Preloader from "../../components/preloader/preloader";
 import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
-// import styles from "./order-history.module.scss";
+import styles from "./order-history.module.scss";
 
 const OrderHistory = () => {
   const burderData = useSelector((store) => store.burgerReducer);
@@ -19,7 +19,7 @@ const OrderHistory = () => {
   }, []);
 
   return (
-    <>
+    <section className={styles.container}>
       {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} />}
       {feedData.error && burderData.hasError && <Preloader type={"error"} />}
       {feedData.wsConnected &&
@@ -27,8 +27,8 @@ const OrderHistory = () => {
         !!feedData.messages.length &&
         !burderData.isLoading &&
         !burderData.hasError &&
-        !!burderData.ingredientsData.length && <CardsOrder data={feedData.messages[0]} style={{ paddingTop: "40px", width: "844px" }} auth={true} />}
-    </>
+        !!burderData.ingredientsData.length && <CardsOrder data={feedData.messages[0]} auth={true} />}
+    </section>
   );
 };
 
