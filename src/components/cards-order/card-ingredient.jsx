@@ -7,7 +7,7 @@ const CardIngredient = (props) => {
   return (
     <>
       <li className={styles.ingredientsItem} style={{ zIndex: ingredientQty - index }}>
-        {ingredientQty === index + 1 && (
+        {remainder !== 0 && ingredientQty === index + 1 && (
           <p className="text text_type_main-default" style={{ zIndex: "2" }}>
             {`+${remainder}`}
           </p>
@@ -16,7 +16,7 @@ const CardIngredient = (props) => {
           className={styles.ingredientsImage}
           src={ingredient.image_mobile}
           alt={ingredient.name}
-          style={{ opacity: ingredientQty === index + 1 ? "0.6" : "1", zIndex: "1" }}
+          style={{ opacity: remainder !== 0 && ingredientQty === index + 1 ? "0.6" : "1", zIndex: "1" }}
         />
       </li>
     </>

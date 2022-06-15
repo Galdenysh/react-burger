@@ -14,6 +14,7 @@ const CardOrder = (props) => {
   const location = useLocation();
 
   const ingredients = order.ingredients
+    .filter(Boolean)
     .map((ingredient) => {
       return (ingredient = ingredientsData.filter(({ _id }) => ingredient.includes(_id)))[0];
     })
@@ -23,6 +24,9 @@ const CardOrder = (props) => {
 
   const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
   const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
+
+  const filteredIngredient = filling.slice(0);
+  if (bun) filteredIngredient.unshift(bun);
 
   const openPopup = () => {
     navigate(`/feed/${order._id}`, { state: { background: location } });
@@ -35,12 +39,18 @@ const CardOrder = (props) => {
           <p className="text text_type_digits-default">{`#${order.number}`}</p>
           <p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
         </div>
-        <h2 className="text text_type_main-medium mt-6">Death Star Starship Main бургер</h2>
+        <h2 className="text text_type_main-medium mt-6">{order.name}</h2>
         <div className={`${styles.ingredientsWrap} mt-6`}>
           <ul className={styles.ingredientsList}>
-            {ingredients
+            {filteredIngredient
               .map((ingredient, index) => (
-                <CardIngredient ingredient={ingredient} index={index} ingredientQty={ingredientQty} total={ingredients.length} key={ingredient.uniqueId} />
+                <CardIngredient
+                  ingredient={ingredient}
+                  index={index}
+                  ingredientQty={ingredientQty}
+                  total={filteredIngredient.length}
+                  key={ingredient.uniqueId}
+                />
               ))
               .slice(0, ingredientQty)}
           </ul>

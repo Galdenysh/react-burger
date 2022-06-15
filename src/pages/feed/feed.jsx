@@ -6,20 +6,26 @@ import styles from "./feed.module.scss";
 
 const Feed = () => {
   const burderData = useSelector((store) => store.burgerReducer);
+  const feedData = useSelector((store) => store.webSocketReducer);
 
   return (
     <>
-      {burderData.isLoading && <Preloader type={"preloader"} />}
-      {burderData.hasError && <Preloader type={"error"} />}
-      {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
-        <main className={styles.content}>
-          <section className={styles.container}>
-            <h1 className={`${styles.title} text text_type_main-large`}>Лента заказов</h1>
-            <CardsOrder />
-          </section>
-          <OrderBoard />
-        </main>
-      )}
+      {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} />}
+      {feedData.error && burderData.hasError && <Preloader type={"error"} />}
+      {feedData.wsConnected &&
+        !feedData.error &&
+        !!feedData.messages.length &&
+        !burderData.isLoading &&
+        !burderData.hasError &&
+        !!burderData.ingredientsData.length && (
+          <main className={styles.content}>
+            <section className={styles.container}>
+              <h1 className={`${styles.title} text text_type_main-large`}>Лента заказов</h1>
+              <CardsOrder />
+            </section>
+            <OrderBoard />
+          </main>
+        )}
     </>
   );
 };

@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./components/app/app.jsx";
 import reportWebVitals from "./reportWebVitals";
 import { rootReducer } from "./services/reducers";
+import { socketMiddleware } from "./services/middleware/socketMiddleware.js";
 import "./index.css";
 
 declare global {
@@ -16,7 +17,7 @@ declare global {
 
 const composeEnhancers = typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware("wss://norma.nomoreparties.space/orders/all")));
 
 const store = createStore(rootReducer, enhancer);
 

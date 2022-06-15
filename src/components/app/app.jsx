@@ -20,10 +20,12 @@ import Preloader from "../preloader/preloader.jsx";
 import { getCookie } from "../../utils/cookie.js";
 import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
+import { wsConnectionStart } from "../../services/actions/webSocket.js";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
   const burderData = useSelector((store) => store.burgerReducer);
+  const feedData = useSelector((store) => store.webSocketReducer);
   const location = useLocation();
   const background = location.state?.background;
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const App = () => {
         dispatch(getUserData());
       }
     });
+    dispatch(wsConnectionStart());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -112,9 +115,14 @@ const App = () => {
             path="/feed/:id"
             element={
               <Modal closePopup={closePopup}>
-                {burderData.isLoading && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
-                {burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
-                {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <OrderInfo />}
+                {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
+                {feedData.error && burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {feedData.wsConnected &&
+                  !feedData.error &&
+                  !!feedData.messages.length &&
+                  !burderData.isLoading &&
+                  !burderData.hasError &&
+                  !!burderData.ingredientsData.length && <OrderInfo />}
               </Modal>
             }
           />

@@ -1,16 +1,19 @@
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./order-info.module.scss";
 import { calcCost } from "../../utils/cost";
-import { feeds } from "../../utils/feeds";
 
 const OrderInfo = (props) => {
   const { titleStyle } = props;
-  const order = feeds.orders[0];
+  const feedData = useSelector((store) => store.webSocketReducer.messages[0]);
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const orderSelect = useParams();
+  const order = feedData.orders.filter((item) => item._id === orderSelect.id)[0];
 
   const ingredients = order.ingredients
+    .filter(Boolean)
     .map((ingredient) => {
       return (ingredient = ingredientsData.filter(({ _id }) => ingredient.includes(_id)))[0];
     })
@@ -21,18 +24,21 @@ const OrderInfo = (props) => {
   const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
   const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
 
+  const filteredIngredient = filling.slice(0);
+  if (bun) filteredIngredient.unshift(bun);
+
   return (
     <section className={styles.container}>
       <p className="text text_type_digits-default" style={titleStyle}>
         {`#${order.number}`}
       </p>
-      <h1 className="text text_type_main-medium mt-10">Black Hole Singularity острый бургер</h1>
-      <p className="text text_type_main-default mt-3" style={{ color: "#00cccc" }}>
-        {order.status}
+      <h1 className="text text_type_main-medium mt-10">{order.name}</h1>
+      <p className="text text_type_main-default mt-3" style={{ color: order.status === "done" ? "#00cccc" : "" }}>
+        {order.status === "done" ? "Выполнен" : "В работе"}
       </p>
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <ul className={`${styles.ingredientsList} mt-6 pr-6`}>
-        {ingredients.map((ingredient, index) => (
+        {filteredIngredient.map((ingredient, index) => (
           <li className={`${styles.ingredientsItem} mt-4`} key={index}>
             <div className={styles.ingredientsGradient}>
               <img className={styles.ingredientsImage} src={ingredient.image_mobile} alt={ingredient.name} />
