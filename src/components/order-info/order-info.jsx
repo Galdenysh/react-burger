@@ -6,11 +6,11 @@ import styles from "./order-info.module.scss";
 import { calcCost } from "../../utils/cost";
 
 const OrderInfo = (props) => {
-  const { titleStyle } = props;
-  const feedData = useSelector((store) => store.webSocketReducer.messages[0]);
+  const { titleStyle, data } = props;
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
   const orderSelect = useParams();
-  const order = feedData.orders.filter((item) => item._id === orderSelect.id)[0];
+  const order = data.messages[0].orders.filter((item) => item._id === orderSelect.id)[0];
+  let status;
 
   const ingredients = order.ingredients
     .filter(Boolean)
@@ -27,6 +27,14 @@ const OrderInfo = (props) => {
   const filteredIngredient = filling.slice(0);
   if (bun) filteredIngredient.unshift(bun);
 
+  if (order.status === "done") {
+    status = "Выполнен";
+  } else if (order.status === "pending") {
+    status = "В работе";
+  } else {
+    status = "Создан";
+  }
+
   return (
     <section className={styles.container}>
       <p className="text text_type_digits-default" style={titleStyle}>
@@ -34,7 +42,7 @@ const OrderInfo = (props) => {
       </p>
       <h1 className="text text_type_main-medium mt-10">{order.name}</h1>
       <p className="text text_type_main-default mt-3" style={{ color: order.status === "done" ? "#00cccc" : "" }}>
-        {order.status === "done" ? "Выполнен" : "В работе"}
+        {status}
       </p>
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <ul className={`${styles.ingredientsList} mt-6 pr-6`}>

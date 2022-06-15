@@ -10,9 +10,9 @@ const OrderBoard = () => {
     <section className={styles.orderBoard}>
       <ul className={styles.orderList}>
         <li className={`${styles.orderItem} mr-9`}>
-          <h2 className="text text_type_main-medium">Готовы:</h2>
+          <h2 className="text text_type_main-medium mb-6">Готовы:</h2>
           <ul className={styles.numberList}>
-            {ordersDone.slice(0, 5).map((order, index) => (
+            {ordersDone.slice(0, 10).map((order, index) => (
               <li className={`${styles.numberItem} text text_type_digits-default`} style={{ color: "#00cccc" }} key={index}>
                 {order.number}
               </li>
@@ -22,7 +22,7 @@ const OrderBoard = () => {
         <li className={styles.orderItem}>
           <h2 className="text text_type_main-medium">В работе:</h2>
           <ul className={styles.numberList}>
-            {ordersPending.slice(0, 5).map((order, index) => (
+            {ordersPending.slice(0, 10).map((order, index) => (
               <li className={`${styles.numberItem} text text_type_digits-default`} key={index}>
                 {order.number}
               </li>

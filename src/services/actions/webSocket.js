@@ -10,3 +10,9 @@ export const wsConnectionStart = () => {
     type: WS_CONNECTION_START,
   };
 };
+
+export const wsConnectionClosed = () => {
+  return {
+    type: WS_CONNECTION_CLOSED,
+  };
+};

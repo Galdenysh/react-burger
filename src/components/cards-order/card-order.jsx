@@ -7,11 +7,12 @@ import { calcCost } from "../../utils/cost";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CardOrder = (props) => {
-  const { order } = props;
+  const { order, auth } = props;
   const ingredientQty = 6;
   const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
   const navigate = useNavigate();
   const location = useLocation();
+  let status;
 
   const ingredients = order.ingredients
     .filter(Boolean)
@@ -28,8 +29,16 @@ const CardOrder = (props) => {
   const filteredIngredient = filling.slice(0);
   if (bun) filteredIngredient.unshift(bun);
 
+  if (order.status === "done") {
+    status = "Выполнен";
+  } else if (order.status === "pending") {
+    status = "В работе";
+  } else {
+    status = "Создан";
+  }
+
   const openPopup = () => {
-    navigate(`/feed/${order._id}`, { state: { background: location } });
+    navigate(`${location.pathname}/${order._id}`, { state: { background: location } });
   };
 
   return (
@@ -40,6 +49,11 @@ const CardOrder = (props) => {
           <p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
         </div>
         <h2 className="text text_type_main-medium mt-6">{order.name}</h2>
+        {auth && (
+          <p className="text text_type_main-default mt-2" style={{ color: order.status === "done" ? "#00cccc" : "" }}>
+            {status}
+          </p>
+        )}
         <div className={`${styles.ingredientsWrap} mt-6`}>
           <ul className={styles.ingredientsList}>
             {filteredIngredient

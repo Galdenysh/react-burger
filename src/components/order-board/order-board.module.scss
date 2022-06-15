@@ -19,13 +19,14 @@
   max-height: calc(152px + var(--offset-base-size) * 6);
   overflow: hidden;
   list-style-type: none;
+  columns: 2;
 }
 
 .numberItem {
   margin-top: calc(var(--offset-base-size) * 2);
 
   &:first-child {
-    margin-top: calc(var(--offset-base-size) * 6);
+    margin-top: 0;
   }
 }
 
