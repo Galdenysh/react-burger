@@ -4,7 +4,7 @@ import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-co
 import DropTargetIngredients from "./drop-target-ingredients";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
-import { calcCost } from "../../utils/cost";
+import { calcCost } from "../../utils/funcs";
 
 const BurgerConstructor = (props) => {
   const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);

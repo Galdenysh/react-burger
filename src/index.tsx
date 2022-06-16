@@ -1,29 +1,10 @@
 import { createRoot } from "react-dom/client";
-import { legacy_createStore as createStore, compose, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./components/app/app.jsx";
 import reportWebVitals from "./reportWebVitals";
-import { rootReducer } from "./services/reducers";
-import { socketMiddleware } from "./services/middleware/socketMiddleware.js";
-import { socketMiddlewareAuth } from "./services/middleware/socketMiddlewareAuth.js";
 import "./index.css";
-
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
-
-const composeEnhancers = typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-
-const wsUrl = "wss://norma.nomoreparties.space/orders/all";
-const wsUrlAuth = "wss://norma.nomoreparties.space/orders";
-
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl), socketMiddlewareAuth(wsUrlAuth)));
-
-const store = createStore(rootReducer, enhancer);
+import { store } from "./services/store";
 
 const container = document.getElementById("root");
 // @ts-ignore

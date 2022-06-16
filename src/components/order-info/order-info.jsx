@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./order-info.module.scss";
-import { calcCost } from "../../utils/cost";
+import { calcCost, dateParse } from "../../utils/funcs";
 
 const OrderInfo = (props) => {
   const { titleStyle, wsAuth } = props;
@@ -62,7 +62,7 @@ const OrderInfo = (props) => {
         ))}
       </ul>
       <div className={`${styles.priceWrap} mt-10`}>
-        <p className="text text_type_main-default text_color_inactive">{order.createdAt}</p>
+        <p className="text text_type_main-default text_color_inactive">{dateParse(order.createdAt)}</p>
         <p className={`${styles.priceText} text text_type_digits-default mr-2`}>{calcCost(bun, filling)}</p>
         <CurrencyIcon type="primary" />
       </div>

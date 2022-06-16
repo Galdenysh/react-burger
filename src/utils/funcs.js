@@ -14,3 +14,12 @@ export const calcCost = (bunSelect, fillingSelect) => {
 
   return bunCost + fillingCost;
 };
+
+export const dateParse = (createdAt) => {
+  const dateObj = new Date(createdAt);
+  const date = dateObj.toLocaleDateString();
+  const time = dateObj.toLocaleTimeString().slice(0, -3);
+  const zone = (dateObj.getTimezoneOffset() / 60) * -1;
+
+  return `${date}, ${time} i-GMT+${zone}`;
+};
