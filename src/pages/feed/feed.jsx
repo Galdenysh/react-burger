@@ -21,8 +21,8 @@ const Feed = () => {
 
   return (
     <>
-      {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} />}
-      {feedData.error && burderData.hasError && <Preloader type={"error"} />}
+      {(!feedData.wsConnected || burderData.isLoading || !feedData.messages.length) && <Preloader type={"preloader"} />}
+      {(feedData.error || burderData.hasError) && <Preloader type={"error"} />}
       {feedData.wsConnected &&
         !feedData.error &&
         !!feedData.messages.length &&

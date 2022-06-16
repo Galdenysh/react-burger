@@ -122,8 +122,10 @@ const App = () => {
             path="/feed/:id"
             element={
               <Modal closePopup={closePopup}>
-                {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
-                {feedData.error && burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {(!feedData.wsConnected || burderData.isLoading || !feedData.messages.length) && (
+                  <Preloader type={"preloader"} style={{ minHeight: "506px" }} />
+                )}
+                {(feedData.error || burderData.hasError) && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
                 {feedData.wsConnected &&
                   !feedData.error &&
                   !!feedData.messages.length &&
@@ -137,10 +139,10 @@ const App = () => {
             path="/profile/orders/:id"
             element={
               <Modal closePopup={closePopup}>
-                {!feedDataAuth.wsConnected && burderData.isLoading && !feedDataAuth.messages.length && (
+                {(!feedDataAuth.wsConnected || burderData.isLoading || !feedDataAuth.messages.length) && (
                   <Preloader type={"preloader"} style={{ minHeight: "506px" }} />
                 )}
-                {feedDataAuth.error && burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {(feedDataAuth.error || burderData.hasError) && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
                 {feedDataAuth.wsConnected &&
                   !feedDataAuth.error &&
                   !!feedDataAuth.messages.length &&

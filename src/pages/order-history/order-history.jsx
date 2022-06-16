@@ -19,16 +19,22 @@ const OrderHistory = () => {
   }, []);
 
   return (
-    <section className={styles.container}>
-      {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} />}
-      {feedData.error && burderData.hasError && <Preloader type={"error"} />}
+    <>
+      {(!feedData.wsConnected || burderData.isLoading || !feedData.messages.length) && (
+        <Preloader type={"preloader"} style={{ width: "480px", marginTop: "-160px" }} />
+      )}
+      {(feedData.error || burderData.hasError) && <Preloader type={"error"} style={{ width: "480px", marginTop: "-160px" }} />}
       {feedData.wsConnected &&
         !feedData.error &&
         !!feedData.messages.length &&
         !burderData.isLoading &&
         !burderData.hasError &&
-        !!burderData.ingredientsData.length && <CardsOrder wsAuth={true} />}
-    </section>
+        !!burderData.ingredientsData.length && (
+          <section className={styles.container}>
+            <CardsOrder wsAuth={true} />
+          </section>
+        )}
+    </>
   );
 };
 

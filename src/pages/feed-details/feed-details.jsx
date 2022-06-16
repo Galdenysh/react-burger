@@ -25,8 +25,8 @@ const FeedDetails = (props) => {
 
   return (
     <>
-      {!data.wsConnected && burderData.isLoading && <Preloader type={"preloader"} />}
-      {data.error && burderData.hasError && <Preloader type={"error"} />}
+      {(!data.wsConnected || burderData.isLoading) && <Preloader type={"preloader"} />}
+      {(data.error || burderData.hasError) && <Preloader type={"error"} />}
       {data.wsConnected && !data.error && !!data.messages.length && !burderData.isLoading && !burderData.hasError && !!burderData.ingredientsData.length && (
         <main className={styles.content}>
           <OrderInfo wsAuth={wsAuth} titleStyle={{ margin: "auto" }} />
