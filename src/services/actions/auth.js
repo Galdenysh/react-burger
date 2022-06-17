@@ -1,6 +1,7 @@
 import { api } from "../../components/api/api";
 import { errMessage } from "../../utils/errMessage";
 import { deleteCookie, setCookie } from "../../utils/cookie";
+import { wsConnectionClosedAuth, wsConnectionStartAuth } from "./webSocketAuth";
 
 export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
@@ -114,9 +115,10 @@ export const login = (email, password) => {
           }
 
           dispatch(loggedIn());
-          dispatch(getAuthStatusLoaded);
+          dispatch(getAuthStatusLoaded());
           dispatch({ type: SET_USER_DATA, payload: res.user });
           dispatch(getUserStatusLoaded());
+          dispatch(wsConnectionStartAuth());
         }
       })
       .catch((err) => {
@@ -137,6 +139,7 @@ export const logout = () => {
           deleteCookie("accessToken", null, { expires: -1 });
           deleteCookie("refreshToken", null, { expires: -1 });
           dispatch(loggedOut());
+          dispatch(wsConnectionClosedAuth());
         }
       })
       .catch((err) => {
@@ -193,7 +196,7 @@ export const setRefreshToken = () => {
   return (dispatch) => {
     dispatch(setAuthCheck(false));
 
-    api
+    return api
       .setRefreshToken()
       .then((res) => {
         if (res.success) {

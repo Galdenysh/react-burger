@@ -42,20 +42,20 @@ const Main = () => {
 
   return (
     <>
-      <main className={styles.content}>
-        {burderData.isLoading && <Preloader type={"preloader"} />}
-        {burderData.hasError && <Preloader type={"error"} />}
-        {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
+      {burderData.isLoading && <Preloader type={"preloader"} />}
+      {burderData.hasError && <Preloader type={"error"} />}
+      {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && (
+        <main className={styles.content}>
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
             <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
           </DndProvider>
-        )}
-      </main>
+        </main>
+      )}
 
       {visibleOrder && !orderData.isLoading && (
         <Modal closePopup={closePopup}>
-          {orderData.hasError && <Preloader type={"error"} />}
+          {orderData.hasError && <Preloader type={"error"} style={{ minHeight: "718px" }} />}
           {!orderData.hasError && <OrderDetails orderNumber={orderData.orderData} />}
         </Modal>
       )}

@@ -1,0 +1,35 @@
+.orderBoard {
+  padding-top: 100px;
+  min-width: 580px;
+}
+
+.orderList {
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  list-style-type: none;
+}
+
+.orderItem {
+  min-width: 272px;
+}
+
+.numberList {
+  padding-left: 0;
+  max-height: calc(152px + var(--offset-base-size) * 6);
+  overflow: hidden;
+  list-style-type: none;
+  columns: 2;
+}
+
+.numberItem {
+  margin-top: calc(var(--offset-base-size) * 2);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.totalText {
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}

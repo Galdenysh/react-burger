@@ -5,7 +5,7 @@ import styles from "./app-header.module.scss";
 
 const links = {
   main: "/",
-  order: "/orders",
+  order: "/feed",
   profile: "/profile",
 };
 
@@ -17,8 +17,8 @@ const AppHeader = () => {
 
   useEffect(() => {
     location.pathname === links.main ? setConstructorIconState("primary") : setConstructorIconState("secondary");
-    location.pathname === links.order ? setOrderIconState("primary") : setOrderIconState("secondary");
-    location.pathname === links.profile ? setProfileIconState("primary") : setProfileIconState("secondary");
+    location.pathname.includes(links.order) ? setOrderIconState("primary") : setOrderIconState("secondary");
+    location.pathname.includes(links.profile) ? setProfileIconState("primary") : setProfileIconState("secondary");
   }, [location]);
 
   const setActive = ({ isActive }) => {
@@ -48,7 +48,7 @@ const AppHeader = () => {
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
             <ProfileIcon type={profileIconState} />
-            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.profile}>
+            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.profile} exact="true">
               Личный кабинет
             </NavLink>
           </li>

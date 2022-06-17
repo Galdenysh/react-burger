@@ -13,14 +13,19 @@ import Main from "../../pages/main/main.jsx";
 import ProtectedRoute from "../protected-route/protected-route.jsx";
 import Modal from "../modal/modal.jsx";
 import IngredientDetails from "../ingredient-details/ingredient-details.jsx";
+import Feed from "../../pages/feed/feed.jsx";
+import FeedDetails from "../../pages/feed-details/feed-details.jsx";
+import OrderInfo from "../order-info/order-info.jsx";
 import Preloader from "../preloader/preloader.jsx";
 import { getCookie } from "../../utils/cookie.js";
-import { getUserData, setRefreshToken } from "../../services/actions/auth.js";
+import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth.js";
 import { getIngredients } from "../../services/actions/burger.js";
 
 const App = () => {
   const userData = useSelector((store) => store.authReducer);
   const burderData = useSelector((store) => store.burgerReducer);
+  const feedData = useSelector((store) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
   const location = useLocation();
   const background = location.state?.background;
   const navigate = useNavigate();
@@ -31,12 +36,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    dispatch(setRefreshToken());
+    dispatch(setAuthCheck(false));
     dispatch(getIngredients());
+    dispatch(setRefreshToken()).then(() => {
+      if (getCookie("accessToken")) {
+        dispatch(getUserData());
+      }
+    });
 
-    if (getCookie("accessToken")) {
-      dispatch(getUserData());
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,14 +85,24 @@ const App = () => {
           }
         />
         <Route
-          path="/profile"
+          path="/profile/*"
           element={
             <ProtectedRoute anonymous={false}>
               <Profile />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <ProtectedRoute anonymous={false}>
+              <FeedDetails wsAuth={true} />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/ingredients/:id" element={<Ingredients />} />
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<FeedDetails wsAuth={false} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
@@ -98,6 +115,38 @@ const App = () => {
                 {burderData.isLoading && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
                 {burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
                 {!burderData.isLoading && !burderData.hasError && burderData.ingredientsData.length && <IngredientDetails />}
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal closePopup={closePopup}>
+                {!feedData.wsConnected && burderData.isLoading && !feedData.messages.length && <Preloader type={"preloader"} style={{ minHeight: "506px" }} />}
+                {feedData.error && burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {feedData.wsConnected &&
+                  !feedData.error &&
+                  !!feedData.messages.length &&
+                  !burderData.isLoading &&
+                  !burderData.hasError &&
+                  !!burderData.ingredientsData.length && <OrderInfo wsAuth={false} />}
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal closePopup={closePopup}>
+                {!feedDataAuth.wsConnected && burderData.isLoading && !feedDataAuth.messages.length && (
+                  <Preloader type={"preloader"} style={{ minHeight: "506px" }} />
+                )}
+                {feedDataAuth.error && burderData.hasError && <Preloader type={"error"} style={{ minHeight: "506px" }} />}
+                {feedDataAuth.wsConnected &&
+                  !feedDataAuth.error &&
+                  !!feedDataAuth.messages.length &&
+                  !burderData.isLoading &&
+                  !burderData.hasError &&
+                  !!burderData.ingredientsData.length && <OrderInfo wsAuth={true} />}
               </Modal>
             }
           />

@@ -4,6 +4,7 @@ import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-co
 import DropTargetIngredients from "./drop-target-ingredients";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
+import { calcCost } from "../../utils/funcs";
 
 const BurgerConstructor = (props) => {
   const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
@@ -18,15 +19,6 @@ const BurgerConstructor = (props) => {
 
   const redirection = () => {
     navigate("/login");
-  };
-
-  const calcCost = (bunSelect, fillingSelect) => {
-    let bunCost;
-
-    Object.keys(bunSelect).length === 0 ? (bunCost = 0) : (bunCost = bunSelect.price * 2);
-    const fillingCost = fillingSelect.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0);
-
-    return bunCost + fillingCost;
   };
 
   return (
