@@ -1,35 +1,47 @@
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
-import DraggableConstructorIngredient from "./darggable-constructor-ingredient.jsx";
+import DraggableConstructorIngredient from "./darggable-constructor-ingredient";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { addBunIngredient, addFillingIngredient, increaseFillingIngredient, setFillingIngredient } from "../../services/actions/burger.js";
 import ingredientsPropTypes from "../../utils/types.js";
 import bunImage from "../../images/bun.png";
 
-const DropTargetIngredients = (props) => {
+interface IDropTargetIngredient {
+  bunSelect: any;
+  fillingSelect: any;
+}
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
+const DropTargetIngredients: FC<IDropTargetIngredient> = (props) => {
   const { bunSelect, fillingSelect } = props;
 
-  const [, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop<DragItem>({
     accept: "ingredient",
-    drop: (itemId) => onDropHandler(itemId.id),
+    drop: (item: DragItem) => onDropHandler(item.id),
   });
   const dispatch = useDispatch();
-  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
 
-  const onDropHandler = (itemId) => {
-    const ingredientTarget = ingredientsData.filter((ingredient) => itemId === ingredient._id);
+  const onDropHandler = (itemId: string) => {
+    const ingredientTarget = ingredientsData.filter((ingredient: any) => itemId === ingredient._id);
     const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: uuidv4() };
 
-    // eslint-disable-next-line no-unused-expressions
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     ingredientTargetWithId.type === "bun"
       ? dispatch(addBunIngredient(ingredientTargetWithId))
       : (dispatch(addFillingIngredient(ingredientTargetWithId)), dispatch(increaseFillingIngredient(itemId)));
   };
 
-  const moveIngredient = (dragIndex, hoverIndex) => {
+  const moveIngredient = (dragIndex: number, hoverIndex: number) => {
     const newFillingSelect = [...fillingSelect];
     const dragItem = newFillingSelect.splice(dragIndex, 1);
     newFillingSelect.splice(hoverIndex, 0, dragItem[0]);
@@ -58,7 +70,7 @@ const DropTargetIngredients = (props) => {
             </p>
           </>
         )}
-        {fillingSelect.map((ingredient, index) => (
+        {fillingSelect.map((ingredient: any, index: number) => (
           <DraggableConstructorIngredient ingredient={ingredient} index={index} moveIngredient={moveIngredient} key={ingredient.constructorId} />
         ))}
       </ul>

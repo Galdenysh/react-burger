@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients.jsx";
-import BurgerConstructor from "../../components/burger-constructor/burger-constructor.jsx";
+import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import Modal from "../../components/modal/modal.jsx";
 import OrderDetails from "../../components/order-details/order-details.jsx";
 import Preloader from "../../components/preloader/preloader.jsx";
@@ -11,7 +11,7 @@ import styles from "./main.module.scss";
 import { getOrder } from "../../services/actions/order.js";
 
 const Main = () => {
-  const [newOrder, setNewOrder] = useState(false);
+  const [toggleOrder, setToggleOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const isInitialMount = useRef(true);
 
@@ -38,7 +38,7 @@ const Main = () => {
       setVisibleOrder(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newOrder]);
+  }, [toggleOrder]);
 
   return (
     <>
@@ -48,7 +48,7 @@ const Main = () => {
         <main className={styles.content}>
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
-            <BurgerConstructor newOrder={newOrder} setNewOrder={setNewOrder} />
+            <BurgerConstructor toggleOrder={toggleOrder} setToggleOrder={setToggleOrder} />
           </DndProvider>
         </main>
       )}

@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,15 +7,21 @@ import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { calcCost } from "../../utils/funcs";
 
-const BurgerConstructor = (props) => {
-  const bunSelect = useSelector((store) => store.burgerReducer.bunSelect);
-  const fillingSelect = useSelector((store) => store.burgerReducer.fillingSelect);
-  const orderData = useSelector((store) => store.orderReducer);
-  const userData = useSelector((store) => store.authReducer);
+interface IBurgerConstructorProps {
+  toggleOrder: boolean;
+  setToggleOrder: any;
+}
+
+const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
+  const { toggleOrder, setToggleOrder } = props;
+  const bunSelect = useSelector((store: any) => store.burgerReducer.bunSelect);
+  const fillingSelect = useSelector((store: any) => store.burgerReducer.fillingSelect);
+  const orderData = useSelector((store: any) => store.orderReducer);
+  const userData = useSelector((store: any) => store.authReducer);
   const navigate = useNavigate();
 
   const openPopup = () => {
-    props.setNewOrder(!props.newOrder);
+    setToggleOrder(!toggleOrder);
   };
 
   const redirection = () => {
@@ -43,8 +50,8 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  newOrder: PropTypes.bool.isRequired,
-  setNewOrder: PropTypes.func.isRequired,
+  toggleOrder: PropTypes.bool.isRequired,
+  setToggleOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

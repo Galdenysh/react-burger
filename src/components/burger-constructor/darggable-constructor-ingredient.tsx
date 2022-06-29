@@ -1,15 +1,28 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
+import type { Identifier, XYCoord } from "dnd-core";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger.js";
 import ingredientsPropTypes from "../../utils/types";
 
-const DraggableConstructorIngredient = (props) => {
+interface IDraggableConstructorIngredientProps {
+  ingredient: any;
+  index: number;
+  moveIngredient: any;
+}
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
+const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> = (props) => {
   const { ingredient, index, moveIngredient } = props;
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
   const [{ isDragging }, dragRef] = useDrag({
     type: "constructorIngredient",
@@ -18,12 +31,12 @@ const DraggableConstructorIngredient = (props) => {
       isDragging: monitor.isDragging(),
     }),
   });
-  const [{ handlerId }, dropRef] = useDrop({
+  const [{ handlerId }, dropRef] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: "constructorIngredient",
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
     }),
-    hover(item, monitor) {
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -37,7 +50,7 @@ const DraggableConstructorIngredient = (props) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -53,7 +66,7 @@ const DraggableConstructorIngredient = (props) => {
     },
   });
 
-  const remove = (ingredient) => {
+  const remove = (ingredient: any) => {
     dispatch(removeFillingIngredient(ingredient.constructorId));
     dispatch(decreaseFillingIngredient(ingredient._id));
   };
