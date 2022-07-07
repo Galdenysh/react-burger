@@ -3,13 +3,12 @@ import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger.js";
-import ingredientsPropTypes from "../../utils/types";
+import { IIngredient } from "../../utils/types";
 
 interface IDraggableConstructorIngredientProps {
-  ingredient: any;
+  ingredient: IIngredient;
   index: number;
   moveIngredient: any;
 }
@@ -66,7 +65,7 @@ const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> =
     },
   });
 
-  const remove = (ingredient: any) => {
+  const remove = (ingredient: IIngredient) => {
     dispatch(removeFillingIngredient(ingredient.constructorId));
     dispatch(decreaseFillingIngredient(ingredient._id));
   };
@@ -74,7 +73,12 @@ const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> =
   dragRef(dropRef(ref));
 
   return (
-    <li className={styles.ingredientsItem} style={{ opacity: isDragging ? "0" : "1" }} ref={ref} data-handler-id={handlerId}>
+    <li
+      className={styles.ingredientsItem}
+      style={{ opacity: isDragging ? "0" : "1" }}
+      ref={ref}
+      data-handler-id={handlerId}
+    >
       <div className={"mr-2"}>
         <DragIcon type="primary" />
       </div>
@@ -87,12 +91,6 @@ const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> =
       />
     </li>
   );
-};
-
-DraggableConstructorIngredient.propTypes = {
-  ingredient: ingredientsPropTypes.isRequired,
-  index: PropTypes.number.isRequired,
-  moveIngredient: PropTypes.func.isRequired,
 };
 
 export default DraggableConstructorIngredient;

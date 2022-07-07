@@ -4,15 +4,19 @@ import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import DraggableConstructorIngredient from "./darggable-constructor-ingredient";
-import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
-import { addBunIngredient, addFillingIngredient, increaseFillingIngredient, setFillingIngredient } from "../../services/actions/burger.js";
-import ingredientsPropTypes from "../../utils/types.js";
+import {
+  addBunIngredient,
+  addFillingIngredient,
+  increaseFillingIngredient,
+  setFillingIngredient,
+} from "../../services/actions/burger.js";
 import bunImage from "../../images/bun.png";
+import { IIngredient } from "../../utils/types";
 
 interface IDropTargetIngredient {
-  bunSelect: any;
-  fillingSelect: any;
+  bunSelect: IIngredient;
+  fillingSelect: IIngredient[];
 }
 
 interface DragItem {
@@ -32,7 +36,7 @@ const DropTargetIngredients: FC<IDropTargetIngredient> = (props) => {
   const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
 
   const onDropHandler = (itemId: string) => {
-    const ingredientTarget = ingredientsData.filter((ingredient: any) => itemId === ingredient._id);
+    const ingredientTarget = ingredientsData.filter((ingredient: IIngredient) => itemId === ingredient._id);
     const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: uuidv4() };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -53,42 +57,72 @@ const DropTargetIngredients: FC<IDropTargetIngredient> = (props) => {
     <div className={styles.elements} ref={dropTarget}>
       <div className={`${styles.ingredientElement} ml-2`}>
         {Object.keys(bunSelect).length !== 0 && (
-          <ConstructorElement type="top" isLocked={true} text={`${bunSelect.name} (верх)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${bunSelect.name} (верх)`}
+            price={bunSelect.price}
+            thumbnail={bunSelect.image}
+          />
         )}
         {Object.keys(bunSelect).length === 0 && (
-          <ConstructorElement type="top" isLocked={true} text="Пожалуйста, перенесите сюда булку для создания заказа" price={0} thumbnail={bunImage} />
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text="Пожалуйста, перенесите сюда булку для создания заказа"
+            price={0}
+            thumbnail={bunImage}
+          />
         )}
       </div>
       <ul className={`${styles.ingredientsList} pr-2`}>
         {!fillingSelect.length && (
           <>
-            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`} style={{ opacity: "0.4" }}>
+            <p
+              className={`${styles.emptyList} text text_type_main-default text_color_inactive`}
+              style={{ opacity: "0.4" }}
+            >
               Здесь пусто.
             </p>
-            <p className={`${styles.emptyList} text text_type_main-default text_color_inactive`} style={{ opacity: "0.4" }}>
+            <p
+              className={`${styles.emptyList} text text_type_main-default text_color_inactive`}
+              style={{ opacity: "0.4" }}
+            >
               Вы можете добавить ингредиенты в список, перетащив их карточку из корзины сюда.
             </p>
           </>
         )}
-        {fillingSelect.map((ingredient: any, index: number) => (
-          <DraggableConstructorIngredient ingredient={ingredient} index={index} moveIngredient={moveIngredient} key={ingredient.constructorId} />
+        {fillingSelect.map((ingredient: IIngredient, index: number) => (
+          <DraggableConstructorIngredient
+            ingredient={ingredient}
+            index={index}
+            moveIngredient={moveIngredient}
+            key={ingredient.constructorId}
+          />
         ))}
       </ul>
       <div className={`${styles.ingredientElement} ml-2`}>
         {Object.keys(bunSelect).length !== 0 && (
-          <ConstructorElement type="bottom" isLocked={true} text={`${bunSelect.name} (низ)`} price={bunSelect.price} thumbnail={bunSelect.image} />
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${bunSelect.name} (низ)`}
+            price={bunSelect.price}
+            thumbnail={bunSelect.image}
+          />
         )}
         {Object.keys(bunSelect).length === 0 && (
-          <ConstructorElement type="bottom" isLocked={true} text="Пожалуйста, перенесите сюда булку для создания заказа" price={0} thumbnail={bunImage} />
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text="Пожалуйста, перенесите сюда булку для создания заказа"
+            price={0}
+            thumbnail={bunImage}
+          />
         )}
       </div>
     </div>
   );
-};
-
-DropTargetIngredients.propTypes = {
-  bunSelect: PropTypes.object.isRequired,
-  fillingSelect: PropTypes.arrayOf(ingredientsPropTypes),
 };
 
 export default DropTargetIngredients;

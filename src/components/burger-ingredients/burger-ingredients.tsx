@@ -1,19 +1,20 @@
-import { useState, useRef, FC } from "react";
+import { useState, useRef, FC, RefObject } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import DraggableIngredient from "./draggable-ingredient";
 import styles from "./burger-ingredients.module.scss";
+import { IIngredient } from "../../utils/types";
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState("bun");
   const containerRef = useRef<HTMLDivElement>(null);
-  const bunRef = useRef<HTMLDivElement>(null);
-  const sauceRef = useRef<HTMLDivElement>(null);
-  const mainRef = useRef<HTMLDivElement>(null);
+  const bunRef = useRef<HTMLUListElement>(null);
+  const sauceRef = useRef<HTMLUListElement>(null);
+  const mainRef = useRef<HTMLUListElement>(null);
   const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
 
-  const onTabClick = (ref: any) => {
-    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  const onTabClick = (ref: RefObject<HTMLUListElement>) => {
+    ref.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   };
 
   const onContainterScroll = () => {
@@ -67,23 +68,20 @@ const BurgerIngredients: FC = () => {
       </div>
       <div className={styles.container} onScroll={onContainterScroll} ref={containerRef}>
         {ingredientsList(
-          ingredientsData.filter((item: any) => item.type === "bun"), // Получаем массив с булками
+          ingredientsData.filter((item: IIngredient) => item.type === "bun"), // Получаем массив с булками
           "Булки",
-
           bunRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item: any) => item.type === "sauce"), // Получаем массив с соусами
+          ingredientsData.filter((item: IIngredient) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
-
           sauceRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item: any) => item.type === "main"), // Получаем массив с начинками
+          ingredientsData.filter((item: IIngredient) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
-
           mainRef
         )}
       </div>
@@ -91,12 +89,12 @@ const BurgerIngredients: FC = () => {
   );
 };
 
-const ingredientsList = (ingredients: any, type: string, tabRef: any) => {
+const ingredientsList = (ingredients: IIngredient[], type: string, tabRef: RefObject<HTMLUListElement>) => {
   return (
     <ul className={styles.ingredientsWrap} ref={tabRef}>
       <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
-        {ingredients.map((ingredient: any) => (
+        {ingredients.map((ingredient: IIngredient) => (
           <DraggableIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </ul>

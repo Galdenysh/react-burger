@@ -3,10 +3,10 @@ import { useDrag } from "react-dnd";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import ingredientsPropTypes from "../../utils/types";
+import { IIngredient } from "../../utils/types";
 
 interface IDraggableIngredientProps {
-  ingredient: any;
+  ingredient: IIngredient;
 }
 
 const DraggableIngredient: FC<IDraggableIngredientProps> = (props) => {
@@ -32,7 +32,7 @@ const DraggableIngredient: FC<IDraggableIngredientProps> = (props) => {
       onClick={openPopup}
       ref={dragRef}
     >
-      {ingredient.qty > 0 && <Counter count={ingredient.qty} size="default" />}
+      {ingredient.qty ? ingredient.qty > 0 && <Counter count={ingredient.qty} size="default" /> : <></>}
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={styles.price}>
         <p className="text text_type_digits-default mt-2 mr-2">{ingredient.price}</p>
@@ -41,10 +41,6 @@ const DraggableIngredient: FC<IDraggableIngredientProps> = (props) => {
       <p className="text text_type_main-default mt-2">{ingredient.name}</p>
     </li>
   );
-};
-
-DraggableIngredient.propTypes = {
-  ingredient: ingredientsPropTypes.isRequired,
 };
 
 export default DraggableIngredient;
