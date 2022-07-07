@@ -1,25 +1,25 @@
-import { useState, useRef } from "react";
+import { useState, useRef, FC } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import DraggableIngredient from "./draggable-ingredient.jsx";
+import DraggableIngredient from "./draggable-ingredient";
 import styles from "./burger-ingredients.module.scss";
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState("bun");
-  const containerRef = useRef(null);
-  const bunRef = useRef(null);
-  const sauceRef = useRef(null);
-  const mainRef = useRef(null);
-  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
 
-  const onTabClick = (ref) => {
+  const onTabClick = (ref: any) => {
     ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
   };
 
   const onContainterScroll = () => {
-    const scrollTop = containerRef.current.scrollTop;
-    const bunHeight = bunRef.current.clientHeight;
-    const sauceHeight = sauceRef.current.clientHeight;
+    const scrollTop = containerRef.current?.scrollTop || 0;
+    const bunHeight = bunRef.current?.clientHeight || 0;
+    const sauceHeight = sauceRef.current?.clientHeight || 0;
 
     if (scrollTop < bunHeight / 2) {
       setCurrent("bun");
@@ -67,21 +67,21 @@ const BurgerIngredients = () => {
       </div>
       <div className={styles.container} onScroll={onContainterScroll} ref={containerRef}>
         {ingredientsList(
-          ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
+          ingredientsData.filter((item: any) => item.type === "bun"), // Получаем массив с булками
           "Булки",
 
           bunRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
+          ingredientsData.filter((item: any) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
 
           sauceRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
+          ingredientsData.filter((item: any) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
 
           mainRef
@@ -91,12 +91,12 @@ const BurgerIngredients = () => {
   );
 };
 
-const ingredientsList = (ingredients, type, tabRef) => {
+const ingredientsList = (ingredients: any, type: string, tabRef: any) => {
   return (
     <ul className={styles.ingredientsWrap} ref={tabRef}>
       <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
-        {ingredients.map((ingredient) => (
+        {ingredients.map((ingredient: any) => (
           <DraggableIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </ul>

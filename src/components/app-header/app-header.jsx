@@ -48,7 +48,12 @@ const AppHeader = () => {
         <ul className={styles.list}>
           <li className={`${styles.listItem} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`}>
             <ProfileIcon type={profileIconState} />
-            <NavLink className={`${styles.link} text text_type_main-default ml-2`} style={setActive} to={links.profile} exact="true">
+            <NavLink
+              className={`${styles.link} text text_type_main-default ml-2`}
+              style={setActive}
+              to={links.profile}
+              exact="true"
+            >
               Личный кабинет
             </NavLink>
           </li>

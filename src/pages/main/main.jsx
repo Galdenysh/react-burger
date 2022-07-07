@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients.jsx";
+import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import Modal from "../../components/modal/modal.jsx";
 import OrderDetails from "../../components/order-details/order-details.jsx";

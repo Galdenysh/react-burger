@@ -1,10 +1,15 @@
+import { FC } from "react";
 import { useDrag } from "react-dnd";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import ingredientsPropTypes from "../../utils/types";
 
-const DraggableIngredient = (props) => {
+interface IDraggableIngredientProps {
+  ingredient: any;
+}
+
+const DraggableIngredient: FC<IDraggableIngredientProps> = (props) => {
   const { ingredient } = props;
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,7 +26,12 @@ const DraggableIngredient = (props) => {
   };
 
   return (
-    <li className={`${styles.ingredientsItem}`} style={{ cursor: isDragging ? "grabbing" : "grab" }} onClick={openPopup} ref={dragRef}>
+    <li
+      className={`${styles.ingredientsItem}`}
+      style={{ cursor: isDragging ? "grabbing" : "grab" }}
+      onClick={openPopup}
+      ref={dragRef}
+    >
       {ingredient.qty > 0 && <Counter count={ingredient.qty} size="default" />}
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={styles.price}>
