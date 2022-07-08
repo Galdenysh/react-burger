@@ -1,7 +1,15 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
+import { IIngredient } from "../../utils/types";
 import styles from "./cards-order.module.scss";
 
-const CardIngredient = (props) => {
+interface ICardIngredientProps {
+  ingredient: IIngredient;
+  index: number;
+  ingredientQty: number;
+  total: number;
+}
+
+const CardIngredient: FC<ICardIngredientProps> = (props) => {
   const { ingredient, index, ingredientQty, total } = props;
   const remainder = total - ingredientQty;
 
@@ -22,13 +30,6 @@ const CardIngredient = (props) => {
       </li>
     </>
   );
-};
-
-CardIngredient.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  ingredientQty: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
 };
 
 export default CardIngredient;

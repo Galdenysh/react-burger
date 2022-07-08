@@ -1,31 +1,37 @@
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import CardIngredient from "./card-ingredient";
 import styles from "./cards-order.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
+import { IIngredient, IOrder } from "../../utils/types";
 
-const CardOrder = (props) => {
+interface ICardOrderProps {
+  order: IOrder;
+  wsAuth: boolean;
+}
+
+const CardOrder: FC<ICardOrderProps> = (props) => {
   const { order, wsAuth } = props;
   const ingredientQty = 6;
-  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
+  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
   const navigate = useNavigate();
   const location = useLocation();
   let status;
 
   const ingredients = order.ingredients
     .filter(Boolean)
-    .map((ingredient) => {
-      return (ingredient = ingredientsData.filter(({ _id }) => ingredient.includes(_id)))[0];
+    .map((ingredientId: string) => {
+      return ingredientsData.filter(({ _id }: any) => ingredientId.includes(_id))[0];
     })
-    .map((ingredient) => {
+    .map((ingredient: IIngredient) => {
       return { ...ingredient, uniqueId: uuidv4() };
     });
 
-  const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
-  const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
+  const bun = ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun")[0];
+  const filling = ingredients.filter((ingredient: IIngredient) => ingredient.type !== "bun");
 
   const filteredIngredient = filling.slice(0);
   if (bun) filteredIngredient.unshift(bun);
@@ -58,7 +64,7 @@ const CardOrder = (props) => {
         <div className={`${styles.ingredientsWrap} mt-6`}>
           <ul className={styles.ingredientsList}>
             {filteredIngredient
-              .map((ingredient, index) => (
+              .map((ingredient: IIngredient, index: number) => (
                 <CardIngredient
                   ingredient={ingredient}
                   index={index}
@@ -75,11 +81,6 @@ const CardOrder = (props) => {
       </li>
     </>
   );
-};
-
-CardOrder.propTypes = {
-  order: PropTypes.object.isRequired,
-  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default CardOrder;
