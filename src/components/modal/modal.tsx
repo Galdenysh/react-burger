@@ -1,16 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, FC, ReactNode } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from "./modal.module.scss";
 
-const modalRoot = document.getElementById("react-modals");
+const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-const Modal = (props) => {
+interface IModalProps {
+  closePopup: any;
+  children: ReactNode;
+}
+
+const Modal: FC<IModalProps> = (props) => {
   const { closePopup, children } = props;
 
-  const closePopupEsc = (evt) => {
+  const closePopupEsc = (evt: KeyboardEvent) => {
     if (evt.key === "Escape") {
       closePopup();
     }
@@ -37,11 +41,6 @@ const Modal = (props) => {
     </section>,
     modalRoot
   );
-};
-
-Modal.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.array.isRequired]),
-  closePopup: PropTypes.func.isRequired,
 };
 
 export default Modal;
