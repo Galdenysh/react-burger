@@ -1,13 +1,18 @@
+import { FC, CSSProperties } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.scss";
+import { IIngredient } from "../../utils/types";
 
-const IngredientDetails = (props) => {
+interface IIngredientDetailsProps {
+  titleStyle: CSSProperties;
+}
+
+const IngredientDetails: FC<IIngredientDetailsProps> = (props) => {
   const { titleStyle } = props;
-  const ingredients = useSelector((store) => store.burgerReducer.ingredientsData);
+  const ingredients = useSelector((store: any) => store.burgerReducer.ingredientsData);
   const ingredientSelect = useParams();
-  const ingredient = ingredients.filter((item) => item._id === ingredientSelect.id);
+  const ingredient = ingredients.filter((item: IIngredient) => item._id === ingredientSelect.id);
 
   return (
     <>
@@ -36,10 +41,6 @@ const IngredientDetails = (props) => {
       </ul>
     </>
   );
-};
-
-IngredientDetails.propTypes = {
-  titleStyle: PropTypes.object,
 };
 
 export default IngredientDetails;
