@@ -4,9 +4,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
-import Modal from "../../components/modal/modal.jsx";
-import OrderDetails from "../../components/order-details/order-details.jsx";
-import Preloader from "../../components/preloader/preloader.jsx";
+import Modal from "../../components/modal/modal";
+import OrderDetails from "../../components/order-details/order-details";
+import Preloader from "../../components/preloader/preloader";
 import styles from "./main.module.scss";
 import { getOrder } from "../../services/actions/order.js";
 

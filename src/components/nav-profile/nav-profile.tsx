@@ -11,14 +11,15 @@ const links = {
 const NavProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store) => store.authReducer);
+  const userData = useSelector((store: any) => store.authReducer);
   const location = useLocation();
 
-  const setActive = ({ isActive }) => {
+  const setActive = ({ isActive }: { isActive: boolean }) => {
     return { color: isActive ? "#f2f2f3" : "#8585ad" };
   };
 
   const exit = () => {
+    //@ts-ignore
     dispatch(logout()).then(() => {
       if (!userData.loggenIn) navigate("/login");
     });
