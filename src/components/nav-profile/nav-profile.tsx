@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import styles from "./nav-profile.module.scss";
@@ -8,7 +9,7 @@ const links = {
   orders: "/profile/orders",
 };
 
-const NavProfile = () => {
+const NavProfile: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store: any) => store.authReducer);

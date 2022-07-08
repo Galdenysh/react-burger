@@ -1,32 +1,38 @@
+import { FC, CSSProperties } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./order-info.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
+import { IIngredient, IOrder } from "../../utils/types";
 
-const OrderInfo = (props) => {
+interface IOrderInfoProps {
+  titleStyle: CSSProperties;
+  wsAuth: boolean;
+}
+
+const OrderInfo: FC<IOrderInfoProps> = (props) => {
   const { titleStyle, wsAuth } = props;
-  const ingredientsData = useSelector((store) => store.burgerReducer.ingredientsData);
-  const feedData = useSelector((store) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
+  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
+  const feedData = useSelector((store: any) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
   const data = wsAuth ? feedDataAuth : feedData;
   const orderSelect = useParams();
-  const order = data.messages[0].orders.filter((item) => item._id === orderSelect.id)[0];
+  const order = data.messages[0].orders.filter((item: IOrder) => item._id === orderSelect.id)[0];
   let status;
 
   const ingredients = order.ingredients
     .filter(Boolean)
-    .map((ingredient) => {
-      return (ingredient = ingredientsData.filter(({ _id }) => ingredient.includes(_id)))[0];
+    .map((ingredientId: string) => {
+      return ingredientsData.filter(({ _id }: { _id: string }) => ingredientId.includes(_id))[0];
     })
-    .map((ingredient) => {
+    .map((ingredient: IIngredient) => {
       return { ...ingredient, uniqueId: uuidv4() };
     });
 
-  const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
-  const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
+  const bun = ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun")[0];
+  const filling = ingredients.filter((ingredient: IIngredient) => ingredient.type !== "bun");
 
   const filteredIngredient = filling.slice(0);
   if (bun) filteredIngredient.unshift(bun);
@@ -50,13 +56,15 @@ const OrderInfo = (props) => {
       </p>
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <ul className={`${styles.ingredientsList} mt-6 pr-6`}>
-        {filteredIngredient.map((ingredient, index) => (
+        {filteredIngredient.map((ingredient: IIngredient, index: number) => (
           <li className={`${styles.ingredientsItem} mt-4`} key={index}>
             <div className={styles.ingredientsGradient}>
               <img className={styles.ingredientsImage} src={ingredient.image_mobile} alt={ingredient.name} />
             </div>
             <p className={`${styles.ingredientsText} text text_type_main-default ml-4`}>{ingredient.name}</p>
-            <p className={`${styles.priceText} text text_type_digits-default mr-2`}>{`${ingredient.type === "bun" ? "2" : "1"} x ${ingredient.price}`}</p>
+            <p className={`${styles.priceText} text text_type_digits-default mr-2`}>{`${
+              ingredient.type === "bun" ? "2" : "1"
+            } x ${ingredient.price}`}</p>
             <CurrencyIcon type="primary" />
           </li>
         ))}
@@ -68,11 +76,6 @@ const OrderInfo = (props) => {
       </div>
     </section>
   );
-};
-
-OrderInfo.propTypes = {
-  titleStyle: PropTypes.object,
-  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default OrderInfo;

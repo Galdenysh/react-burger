@@ -24,7 +24,7 @@ const CardOrder: FC<ICardOrderProps> = (props) => {
   const ingredients = order.ingredients
     .filter(Boolean)
     .map((ingredientId: string) => {
-      return ingredientsData.filter(({ _id }: any) => ingredientId.includes(_id))[0];
+      return ingredientsData.filter(({ _id }: { _id: string }) => ingredientId.includes(_id))[0];
     })
     .map((ingredient: IIngredient) => {
       return { ...ingredient, uniqueId: uuidv4() };
