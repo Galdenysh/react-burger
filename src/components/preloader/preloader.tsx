@@ -1,7 +1,12 @@
-import PropTypes from "prop-types";
+import { FC, CSSProperties } from "react";
 import styles from "./preloader.module.scss";
 
-const Preloader = (props) => {
+interface IPreloaderProps {
+  type: "preloader" | "error";
+  style?: CSSProperties;
+}
+
+const Preloader: FC<IPreloaderProps> = (props) => {
   const { type, style } = props;
 
   return (
@@ -18,11 +23,6 @@ const Preloader = (props) => {
       )}
     </section>
   );
-};
-
-Preloader.propTypes = {
-  type: PropTypes.string.isRequired,
-  style: PropTypes.object,
 };
 
 export default Preloader;

@@ -35,6 +35,7 @@ const BurgerIngredients: FC = () => {
     <section className={`${styles.burgerIngredients} pt-10 mr-10`}>
       <h1 className={"text text_type_main-large"}>Собери бургер</h1>
       <div className={`${styles.tab} mt-5`}>
+        {/* @ts-ignore */}
         <Tab
           value="bun"
           active={current === "bun"}
@@ -45,6 +46,7 @@ const BurgerIngredients: FC = () => {
         >
           Булки
         </Tab>
+        {/* @ts-ignore */}
         <Tab
           value="sauce"
           active={current === "sauce"}
@@ -55,6 +57,7 @@ const BurgerIngredients: FC = () => {
         >
           Соусы
         </Tab>
+        {/* @ts-ignore */}
         <Tab
           value="main"
           active={current === "main"}

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import DropTargetIngredients from "./drop-target-ingredients";
-import PropTypes from "prop-types";
 import styles from "./burger-constructor.module.scss";
 import { calcCost } from "../../utils/funcs";
 
@@ -36,6 +35,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
           <p className="text text_type_digits-medium mr-2">{calcCost(bunSelect, fillingSelect)}</p>
           <CurrencyIcon type="primary" />
         </div>
+        {/* @ts-ignore */}
         <Button
           type="primary"
           size="medium"
@@ -47,11 +47,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
       </div>
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  toggleOrder: PropTypes.bool.isRequired,
-  setToggleOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
 import { setUserData } from "../../services/actions/auth";
 
-const PersonalAccount = () => {
+const PersonalAccount: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.authReducer);
+  const userData = useSelector((store: any) => store.authReducer);
 
   useEffect(() => {
     setValueUserName(userData.user.name);
@@ -19,11 +19,14 @@ const PersonalAccount = () => {
   }, [userData.user]);
 
   useEffect(() => {
-    valueUserName === userData.user.name && valueEmail === userData.user.email && valuePassword.length === 0 ? setVisible(false) : setVisible(true);
+    valueUserName === userData.user.name && valueEmail === userData.user.email && valuePassword.length === 0
+      ? setVisible(false)
+      : setVisible(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueUserName, valueEmail, valuePassword]);
 
-  const saveChanges = (userName, email, password) => {
+  const saveChanges = (userName: string, email: string, password: string) => {
+    // @ts-ignore
     dispatch(setUserData(userName, email, password));
     setVisible(false);
   };
@@ -33,14 +36,10 @@ const PersonalAccount = () => {
     setValueEmail(userData.user.email);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.target;
-    const userName = form.userName.value;
-    const email = form.email.value;
-    const password = form.password.value;
 
-    saveChanges(userName, email, password);
+    saveChanges(valueUserName, valueEmail, valuePassword);
   };
 
   return (
@@ -80,9 +79,11 @@ const PersonalAccount = () => {
           ></Input>
         </span>
         <div className={`${styles.buttons} mt-6`} style={{ opacity: visible ? "1" : "0" }}>
+          {/* @ts-ignore */}
           <Button type="secondary" size="medium" disabled={!visible} onClick={undoChanges} htmlType="button">
             Отмена
           </Button>
+          {/* @ts-ignore */}
           <Button type="primary" size="medium" disabled={!visible}>
             Сохранить
           </Button>
