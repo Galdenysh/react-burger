@@ -21,7 +21,7 @@ class Api {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
 
-  sendOrder(data: { ingredients: any[] }) {
+  sendOrder(data: { ingredients: string[] }) {
     return fetch(`${this._url}/orders`, {
       method: "POST",
       headers: {
@@ -32,7 +32,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  forgotPassword(data: { email: any }) {
+  forgotPassword(data: { email: string }) {
     return fetch(`${this._url}/password-reset`, {
       method: "POST",
       headers: {
@@ -42,7 +42,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  resetPassword(data: { password: any; token: any }) {
+  resetPassword(data: { password: string; token: string }) {
     return fetch(`${this._url}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -52,7 +52,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  register(data: { email: any; password: any; name: any }) {
+  register(data: { email: string; password: string; name: string }) {
     return fetch(`${this._url}/auth/register`, {
       method: "POST",
       headers: {
@@ -62,7 +62,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  login(data: { email: any; password: any }) {
+  login(data: { email: string; password: string }) {
     return fetch(`${this._url}/auth/login`, {
       method: "POST",
       headers: {
@@ -94,7 +94,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  setUserData(data: { name: any; email: any; password: any }) {
+  setUserData(data: { name: string; email: string; password: string }) {
     return fetch(`${this._url}/auth/user`, {
       method: "PATCH",
       headers: {

@@ -8,7 +8,7 @@ import Modal from "../../components/modal/modal";
 import OrderDetails from "../../components/order-details/order-details";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./main.module.scss";
-import { getOrder } from "../../services/actions/order.js";
+import { fetchOrder } from "../../services/actions/order";
 
 const Main: FC = () => {
   const [toggleOrder, setToggleOrder] = useState(false);
@@ -35,7 +35,7 @@ const Main: FC = () => {
       isInitialMount.current = false;
     } else {
       // @ts-ignore
-      dispatch(getOrder(burderData));
+      dispatch(fetchOrder(burderData));
       setVisibleOrder(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
