@@ -2,7 +2,7 @@ import { FC } from "react";
 import styles from "./modal-overlay.module.scss";
 
 interface IModalOverlayProps {
-  closePopup: any;
+  closePopup: () => void;
 }
 
 const ModalOverlay: FC<IModalOverlayProps> = (props) => {

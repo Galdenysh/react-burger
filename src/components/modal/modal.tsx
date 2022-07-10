@@ -7,7 +7,7 @@ import styles from "./modal.module.scss";
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
 interface IModalProps {
-  closePopup: any;
+  closePopup: () => void;
   children: ReactNode;
 }
 

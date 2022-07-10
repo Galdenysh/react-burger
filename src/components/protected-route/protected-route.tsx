@@ -1,11 +1,11 @@
-import { FC, ReactNode, useMemo } from "react";
+import { FC, ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
 import Preloader from "../preloader/preloader";
 
 interface IProtectedRouteProps {
   anonymous: boolean;
-  children: any;
+  children: JSX.Element;
 }
 
 const ProtectedRoute: FC<IProtectedRouteProps> = (props) => {

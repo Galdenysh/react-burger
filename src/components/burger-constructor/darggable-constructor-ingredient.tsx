@@ -10,7 +10,7 @@ import { IIngredient } from "../../utils/types";
 interface IDraggableConstructorIngredientProps {
   ingredient: IIngredient;
   index: number;
-  moveIngredient: any;
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void;
 }
 
 interface DragItem {

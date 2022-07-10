@@ -8,7 +8,7 @@ import { calcCost } from "../../utils/funcs";
 
 interface IBurgerConstructorProps {
   toggleOrder: boolean;
-  setToggleOrder: any;
+  setToggleOrder: (toggleOrder: boolean) => void;
 }
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
@@ -18,6 +18,8 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   const orderData = useSelector((store: any) => store.orderReducer);
   const userData = useSelector((store: any) => store.authReducer);
   const navigate = useNavigate();
+
+  console.log(setToggleOrder);
 
   const openPopup = () => {
     setToggleOrder(!toggleOrder);

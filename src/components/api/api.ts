@@ -1,5 +1,6 @@
 class Api {
   private _url: string;
+
   constructor(options: { baseUrl: string }) {
     this._url = options.baseUrl;
   }
