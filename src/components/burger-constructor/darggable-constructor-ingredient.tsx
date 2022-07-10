@@ -7,7 +7,7 @@ import styles from "./burger-constructor.module.scss";
 import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger.js";
 import { IIngredient } from "../../utils/types";
 
-interface IDraggableConstructorIngredientProps {
+interface DraggableConstructorIngredientProps {
   ingredient: IIngredient;
   index: number;
   moveIngredient: (dragIndex: number, hoverIndex: number) => void;
@@ -19,7 +19,7 @@ interface DragItem {
   type: string;
 }
 
-const DraggableConstructorIngredient: FC<IDraggableConstructorIngredientProps> = (props) => {
+const DraggableConstructorIngredient: FC<DraggableConstructorIngredientProps> = (props) => {
   const { ingredient, index, moveIngredient } = props;
   const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();

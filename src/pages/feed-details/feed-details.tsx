@@ -7,11 +7,11 @@ import { FC, useEffect } from "react";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/webSocket";
 import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
 
-interface IFeedDetailsProps {
+interface FeedDetailsProps {
   wsAuth: boolean;
 }
 
-const FeedDetails: FC<IFeedDetailsProps> = (props) => {
+const FeedDetails: FC<FeedDetailsProps> = (props) => {
   const { wsAuth } = props;
   const burderData = useSelector((store: any) => store.burgerReducer);
   const feedData = useSelector((store: any) => store.webSocketReducer);

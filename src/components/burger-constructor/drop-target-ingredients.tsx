@@ -14,7 +14,7 @@ import {
 import bunImage from "../../images/bun.png";
 import { IIngredient } from "../../utils/types";
 
-interface IDropTargetIngredient {
+interface DropTargetIngredient {
   bunSelect: IIngredient;
   fillingSelect: IIngredient[];
 }
@@ -25,7 +25,7 @@ interface DragItem {
   type: string;
 }
 
-const DropTargetIngredients: FC<IDropTargetIngredient> = (props) => {
+const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
   const { bunSelect, fillingSelect } = props;
 
   const [, dropTarget] = useDrop<DragItem>({

@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.scss";
 import { IIngredient } from "../../utils/types";
 
-interface IIngredientDetailsProps {
+interface IngredientDetailsProps {
   titleStyle?: CSSProperties;
 }
 
-const IngredientDetails: FC<IIngredientDetailsProps> = (props) => {
+const IngredientDetails: FC<IngredientDetailsProps> = (props) => {
   const { titleStyle } = props;
   const ingredients = useSelector((store: any) => store.burgerReducer.ingredientsData);
   const ingredientSelect = useParams();

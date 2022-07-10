@@ -6,12 +6,12 @@ import DropTargetIngredients from "./drop-target-ingredients";
 import styles from "./burger-constructor.module.scss";
 import { calcCost } from "../../utils/funcs";
 
-interface IBurgerConstructorProps {
+interface BurgerConstructorProps {
   toggleOrder: boolean;
   setToggleOrder: (toggleOrder: boolean) => void;
 }
 
-const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
+const BurgerConstructor: FC<BurgerConstructorProps> = (props) => {
   const { toggleOrder, setToggleOrder } = props;
   const bunSelect = useSelector((store: any) => store.burgerReducer.bunSelect);
   const fillingSelect = useSelector((store: any) => store.burgerReducer.fillingSelect);

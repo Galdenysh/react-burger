@@ -6,12 +6,12 @@ import styles from "./modal.module.scss";
 
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-interface IModalProps {
+interface ModalProps {
   closePopup: () => void;
   children: ReactNode;
 }
 
-const Modal: FC<IModalProps> = (props) => {
+const Modal: FC<ModalProps> = (props) => {
   const { closePopup, children } = props;
 
   const closePopupEsc = (evt: KeyboardEvent) => {

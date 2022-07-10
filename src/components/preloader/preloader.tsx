@@ -1,12 +1,12 @@
 import { FC, CSSProperties } from "react";
 import styles from "./preloader.module.scss";
 
-interface IPreloaderProps {
+interface PreloaderProps {
   type: "preloader" | "error";
   style?: CSSProperties;
 }
 
-const Preloader: FC<IPreloaderProps> = (props) => {
+const Preloader: FC<PreloaderProps> = (props) => {
   const { type, style } = props;
 
   return (

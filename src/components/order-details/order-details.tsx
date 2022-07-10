@@ -2,11 +2,11 @@ import { FC } from "react";
 import iconOk from "../../images/icon-ok.svg";
 import styles from "./order-details.module.scss";
 
-interface IOrderDetailsProps {
+interface OrderDetailsProps {
   orderNumber: number;
 }
 
-const OrderDetails: FC<IOrderDetailsProps> = (props) => {
+const OrderDetails: FC<OrderDetailsProps> = (props) => {
   const { orderNumber } = props;
 
   return (

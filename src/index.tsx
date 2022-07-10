@@ -7,7 +7,6 @@ import "./index.css";
 import { store } from "./services/store";
 
 const container = document.getElementById("root");
-// @ts-ignore
 const root = createRoot(container!);
 
 root.render(

@@ -5,11 +5,11 @@ import styles from "./burger-ingredients.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IIngredient } from "../../utils/types";
 
-interface IDraggableIngredientProps {
+interface DraggableIngredientProps {
   ingredient: IIngredient;
 }
 
-const DraggableIngredient: FC<IDraggableIngredientProps> = (props) => {
+const DraggableIngredient: FC<DraggableIngredientProps> = (props) => {
   const { ingredient } = props;
   const navigate = useNavigate();
   const location = useLocation();

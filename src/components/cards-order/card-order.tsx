@@ -8,12 +8,12 @@ import styles from "./cards-order.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
 import { IIngredient, IOrder } from "../../utils/types";
 
-interface ICardOrderProps {
+interface CardOrderProps {
   order: IOrder;
   wsAuth: boolean;
 }
 
-const CardOrder: FC<ICardOrderProps> = (props) => {
+const CardOrder: FC<CardOrderProps> = (props) => {
   const { order, wsAuth } = props;
   const ingredientQty = 6;
   const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);

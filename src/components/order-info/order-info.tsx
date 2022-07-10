@@ -7,12 +7,12 @@ import styles from "./order-info.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
 import { IIngredient, IOrder } from "../../utils/types";
 
-interface IOrderInfoProps {
+interface OrderInfoProps {
   titleStyle?: CSSProperties;
   wsAuth: boolean;
 }
 
-const OrderInfo: FC<IOrderInfoProps> = (props) => {
+const OrderInfo: FC<OrderInfoProps> = (props) => {
   const { titleStyle, wsAuth } = props;
   const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
   const feedData = useSelector((store: any) => store.webSocketReducer);

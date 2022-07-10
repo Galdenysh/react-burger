@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
 import Preloader from "../preloader/preloader";
 
-interface IProtectedRouteProps {
+interface ProtectedRouteProps {
   anonymous: boolean;
   children: JSX.Element;
 }
 
-const ProtectedRoute: FC<IProtectedRouteProps> = (props) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
   const { anonymous, children } = props;
   const userData = useSelector((store: any) => store.authReducer);
   const location = useLocation();

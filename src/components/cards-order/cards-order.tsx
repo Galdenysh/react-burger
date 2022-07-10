@@ -4,11 +4,11 @@ import { IOrder } from "../../utils/types";
 import CardOrder from "./card-order";
 import styles from "./cards-order.module.scss";
 
-interface ICardsOrderProps {
+interface CardsOrderProps {
   wsAuth: boolean;
 }
 
-const CardsOrder: FC<ICardsOrderProps> = (props) => {
+const CardsOrder: FC<CardsOrderProps> = (props) => {
   const { wsAuth } = props;
   const feedData = useSelector((store: any) => store.webSocketReducer.messages[0]);
   const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth.messages[0]);

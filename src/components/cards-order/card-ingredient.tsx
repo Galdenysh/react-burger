@@ -2,14 +2,14 @@ import { FC } from "react";
 import { IIngredient } from "../../utils/types";
 import styles from "./cards-order.module.scss";
 
-interface ICardIngredientProps {
+interface CardIngredientProps {
   ingredient: IIngredient;
   index: number;
   ingredientQty: number;
   total: number;
 }
 
-const CardIngredient: FC<ICardIngredientProps> = (props) => {
+const CardIngredient: FC<CardIngredientProps> = (props) => {
   const { ingredient, index, ingredientQty, total } = props;
   const remainder = total - ingredientQty;
 
