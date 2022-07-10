@@ -12,16 +12,8 @@ const ProtectedRoute: FC<IProtectedRouteProps> = (props) => {
   const { anonymous, children } = props;
   const userData = useSelector((store: any) => store.authReducer);
   const location = useLocation();
-  // const fromPage = location.state?.from?.pathname || "/";
-  const fromPage = useMemo(() => {
-    const state = location.state as { from: Location };
-
-    if (state && state.from) {
-      return state.from;
-    }
-
-    return "/";
-  }, [location]);
+  const state = location.state as { from: Location };
+  const fromPage = state?.from?.pathname || "/";
 
   if (!userData.isAuthChecked) {
     return <Preloader type={"preloader"} />;

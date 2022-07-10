@@ -1,4 +1,4 @@
-import { api } from "../../components/api/api.js";
+import { api } from "../../components/api/api";
 
 export const GET_INGREDIENTS = "GET_INGREDIENTS";
 export const ADD_BUN_INGREDIENT = "ADD_BUN_INGREDIENT";

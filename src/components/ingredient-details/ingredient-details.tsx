@@ -5,7 +5,7 @@ import styles from "./ingredient-details.module.scss";
 import { IIngredient } from "../../utils/types";
 
 interface IIngredientDetailsProps {
-  titleStyle: CSSProperties;
+  titleStyle?: CSSProperties;
 }
 
 const IngredientDetails: FC<IIngredientDetailsProps> = (props) => {

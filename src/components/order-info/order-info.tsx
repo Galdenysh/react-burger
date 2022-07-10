@@ -8,7 +8,7 @@ import { calcCost, dateParse } from "../../utils/funcs";
 import { IIngredient, IOrder } from "../../utils/types";
 
 interface IOrderInfoProps {
-  titleStyle: CSSProperties;
+  titleStyle?: CSSProperties;
   wsAuth: boolean;
 }
 

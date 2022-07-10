@@ -1,6 +1,6 @@
-import { api } from "../../components/api/api.js";
-import { setRefreshToken } from "./auth.js";
-import { clearFillingIngredients } from "./burger.js";
+import { api } from "../../components/api/api";
+import { setRefreshToken } from "./auth";
+import { clearFillingIngredients } from "./burger";
 
 export const GET_ORDER = "GET_ORDER";
 export const GET_ORDER_STATUS_LOADING = "GET_ORDER_STATUS_LOADING";

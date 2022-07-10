@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
@@ -22,12 +22,13 @@ import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actio
 import { getIngredients } from "../../services/actions/burger";
 
 const App = () => {
-  const userData = useSelector((store) => store.authReducer);
-  const burderData = useSelector((store) => store.burgerReducer);
-  const feedData = useSelector((store) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
+  const userData = useSelector((store: any) => store.authReducer);
+  const burderData = useSelector((store: any) => store.burgerReducer);
+  const feedData = useSelector((store: any) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
   const location = useLocation();
-  const background = location.state?.background;
+  const state = location.state as { background: Location };
+  const background = state?.background;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,9 +38,12 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setAuthCheck(false));
+    //@ts-ignore
     dispatch(getIngredients());
+    //@ts-ignore
     dispatch(setRefreshToken()).then(() => {
       if (getCookie("accessToken")) {
+        //@ts-ignore
         dispatch(getUserData());
       }
     });

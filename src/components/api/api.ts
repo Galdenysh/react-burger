@@ -1,15 +1,18 @@
 class Api {
-  constructor(options) {
+  private _url: string;
+  constructor(options: { baseUrl: string }) {
     this._url = options.baseUrl;
   }
 
   // Универсальная функция для проверки ответа от сервера
-  _getResponseData(res) {
+  _getResponseData(res: Response) {
     return res.ok ? res.json() : Promise.reject({ status: `Ошибка: ${res.status}`, err: res.json() });
   }
 
-  _getCookie(name) {
-    const matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+  _getCookie(name: string) {
+    const matches = document.cookie.match(
+      new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)")
+    );
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
@@ -17,7 +20,7 @@ class Api {
     return fetch(`${this._url}/ingredients`).then((res) => this._getResponseData(res));
   }
 
-  sendOrder(data) {
+  sendOrder(data: { ingredients: any[] }) {
     return fetch(`${this._url}/orders`, {
       method: "POST",
       headers: {
@@ -28,7 +31,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  forgotPassword(data) {
+  forgotPassword(data: { email: any }) {
     return fetch(`${this._url}/password-reset`, {
       method: "POST",
       headers: {
@@ -38,7 +41,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  resetPassword(data) {
+  resetPassword(data: { password: any; token: any }) {
     return fetch(`${this._url}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -48,7 +51,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  register(data) {
+  register(data: { email: any; password: any; name: any }) {
     return fetch(`${this._url}/auth/register`, {
       method: "POST",
       headers: {
@@ -58,7 +61,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  login(data) {
+  login(data: { email: any; password: any }) {
     return fetch(`${this._url}/auth/login`, {
       method: "POST",
       headers: {
@@ -90,7 +93,7 @@ class Api {
     }).then((res) => this._getResponseData(res));
   }
 
-  setUserData(data) {
+  setUserData(data: { name: any; email: any; password: any }) {
     return fetch(`${this._url}/auth/user`, {
       method: "PATCH",
       headers: {
