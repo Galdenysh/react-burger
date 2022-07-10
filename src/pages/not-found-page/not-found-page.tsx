@@ -1,6 +1,7 @@
+import { FC } from "react";
 import styles from "./not-found-page.module.scss";
 
-const NotFoundPage = () => {
+const NotFoundPage: FC = () => {
   return (
     <main className={styles.content}>
       <h1 className="text text_type_digits-large">404</h1>

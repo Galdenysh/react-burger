@@ -1,28 +1,27 @@
-import { useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.scss";
 import { forgotPassword } from "../../services/actions/auth";
 
-const ForgotPassword = () => {
-  const [value, setValue] = useState("");
+const ForgotPassword: FC = () => {
+  const [valueEmail, setValueEmail] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.authReducer);
+  const userData = useSelector((store: any) => store.authReducer);
   const navigate = useNavigate();
 
-  const sendEmail = (email, callback) => {
+  const sendEmail = (email: string, callback: () => void) => {
+    //@ts-ignore
     dispatch(forgotPassword(email)).then(() => {
       if (!userData.hasErrorUser) callback();
     });
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.target;
-    const email = form.email.value;
 
-    sendEmail(email, () => navigate("/reset-password"));
+    sendEmail(valueEmail, () => navigate("/reset-password"));
   };
 
   return (
@@ -30,9 +29,17 @@ const ForgotPassword = () => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <span className="mt-6">
-          <Input type={"email"} name={"email"} placeholder={"E-mail"} size={"default"} value={value} onChange={(evt) => setValue(evt.target.value)}></Input>
+          <Input
+            type={"email"}
+            name={"email"}
+            placeholder={"E-mail"}
+            size={"default"}
+            value={valueEmail}
+            onChange={(evt) => setValueEmail(evt.target.value)}
+          ></Input>
         </span>
         <span className="mt-6">
+          {/* @ts-ignore */}
           <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
             {userData.isLoadingAuth ? "Идет загрузка..." : "Восстановить"}
           </Button>

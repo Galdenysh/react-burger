@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
 import { login } from "../../services/actions/auth";
 
-const Login = () => {
+const Login: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store) => store.authReducer);
+  const userData = useSelector((store: any) => store.authReducer);
 
-  const signIn = (email, password) => {
+  const signIn = (email: string, password: string) => {
+    // @ts-ignore
     dispatch(login(email, password));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const form = evt.target;
-    const email = form.email.value;
-    const password = form.password.value;
 
-    signIn(email, password);
+    signIn(valueEmail, valuePassword);
   };
 
   return (
@@ -41,9 +39,14 @@ const Login = () => {
           ></Input>
         </span>
         <span className="mt-6">
-          <PasswordInput name={"password"} value={valuePassword} onChange={(evt) => setValuePassword(evt.target.value)}></PasswordInput>
+          <PasswordInput
+            name={"password"}
+            value={valuePassword}
+            onChange={(evt) => setValuePassword(evt.target.value)}
+          ></PasswordInput>
         </span>
         <span className="mt-6">
+          {/* @ts-ignore */}
           <Button type="primary" size="medium" disabled={userData.isLoadingAuth}>
             {userData.isLoadingAuth ? "Идет загрузка..." : "Вход"}
           </Button>

@@ -1,16 +1,16 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardsOrder from "../../components/cards-order/cards-order";
 import Preloader from "../../components/preloader/preloader";
 import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
 import styles from "./order-history.module.scss";
 
-const OrderHistory = () => {
-  const burderData = useSelector((store) => store.burgerReducer);
-  const feedData = useSelector((store) => store.webSocketReducerAuth);
+const OrderHistory: FC = () => {
+  const burderData = useSelector((store: any) => store.burgerReducer);
+  const feedData = useSelector((store: any) => store.webSocketReducerAuth);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     dispatch(wsConnectionStartAuth());
 
     return () => dispatch(wsConnectionClosedAuth());
@@ -23,7 +23,9 @@ const OrderHistory = () => {
       {(!feedData.wsConnected || burderData.isLoading || !feedData.messages.length) && (
         <Preloader type={"preloader"} style={{ width: "480px", marginTop: "-160px" }} />
       )}
-      {(feedData.error || burderData.hasError) && <Preloader type={"error"} style={{ width: "480px", marginTop: "-160px" }} />}
+      {(feedData.error || burderData.hasError) && (
+        <Preloader type={"error"} style={{ width: "480px", marginTop: "-160px" }} />
+      )}
       {feedData.wsConnected &&
         !feedData.error &&
         !!feedData.messages.length &&

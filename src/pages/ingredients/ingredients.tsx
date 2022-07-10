@@ -1,10 +1,11 @@
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./ingredients.module.scss";
 
-const Ingredients = () => {
-  const burderData = useSelector((store) => store.burgerReducer);
+const Ingredients: FC = () => {
+  const burderData = useSelector((store: any) => store.burgerReducer);
 
   return (
     <>

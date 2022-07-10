@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardsOrder from "../../components/cards-order/cards-order";
 import OrderBoard from "../../components/order-board/order-board";
@@ -6,12 +6,12 @@ import Preloader from "../../components/preloader/preloader";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/webSocket";
 import styles from "./feed.module.scss";
 
-const Feed = () => {
-  const burderData = useSelector((store) => store.burgerReducer);
-  const feedData = useSelector((store) => store.webSocketReducer);
+const Feed: FC = () => {
+  const burderData = useSelector((store: any) => store.burgerReducer);
+  const feedData = useSelector((store: any) => store.webSocketReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     dispatch(wsConnectionStart());
 
     return () => dispatch(wsConnectionClosed());

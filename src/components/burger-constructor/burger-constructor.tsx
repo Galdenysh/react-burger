@@ -19,8 +19,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   const userData = useSelector((store: any) => store.authReducer);
   const navigate = useNavigate();
 
-  console.log(setToggleOrder);
-
   const openPopup = () => {
     setToggleOrder(!toggleOrder);
   };

@@ -3,19 +3,23 @@ import PropTypes from "prop-types";
 import OrderInfo from "../../components/order-info/order-info";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./feed-details.module.scss";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/webSocket";
 import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
 
-const FeedDetails = (props) => {
+interface IFeedDetailsProps {
+  wsAuth: boolean;
+}
+
+const FeedDetails: FC<IFeedDetailsProps> = (props) => {
   const { wsAuth } = props;
-  const burderData = useSelector((store) => store.burgerReducer);
-  const feedData = useSelector((store) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store) => store.webSocketReducerAuth);
+  const burderData = useSelector((store: any) => store.burgerReducer);
+  const feedData = useSelector((store: any) => store.webSocketReducer);
+  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
   const dispatch = useDispatch();
   const data = wsAuth ? feedDataAuth : feedData;
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     dispatch(wsAuth ? wsConnectionStartAuth() : wsConnectionStart());
 
     return () => dispatch(wsAuth ? wsConnectionClosedAuth() : wsConnectionClosed());
@@ -27,11 +31,16 @@ const FeedDetails = (props) => {
     <>
       {(!data.wsConnected || burderData.isLoading) && <Preloader type={"preloader"} />}
       {(data.error || burderData.hasError) && <Preloader type={"error"} />}
-      {data.wsConnected && !data.error && !!data.messages.length && !burderData.isLoading && !burderData.hasError && !!burderData.ingredientsData.length && (
-        <main className={styles.content}>
-          <OrderInfo wsAuth={wsAuth} titleStyle={{ margin: "auto" }} />
-        </main>
-      )}
+      {data.wsConnected &&
+        !data.error &&
+        !!data.messages.length &&
+        !burderData.isLoading &&
+        !burderData.hasError &&
+        !!burderData.ingredientsData.length && (
+          <main className={styles.content}>
+            <OrderInfo wsAuth={wsAuth} titleStyle={{ margin: "auto" }} />
+          </main>
+        )}
     </>
   );
 };

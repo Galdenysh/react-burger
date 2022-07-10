@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -10,14 +10,14 @@ import Preloader from "../../components/preloader/preloader";
 import styles from "./main.module.scss";
 import { getOrder } from "../../services/actions/order.js";
 
-const Main = () => {
+const Main: FC = () => {
   const [toggleOrder, setToggleOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const isInitialMount = useRef(true);
 
   const dispatch = useDispatch();
-  const burderData = useSelector((store) => store.burgerReducer);
-  const orderData = useSelector((store) => store.orderReducer);
+  const burderData = useSelector((store: any) => store.burgerReducer);
+  const orderData = useSelector((store: any) => store.orderReducer);
 
   const closePopup = () => {
     setVisibleOrder(false);
@@ -34,6 +34,7 @@ const Main = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
+      // @ts-ignore
       dispatch(getOrder(burderData));
       setVisibleOrder(true);
     }

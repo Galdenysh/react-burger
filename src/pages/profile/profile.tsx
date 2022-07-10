@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import NavProfile from "../../components/nav-profile/nav-profile";
@@ -7,8 +8,8 @@ import NotFoundPage from "../not-found-page/not-found-page";
 import styles from "./profile.module.scss";
 import OrderHistory from "../order-history/order-history";
 
-const Profile = () => {
-  const userData = useSelector((store) => store.authReducer);
+const Profile: FC = () => {
+  const userData = useSelector((store: any) => store.authReducer);
 
   return (
     <>
