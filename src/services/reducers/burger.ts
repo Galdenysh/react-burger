@@ -1,3 +1,6 @@
+import { Reducer } from "redux";
+import { IIngredient } from "../../utils/types";
+import { BurgerAction } from "../actions/burger";
 import {
   GET_INGREDIENTS,
   ADD_FILLING_INGREDIENT,
@@ -10,7 +13,15 @@ import {
   GET_INGREDIENTS_STATUS_LOADED,
   GET_INGREDIENTS_STATUS_FALSE,
   CLEAR_FILLING_INGREDIENT,
-} from "../actions/burger.js";
+} from "../constants/burger";
+
+interface IBurgerState {
+  isLoading: boolean;
+  hasError: boolean;
+  ingredientsData: IIngredient[] | [];
+  bunSelect: IIngredient | {};
+  fillingSelect: IIngredient[] | [];
+}
 
 const initialState = {
   isLoading: false,
@@ -20,7 +31,10 @@ const initialState = {
   fillingSelect: [],
 };
 
-export const burgerReducer = (state = initialState, action) => {
+export const burgerReducer: Reducer<IBurgerState, BurgerAction> = (
+  state = initialState,
+  action: BurgerAction
+): IBurgerState => {
   switch (action.type) {
     case GET_INGREDIENTS_STATUS_LOADING:
       return { ...state, hasError: false, isLoading: true };
@@ -48,17 +62,24 @@ export const burgerReducer = (state = initialState, action) => {
         fillingSelect: [action.payload, ...state.fillingSelect],
       };
     case REMOVE_FILLING_INGREDIENT:
-      return { ...state, fillingSelect: [...state.fillingSelect].filter((ingredient) => ingredient.constructorId !== action.id) };
+      return {
+        ...state,
+        fillingSelect: [...state.fillingSelect].filter((ingredient) => ingredient.constructorId !== action.id),
+      };
     case INCREASE_FILLING_INGREDIENT: {
       return {
         ...state,
-        ingredientsData: [...state.ingredientsData].map((ingredient) => (ingredient._id === action.id ? { ...ingredient, qty: ++ingredient.qty } : ingredient)),
+        ingredientsData: [...state.ingredientsData].map((ingredient) =>
+          ingredient._id === action.id ? { ...ingredient, qty: ++ingredient.qty! } : ingredient
+        ),
       };
     }
     case DECREASE_FILLING_INGREDIENT: {
       return {
         ...state,
-        ingredientsData: [...state.ingredientsData].map((ingredient) => (ingredient._id === action.id ? { ...ingredient, qty: --ingredient.qty } : ingredient)),
+        ingredientsData: [...state.ingredientsData].map((ingredient) =>
+          ingredient._id === action.id ? { ...ingredient, qty: --ingredient.qty! } : ingredient
+        ),
       };
     }
     case SET_FILLING_INGREDIENT:

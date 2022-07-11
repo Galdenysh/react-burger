@@ -19,7 +19,7 @@ import OrderInfo from "../order-info/order-info";
 import Preloader from "../preloader/preloader";
 import { getCookie } from "../../utils/cookie";
 import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
-import { getIngredients } from "../../services/actions/burger";
+import { fetchIngredients } from "../../services/actions/burger";
 
 const App = () => {
   const userData = useSelector((store: any) => store.authReducer);
@@ -39,7 +39,7 @@ const App = () => {
   useEffect(() => {
     dispatch(setAuthCheck(false));
     //@ts-ignore
-    dispatch(getIngredients());
+    dispatch(fetchIngredients());
     //@ts-ignore
     dispatch(setRefreshToken()).then(() => {
       if (getCookie("accessToken")) {

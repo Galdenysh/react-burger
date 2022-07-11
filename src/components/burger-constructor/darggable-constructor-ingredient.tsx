@@ -4,7 +4,7 @@ import { useDrop, useDrag } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
-import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger.js";
+import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger";
 import { IIngredient } from "../../utils/types";
 
 interface DraggableConstructorIngredientProps {

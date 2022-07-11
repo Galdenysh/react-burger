@@ -10,7 +10,7 @@ import {
   addFillingIngredient,
   increaseFillingIngredient,
   setFillingIngredient,
-} from "../../services/actions/burger.js";
+} from "../../services/actions/burger";
 import bunImage from "../../images/bun.png";
 import { IIngredient } from "../../utils/types";
 

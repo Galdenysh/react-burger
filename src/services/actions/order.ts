@@ -11,7 +11,7 @@ import {
 
 export interface IGetOrder {
   readonly type: typeof GET_ORDER;
-  readonly payload: any;
+  readonly payload: number;
 }
 
 export interface IGetOrderStatusFalse {
@@ -38,7 +38,7 @@ export const fetchOrder = (data: any) => {
       })
       .then((res) => {
         if (res.success) {
-          dispatch(getOrder(res));
+          dispatch(getOrder(res.order.number));
           dispatch(getOrderStatusLoaded());
           //@ts-ignore
           dispatch(clearFillingIngredients());
@@ -54,10 +54,10 @@ export const fetchOrder = (data: any) => {
   };
 };
 
-export const getOrder = (res: { order: { number: number } }) => {
+export const getOrder = (payload: number) => {
   return {
     type: GET_ORDER,
-    payload: res.order.number,
+    payload,
   };
 };
 
