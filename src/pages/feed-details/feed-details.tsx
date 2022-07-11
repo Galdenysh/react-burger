@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import OrderInfo from "../../components/order-info/order-info";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./feed-details.module.scss";
@@ -43,10 +42,6 @@ const FeedDetails: FC<FeedDetailsProps> = (props) => {
         )}
     </>
   );
-};
-
-FeedDetails.propTypes = {
-  wsAuth: PropTypes.bool.isRequired,
 };
 
 export default FeedDetails;

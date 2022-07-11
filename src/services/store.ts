@@ -33,6 +33,15 @@ const composeEnhancers =
 const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 const wsUrlAuth = "wss://norma.nomoreparties.space/orders";
 
+export interface IWsActions {
+  wsInit: string;
+  wsSendMessage: string;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onMessage: string;
+}
+
 const wsActions = {
   wsInit: WS_CONNECTION_START,
   wsSendMessage: WS_SEND_MESSAGE,

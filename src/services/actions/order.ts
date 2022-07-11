@@ -1,6 +1,6 @@
 import { api } from "../../components/api/api";
 import { setRefreshToken } from "./auth";
-import { clearFillingIngredients } from "./burger";
+import { BurgerAction, clearFillingIngredients } from "./burger";
 import { Dispatch } from "redux";
 import {
   GET_ORDER,
@@ -29,7 +29,7 @@ export interface IGetOrderStatusLoading {
 export type OrderAction = IGetOrder | IGetOrderStatusFalse | IGetOrderStatusLoaded | IGetOrderStatusLoading;
 
 export const fetchOrder = (data: any) => {
-  return (dispatch: Dispatch<OrderAction>) => {
+  return (dispatch: Dispatch<OrderAction | BurgerAction>) => {
     dispatch(getOrderStatusLoading());
 
     api
@@ -40,11 +40,9 @@ export const fetchOrder = (data: any) => {
         if (res.success) {
           dispatch(getOrder(res.order.number));
           dispatch(getOrderStatusLoaded());
-          //@ts-ignore
           dispatch(clearFillingIngredients());
         } else {
-          //@ts-ignore
-          dispatch(setRefreshToken());
+          setRefreshToken();
         }
       })
       .catch((err) => {

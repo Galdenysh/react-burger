@@ -20,7 +20,7 @@ export const calcCost = (bunSelect: IIngredient | { price: number }, fillingSele
   return bunCost + fillingCost;
 };
 
-export const dateParse = (createdAt: Date) => {
+export const dateParse = (createdAt: string) => {
   const dateObj = new Date(createdAt);
   const date = dateObj.toLocaleDateString();
   const time = dateObj.toLocaleTimeString().slice(0, -3);

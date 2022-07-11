@@ -9,7 +9,7 @@ const Login: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
 
   const signIn = (email: string, password: string) => {
     // @ts-ignore

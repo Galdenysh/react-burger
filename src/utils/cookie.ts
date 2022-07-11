@@ -1,5 +1,5 @@
 type TCookieProps = {
-  expires?: string | number;
+  expires?: any;
 } & { [propName: number]: string | number | boolean };
 
 export const getCookie = (name: string) => {
@@ -12,16 +12,15 @@ export const getCookie = (name: string) => {
 export const setCookie = (name: string, value: string | number | boolean, props?: TCookieProps) => {
   props = props || {};
   let exp = props.expires;
-  const d = new Date();
 
   if (typeof exp == "number" && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = Number(d);
+    exp = props.expires = d;
   }
 
-  if (exp && d.toUTCString) {
-    props.expires = d.toUTCString();
+  if (exp && exp.toUTCString) {
+    props.expires = exp.toUTCString();
   }
 
   value = encodeURIComponent(value);

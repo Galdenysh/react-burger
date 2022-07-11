@@ -216,10 +216,8 @@ export const logout = () => {
       .logout()
       .then((res) => {
         if (res.success) {
-          //@ts-ignore
-          deleteCookie("accessToken", null, { expires: -1 });
-          //@ts-ignore
-          deleteCookie("refreshToken", null, { expires: -1 });
+          deleteCookie("accessToken");
+          deleteCookie("refreshToken");
           dispatch(loggedOut());
           dispatch(wsConnectionClosedAuth());
         }
