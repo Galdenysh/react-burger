@@ -1,3 +1,4 @@
+import { AuthAction } from "../actions/auth";
 import {
   LOGGEDIN,
   SET_USER_DATA,
@@ -13,7 +14,21 @@ import {
   GET_LOGIN_ERROR_MESSAGE,
   GET_RESET_ERROR_MESSAGE,
   SET_AUTH_CHECK,
-} from "../actions/auth";
+} from "../constants/auth";
+
+interface IAuthState {
+  isLoadingUser: boolean;
+  hasErrorUser: boolean;
+  isLoadingAuth: boolean;
+  hasErrorAuth: boolean;
+  registerErrorMessage: string;
+  loginErrorMessage: string;
+  resetErrorMessage: string;
+  loggedIn: boolean;
+  isAuthChecked: boolean;
+  resetPasswordAccess: boolean;
+  user: any;
+}
 
 const initialState = {
   isLoadingUser: false,
@@ -29,7 +44,7 @@ const initialState = {
   user: {},
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: AuthAction): IAuthState => {
   switch (action.type) {
     case GET_USER_STATUS_LOADING:
       return { ...state, hasErrorUser: false, isLoadingUser: true };

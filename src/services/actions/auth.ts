@@ -1,35 +1,115 @@
 import { api } from "../../components/api/api";
 import { errMessage } from "../../utils/errMessage";
 import { deleteCookie, setCookie } from "../../utils/cookie";
-import { wsConnectionClosedAuth, wsConnectionStartAuth } from "./webSocketAuth";
+import { WebSocketAuthAction, wsConnectionClosedAuth, wsConnectionStartAuth } from "./webSocketAuth";
+import {
+  GET_AUTH_STATUS_FALSE,
+  GET_AUTH_STATUS_LOADED,
+  GET_AUTH_STATUS_LOADING,
+  GET_LOGIN_ERROR_MESSAGE,
+  GET_REGISTER_ERROR_MESSAGE,
+  GET_RESET_ERROR_MESSAGE,
+  GET_USER_STATUS_FALSE,
+  GET_USER_STATUS_LOADED,
+  GET_USER_STATUS_LOADING,
+  LOGGEDIN,
+  LOGGEDOUT,
+  RESET_PASSWORD_ACCESS,
+  SET_AUTH_CHECK,
+  SET_USER_DATA,
+} from "../constants/auth";
+import { Dispatch } from "redux";
 
-export const LOGGEDIN = "LOGGEDIN";
-export const LOGGEDOUT = "LOGGEDOUT";
-export const SET_AUTH_CHECK = "SET_AUTH_CHECK";
-export const RESET_PASSWORD_ACCESS = "RESET_PASSWORD_ACCESS";
-export const SET_USER_DATA = "SET_USER_DATA";
-export const GET_USER_STATUS_LOADING = "GET_USER_STATUS_LOADING";
-export const GET_USER_STATUS_LOADED = "GET_USER_STATUS_LOADED";
-export const GET_USER_STATUS_FALSE = "GET_USER_STATUS_FALSE";
-export const GET_AUTH_STATUS_LOADING = "GET_AUTH_STATUS_LOADING";
-export const GET_AUTH_STATUS_LOADED = "GET_AUTH_STATUS_LOADED";
-export const GET_AUTH_STATUS_FALSE = "GET_AUTH_STATUS_FALSE";
-export const GET_REGISTER_ERROR_MESSAGE = "GET_REGISTER_ERROR_MESSAGE";
-export const GET_LOGIN_ERROR_MESSAGE = "GET_LOGIN_ERROR_MESSAGE";
-export const GET_RESET_ERROR_MESSAGE = "GET_RESET_ERROR_MESSAGE";
+export interface ILoggetIn {
+  readonly type: typeof LOGGEDIN;
+}
 
-export const getUserData = () => {
-  return (dispatch) => {
+export interface ILoggetOut {
+  readonly type: typeof LOGGEDOUT;
+}
+
+export interface ISetAuthCheck {
+  readonly type: typeof SET_AUTH_CHECK;
+  readonly payload: boolean;
+}
+
+export interface IResetPasswordAccess {
+  readonly type: typeof RESET_PASSWORD_ACCESS;
+  readonly payload: boolean;
+}
+
+export interface ISetUserData {
+  readonly type: typeof SET_USER_DATA;
+  readonly payload: any;
+}
+
+export interface IGetUserStatusLoading {
+  readonly type: typeof GET_USER_STATUS_LOADING;
+}
+
+export interface IGetUserStatusLoaded {
+  readonly type: typeof GET_USER_STATUS_LOADED;
+}
+
+export interface IGetUserStatusFalse {
+  readonly type: typeof GET_USER_STATUS_FALSE;
+}
+
+export interface IGetAuthStatusLoading {
+  readonly type: typeof GET_AUTH_STATUS_LOADING;
+}
+
+export interface IGetAuthStatusLoaded {
+  readonly type: typeof GET_AUTH_STATUS_LOADED;
+}
+
+export interface IGetAuthStatusFalse {
+  readonly type: typeof GET_AUTH_STATUS_FALSE;
+}
+
+export interface IGetRegisterErrorMessage {
+  readonly type: typeof GET_REGISTER_ERROR_MESSAGE;
+  readonly payload: string;
+}
+
+export interface IGetLoginErrorMessage {
+  readonly type: typeof GET_LOGIN_ERROR_MESSAGE;
+  readonly payload: string;
+}
+
+export interface IGetResetErrorMessage {
+  readonly type: typeof GET_RESET_ERROR_MESSAGE;
+  readonly payload: string;
+}
+
+export type AuthAction =
+  | ILoggetIn
+  | ILoggetOut
+  | ISetAuthCheck
+  | IResetPasswordAccess
+  | ISetUserData
+  | IGetUserStatusLoading
+  | IGetUserStatusLoaded
+  | IGetUserStatusFalse
+  | IGetAuthStatusLoading
+  | IGetAuthStatusLoaded
+  | IGetAuthStatusFalse
+  | IGetRegisterErrorMessage
+  | IGetLoginErrorMessage
+  | IGetResetErrorMessage;
+
+export const fetchGetUserData = () => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(getUserStatusLoading());
 
     api
       .getUserData()
       .then((data) => {
         if (data.success) {
-          dispatch({ type: SET_USER_DATA, payload: data.user });
+          dispatch(setUserData(data.user));
           dispatch(getUserStatusLoaded());
         } else {
-          dispatch(setRefreshToken());
+          setRefreshToken();
         }
       })
       .catch((err) => {
@@ -39,8 +119,8 @@ export const getUserData = () => {
   };
 };
 
-export const setUserData = (userName, email, password) => {
-  return (dispatch) => {
+export const fetchSetUserData = (userName: string, email: string, password: string) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(getUserStatusLoading());
 
     api
@@ -51,10 +131,10 @@ export const setUserData = (userName, email, password) => {
       })
       .then((data) => {
         if (data.success) {
-          dispatch({ type: SET_USER_DATA, payload: data.user });
+          dispatch(setUserData(data.user));
           dispatch(getUserStatusLoaded());
         } else {
-          dispatch(setRefreshToken());
+          setRefreshToken();
         }
       })
       .catch((err) => {
@@ -64,8 +144,8 @@ export const setUserData = (userName, email, password) => {
   };
 };
 
-export const register = (email, password, userName) => {
-  return (dispatch) => {
+export const register = (email: string, password: string, userName: string) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -87,8 +167,8 @@ export const register = (email, password, userName) => {
   };
 };
 
-export const login = (email, password) => {
-  return (dispatch) => {
+export const login = (email: string, password: string) => {
+  return (dispatch: Dispatch<AuthAction | WebSocketAuthAction>) => {
     dispatch(getAuthStatusLoading());
 
     api
@@ -116,7 +196,7 @@ export const login = (email, password) => {
 
           dispatch(loggedIn());
           dispatch(getAuthStatusLoaded());
-          dispatch({ type: SET_USER_DATA, payload: res.user });
+          dispatch(setUserData(res.user));
           dispatch(getUserStatusLoaded());
           dispatch(wsConnectionStartAuth());
         }
@@ -131,12 +211,14 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-  return (dispatch) => {
+  return (dispatch: Dispatch<AuthAction | WebSocketAuthAction>) => {
     return api
       .logout()
       .then((res) => {
         if (res.success) {
+          //@ts-ignore
           deleteCookie("accessToken", null, { expires: -1 });
+          //@ts-ignore
           deleteCookie("refreshToken", null, { expires: -1 });
           dispatch(loggedOut());
           dispatch(wsConnectionClosedAuth());
@@ -148,8 +230,8 @@ export const logout = () => {
   };
 };
 
-export const forgotPassword = (email) => {
-  return (dispatch) => {
+export const forgotPassword = (email: string) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -169,8 +251,8 @@ export const forgotPassword = (email) => {
   };
 };
 
-export const resetPassword = (password, token) => {
-  return (dispatch) => {
+export const resetPassword = (password: string, token: string) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -193,7 +275,7 @@ export const resetPassword = (password, token) => {
 };
 
 export const setRefreshToken = () => {
-  return (dispatch) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch(setAuthCheck(false));
 
     return api
@@ -240,16 +322,23 @@ export const loggedOut = () => {
   };
 };
 
-export const setAuthCheck = (payload) => {
+export const setAuthCheck = (payload: boolean) => {
   return {
     type: SET_AUTH_CHECK,
     payload,
   };
 };
 
-export const resetPasswordAccess = (payload) => {
+export const resetPasswordAccess = (payload: boolean) => {
   return {
     type: RESET_PASSWORD_ACCESS,
+    payload,
+  };
+};
+
+export const setUserData = (payload: any) => {
+  return {
+    type: SET_USER_DATA,
     payload,
   };
 };
@@ -290,21 +379,21 @@ export const getAuthStatusFalse = () => {
   };
 };
 
-export const getRegisterErrorMessage = (payload) => {
+export const getRegisterErrorMessage = (payload: string) => {
   return {
     type: GET_REGISTER_ERROR_MESSAGE,
     payload,
   };
 };
 
-export const getLoginErrorMessage = (payload) => {
+export const getLoginErrorMessage = (payload: string) => {
   return {
     type: GET_LOGIN_ERROR_MESSAGE,
     payload,
   };
 };
 
-export const getResetErrorMessage = (payload) => {
+export const getResetErrorMessage = (payload: string) => {
   return {
     type: GET_RESET_ERROR_MESSAGE,
     payload,

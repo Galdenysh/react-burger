@@ -18,7 +18,7 @@ import FeedDetails from "../../pages/feed-details/feed-details";
 import OrderInfo from "../order-info/order-info";
 import Preloader from "../preloader/preloader";
 import { getCookie } from "../../utils/cookie";
-import { getUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
+import { fetchGetUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
 import { fetchIngredients } from "../../services/actions/burger";
 
 const App = () => {
@@ -44,7 +44,7 @@ const App = () => {
     dispatch(setRefreshToken()).then(() => {
       if (getCookie("accessToken")) {
         //@ts-ignore
-        dispatch(getUserData());
+        dispatch(fetchGetUserData());
       }
     });
 
