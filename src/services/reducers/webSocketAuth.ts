@@ -1,4 +1,16 @@
-import { WS_CONNECTION_CLOSED_AUTH, WS_CONNECTION_ERROR_AUTH, WS_CONNECTION_SUCCESS_AUTH, WS_GET_MESSAGE_AUTH } from "../actions/webSocketAuth";
+import { WebSocketAuthAction } from "../actions/webSocketAuth";
+import {
+  WS_CONNECTION_CLOSED_AUTH,
+  WS_CONNECTION_ERROR_AUTH,
+  WS_CONNECTION_SUCCESS_AUTH,
+  WS_GET_MESSAGE_AUTH,
+} from "../constants/webSocketAuth";
+
+interface IWebSocketAuthState {
+  wsConnected: boolean;
+  messages: any[];
+  error: string | undefined;
+}
 
 const initialState = {
   wsConnected: false,
@@ -6,7 +18,7 @@ const initialState = {
   error: undefined,
 };
 
-export const webSocketReducerAuth = (state = initialState, action) => {
+export const webSocketReducerAuth = (state = initialState, action: WebSocketAuthAction): IWebSocketAuthState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS_AUTH:
       return { ...state, error: undefined, wsConnected: true };

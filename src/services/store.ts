@@ -1,6 +1,13 @@
 import { legacy_createStore as createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "./actions/webSocket";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE,
+} from "./constants/webSocket";
 import {
   WS_CONNECTION_CLOSED_AUTH,
   WS_CONNECTION_ERROR_AUTH,
@@ -8,7 +15,7 @@ import {
   WS_CONNECTION_SUCCESS_AUTH,
   WS_GET_MESSAGE_AUTH,
   WS_SEND_MESSAGE_AUTH,
-} from "./actions/webSocketAuth";
+} from "./constants/webSocketAuth";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import { rootReducer } from "./reducers";
 
@@ -18,7 +25,10 @@ declare global {
   }
 }
 
-const composeEnhancers = typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+const composeEnhancers =
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : compose;
 
 const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 const wsUrlAuth = "wss://norma.nomoreparties.space/orders";
@@ -41,6 +51,8 @@ const wsActionsAuth = {
   onMessage: WS_GET_MESSAGE_AUTH,
 };
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions, false), socketMiddleware(wsUrlAuth, wsActionsAuth, true)));
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions, false), socketMiddleware(wsUrlAuth, wsActionsAuth, true))
+);
 
 export const store = createStore(rootReducer, enhancer);

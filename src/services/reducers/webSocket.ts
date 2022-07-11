@@ -1,4 +1,16 @@
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "../actions/webSocket";
+import { WebSocketAction } from "../actions/webSocket";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_MESSAGE,
+} from "../constants/webSocket";
+
+interface IWebSocketState {
+  wsConnected: boolean;
+  messages: any[];
+  error: string | undefined;
+}
 
 const initialState = {
   wsConnected: false,
@@ -6,7 +18,7 @@ const initialState = {
   error: undefined,
 };
 
-export const webSocketReducer = (state = initialState, action) => {
+export const webSocketReducer = (state = initialState, action: WebSocketAction): IWebSocketState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return { ...state, error: undefined, wsConnected: true };
