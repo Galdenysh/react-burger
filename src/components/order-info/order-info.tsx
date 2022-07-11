@@ -14,9 +14,9 @@ interface OrderInfoProps {
 
 const OrderInfo: FC<OrderInfoProps> = (props) => {
   const { titleStyle, wsAuth } = props;
-  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
-  const feedData = useSelector((store: any) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
+  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
+  const feedData = useSelector((store: any) => store.ws);
+  const feedDataAuth = useSelector((store: any) => store.wsAuth);
   const data = wsAuth ? feedDataAuth : feedData;
   const orderSelect = useParams();
   const order = data.messages[0].orders.filter((item: IOrder) => item._id === orderSelect.id)[0];

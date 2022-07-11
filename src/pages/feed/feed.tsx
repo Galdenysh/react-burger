@@ -7,8 +7,8 @@ import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/we
 import styles from "./feed.module.scss";
 
 const Feed: FC = () => {
-  const burderData = useSelector((store: any) => store.burgerReducer);
-  const feedData = useSelector((store: any) => store.webSocketReducer);
+  const burderData = useSelector((store: any) => store.burger);
+  const feedData = useSelector((store: any) => store.ws);
   const dispatch = useDispatch();
 
   useEffect((): (() => void) => {

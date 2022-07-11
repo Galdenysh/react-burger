@@ -13,9 +13,9 @@ interface FeedDetailsProps {
 
 const FeedDetails: FC<FeedDetailsProps> = (props) => {
   const { wsAuth } = props;
-  const burderData = useSelector((store: any) => store.burgerReducer);
-  const feedData = useSelector((store: any) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
+  const burderData = useSelector((store: any) => store.burger);
+  const feedData = useSelector((store: any) => store.ws);
+  const feedDataAuth = useSelector((store: any) => store.wsAuth);
   const dispatch = useDispatch();
   const data = wsAuth ? feedDataAuth : feedData;
 

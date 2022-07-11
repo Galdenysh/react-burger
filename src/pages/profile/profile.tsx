@@ -9,7 +9,7 @@ import styles from "./profile.module.scss";
 import OrderHistory from "../order-history/order-history";
 
 const Profile: FC = () => {
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
 
   return (
     <>

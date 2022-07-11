@@ -16,7 +16,7 @@ interface CardOrderProps {
 const CardOrder: FC<CardOrderProps> = (props) => {
   const { order, wsAuth } = props;
   const ingredientQty = 6;
-  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
+  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
   const navigate = useNavigate();
   const location = useLocation();
   let status;

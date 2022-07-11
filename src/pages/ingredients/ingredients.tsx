@@ -5,7 +5,7 @@ import Preloader from "../../components/preloader/preloader";
 import styles from "./ingredients.module.scss";
 
 const Ingredients: FC = () => {
-  const burderData = useSelector((store: any) => store.burgerReducer);
+  const burderData = useSelector((store: any) => store.burger);
 
   return (
     <>

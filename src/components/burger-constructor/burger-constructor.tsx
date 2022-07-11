@@ -13,10 +13,10 @@ interface BurgerConstructorProps {
 
 const BurgerConstructor: FC<BurgerConstructorProps> = (props) => {
   const { toggleOrder, setToggleOrder } = props;
-  const bunSelect = useSelector((store: any) => store.burgerReducer.bunSelect);
-  const fillingSelect = useSelector((store: any) => store.burgerReducer.fillingSelect);
-  const orderData = useSelector((store: any) => store.orderReducer);
-  const userData = useSelector((store: any) => store.authReducer);
+  const bunSelect = useSelector((store: any) => store.burger.bunSelect);
+  const fillingSelect = useSelector((store: any) => store.burger.fillingSelect);
+  const orderData = useSelector((store: any) => store.order);
+  const userData = useSelector((store: any) => store.auth);
   const navigate = useNavigate();
 
   const openPopup = () => {

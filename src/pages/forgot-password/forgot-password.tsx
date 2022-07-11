@@ -8,7 +8,7 @@ import { forgotPassword } from "../../services/actions/auth";
 const ForgotPassword: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
   const navigate = useNavigate();
 
   const sendEmail = (email: string, callback: () => void) => {

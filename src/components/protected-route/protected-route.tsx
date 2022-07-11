@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
   const { anonymous, children } = props;
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
   const location = useLocation();
   const state = location.state as { from: Location };
   const fromPage = state?.from?.pathname || "/";

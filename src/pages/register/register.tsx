@@ -10,7 +10,7 @@ const Register: FC = () => {
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
   const navigate = useNavigate();
 
   const createUser = (email: string, password: string, userName: string, callback: () => void) => {

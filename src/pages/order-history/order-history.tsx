@@ -6,8 +6,8 @@ import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/ac
 import styles from "./order-history.module.scss";
 
 const OrderHistory: FC = () => {
-  const burderData = useSelector((store: any) => store.burgerReducer);
-  const feedData = useSelector((store: any) => store.webSocketReducerAuth);
+  const burderData = useSelector((store: any) => store.burger);
+  const feedData = useSelector((store: any) => store.wsAuth);
   const dispatch = useDispatch();
 
   useEffect((): (() => void) => {

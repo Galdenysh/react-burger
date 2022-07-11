@@ -2,7 +2,7 @@ import { useState, useEffect, FC, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
-import { setUserData } from "../../services/actions/auth";
+import { fetchSetUserData } from "../../services/actions/auth";
 
 const PersonalAccount: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
@@ -10,7 +10,7 @@ const PersonalAccount: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
 
   useEffect(() => {
     setValueUserName(userData.user.name);
@@ -27,7 +27,7 @@ const PersonalAccount: FC = () => {
 
   const saveChanges = (userName: string, email: string, password: string) => {
     // @ts-ignore
-    dispatch(setUserData(userName, email, password));
+    dispatch(fetchSetUserData(userName, email, password));
     setVisible(false);
   };
 

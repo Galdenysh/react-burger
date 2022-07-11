@@ -12,7 +12,7 @@ const links = {
 const NavProfile: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
   const location = useLocation();
 
   const setActive = ({ isActive }: { isActive: boolean }) => {

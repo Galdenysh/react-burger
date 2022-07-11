@@ -33,7 +33,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     drop: (item: DragItem) => onDropHandler(item.id),
   });
   const dispatch = useDispatch();
-  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
+  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
 
   const onDropHandler = (itemId: string) => {
     const ingredientTarget = ingredientsData.filter((ingredient: IIngredient) => itemId === ingredient._id);

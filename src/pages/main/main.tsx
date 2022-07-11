@@ -16,8 +16,8 @@ const Main: FC = () => {
   const isInitialMount = useRef(true);
 
   const dispatch = useDispatch();
-  const burderData = useSelector((store: any) => store.burgerReducer);
-  const orderData = useSelector((store: any) => store.orderReducer);
+  const burderData = useSelector((store: any) => store.burger);
+  const orderData = useSelector((store: any) => store.order);
 
   const closePopup = () => {
     setVisibleOrder(false);

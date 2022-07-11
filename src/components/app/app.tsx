@@ -22,10 +22,10 @@ import { fetchGetUserData, setAuthCheck, setRefreshToken } from "../../services/
 import { fetchIngredients } from "../../services/actions/burger";
 
 const App = () => {
-  const userData = useSelector((store: any) => store.authReducer);
-  const burderData = useSelector((store: any) => store.burgerReducer);
-  const feedData = useSelector((store: any) => store.webSocketReducer);
-  const feedDataAuth = useSelector((store: any) => store.webSocketReducerAuth);
+  const userData = useSelector((store: any) => store.auth);
+  const burderData = useSelector((store: any) => store.burger);
+  const feedData = useSelector((store: any) => store.ws);
+  const feedDataAuth = useSelector((store: any) => store.wsAuth);
   const location = useLocation();
   const state = location.state as { background: Location };
   const background = state?.background;

@@ -6,9 +6,9 @@ import { webSocketReducer } from "./webSocket";
 import { webSocketReducerAuth } from "./webSocketAuth";
 
 export const rootReducer = combineReducers({
-  burgerReducer,
-  orderReducer,
-  authReducer,
-  webSocketReducer,
-  webSocketReducerAuth,
+  burger: burgerReducer,
+  order: orderReducer,
+  auth: authReducer,
+  ws: webSocketReducer,
+  wsAuth: webSocketReducerAuth,
 });

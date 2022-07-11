@@ -11,7 +11,7 @@ const BurgerIngredients: FC = () => {
   const bunRef = useRef<HTMLUListElement>(null);
   const sauceRef = useRef<HTMLUListElement>(null);
   const mainRef = useRef<HTMLUListElement>(null);
-  const ingredientsData = useSelector((store: any) => store.burgerReducer.ingredientsData);
+  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
 
   const onTabClick = (ref: RefObject<HTMLUListElement>) => {
     ref.current?.scrollIntoView({ block: "start", behavior: "smooth" });

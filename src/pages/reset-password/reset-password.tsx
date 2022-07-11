@@ -9,7 +9,7 @@ const ResetPassword: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueToken, setValueToken] = useState("");
   const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.authReducer);
+  const userData = useSelector((store: any) => store.auth);
   const navigate = useNavigate();
 
   const sendPassword = (password: string, token: string, callback: () => void) => {

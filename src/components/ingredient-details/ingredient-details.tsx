@@ -10,7 +10,7 @@ interface IngredientDetailsProps {
 
 const IngredientDetails: FC<IngredientDetailsProps> = (props) => {
   const { titleStyle } = props;
-  const ingredients = useSelector((store: any) => store.burgerReducer.ingredientsData);
+  const ingredients = useSelector((store: any) => store.burger.ingredientsData);
   const ingredientSelect = useParams();
   const ingredient = ingredients.filter((item: IIngredient) => item._id === ingredientSelect.id);
 
