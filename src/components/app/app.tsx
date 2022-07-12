@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Login from "../../pages/login/login";
@@ -18,9 +17,8 @@ import FeedDetails from "../../pages/feed-details/feed-details";
 import OrderInfo from "../order-info/order-info";
 import Preloader from "../preloader/preloader";
 import { getCookie } from "../../utils/cookie";
-import { fetchGetUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
-import { fetchIngredients } from "../../services/actions/burger";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const App = () => {
   const userData = useTypedSelector((store) => store.auth);
@@ -31,21 +29,21 @@ const App = () => {
   const state = location.state as { background: Location };
   const background = state?.background;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { setAuthCheck, fetchIngredients, setRefreshToken, fetchGetUserData } = useActions();
 
   const closePopup = () => {
     navigate(-1);
   };
 
+  const getToken = async () => setRefreshToken();
+
   useEffect(() => {
-    dispatch(setAuthCheck(false));
-    //@ts-ignore
-    dispatch(fetchIngredients());
-    //@ts-ignore
-    dispatch(setRefreshToken()).then(() => {
+    setAuthCheck(false);
+    fetchIngredients();
+
+    getToken().then(() => {
       if (getCookie("accessToken")) {
-        //@ts-ignore
-        dispatch(fetchGetUserData());
+        fetchGetUserData();
       }
     });
 
