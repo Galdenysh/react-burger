@@ -27,3 +27,8 @@ export interface IOrder {
   updatedAt: string;
   _id: string;
 }
+
+export interface IUser {
+  email: string;
+  name: string;
+}

@@ -1,3 +1,4 @@
+import { Reducer } from "redux";
 import { OrderAction } from "../actions/order";
 import {
   GET_ORDER,
@@ -18,7 +19,10 @@ const initialState: IOrderState = {
   orderData: 0,
 };
 
-export const orderReducer = (state = initialState, action: OrderAction): IOrderState => {
+export const orderReducer: Reducer<IOrderState, OrderAction> = (
+  state = initialState,
+  action: OrderAction
+): IOrderState => {
   switch (action.type) {
     case GET_ORDER_STATUS_LOADING:
       return { ...state, hasError: false, isLoading: true };

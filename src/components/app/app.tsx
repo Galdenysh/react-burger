@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Login from "../../pages/login/login";
@@ -20,7 +20,7 @@ import { getCookie } from "../../utils/cookie";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
 
-const App = () => {
+const App: FC = () => {
   const userData = useTypedSelector((store) => store.auth);
   const burderData = useTypedSelector((store) => store.burger);
   const feedData = useTypedSelector((store) => store.ws);
