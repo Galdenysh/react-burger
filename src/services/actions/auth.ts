@@ -19,6 +19,7 @@ import {
   SET_USER_DATA,
 } from "../constants/auth";
 import { Dispatch } from "redux";
+import { IUser } from "../../utils/types";
 
 export interface ILoggetIn {
   readonly type: typeof LOGGEDIN;
@@ -40,7 +41,7 @@ export interface IResetPasswordAccess {
 
 export interface ISetUserData {
   readonly type: typeof SET_USER_DATA;
-  readonly payload: any;
+  readonly payload: IUser;
 }
 
 export interface IGetUserStatusLoading {
@@ -334,7 +335,7 @@ export const resetPasswordAccess = (payload: boolean) => {
   };
 };
 
-export const setUserData = (payload: any) => {
+export const setUserData = (payload: IUser) => {
   return {
     type: SET_USER_DATA,
     payload,

@@ -13,15 +13,19 @@ const PersonalAccount: FC = () => {
   const userData = useTypedSelector((store) => store.auth);
 
   useEffect(() => {
-    setValueUserName(userData.user.name);
-    setValueEmail(userData.user.email);
+    if (userData.user !== null) {
+      setValueUserName(userData.user.name);
+      setValueEmail(userData.user.email);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData.user]);
 
   useEffect(() => {
-    valueUserName === userData.user.name && valueEmail === userData.user.email && valuePassword.length === 0
-      ? setVisible(false)
-      : setVisible(true);
+    if (userData.user !== null)
+      valueUserName === userData.user.name && valueEmail === userData.user.email && valuePassword.length === 0
+        ? setVisible(false)
+        : setVisible(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueUserName, valueEmail, valuePassword]);
 
@@ -31,8 +35,10 @@ const PersonalAccount: FC = () => {
   };
 
   const undoChanges = () => {
-    setValueUserName(userData.user.name);
-    setValueEmail(userData.user.email);
+    if (userData.user !== null) {
+      setValueUserName(userData.user.name);
+      setValueEmail(userData.user.email);
+    }
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

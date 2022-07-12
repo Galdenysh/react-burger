@@ -1,3 +1,5 @@
+import { Reducer } from "redux";
+import { IUser } from "../../utils/types";
 import { AuthAction } from "../actions/auth";
 import {
   LOGGEDIN,
@@ -27,7 +29,7 @@ interface IAuthState {
   loggedIn: boolean;
   isAuthChecked: boolean;
   resetPasswordAccess: boolean;
-  user: any;
+  user: IUser | null;
 }
 
 const initialState = {
@@ -44,7 +46,7 @@ const initialState = {
   user: null,
 };
 
-export const authReducer = (state = initialState, action: AuthAction): IAuthState => {
+export const authReducer: Reducer<IAuthState, AuthAction> = (state = initialState, action: AuthAction): IAuthState => {
   switch (action.type) {
     case GET_USER_STATUS_LOADING:
       return { ...state, hasErrorUser: false, isLoadingUser: true };
