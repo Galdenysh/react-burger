@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import Preloader from "../preloader/preloader";
 
 interface ProtectedRouteProps {
@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
   const { anonymous, children } = props;
-  const userData = useSelector((store: any) => store.auth);
+  const userData = useTypedSelector((store) => store.auth);
   const location = useLocation();
   const state = location.state as { from: Location };
   const fromPage = state?.from?.pathname || "/";

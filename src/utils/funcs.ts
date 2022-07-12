@@ -1,17 +1,13 @@
 import { IIngredient } from "./types";
 
-export const calcCost = (bunSelect: IIngredient | { price: number }, fillingSelect: IIngredient[]) => {
+export const calcCost = (bunSelect: IIngredient | null, fillingSelect: IIngredient[]) => {
   let bunCost;
-
-  if (typeof bunSelect !== "object") {
-    bunSelect = { price: 0 };
-  }
 
   if (!Array.isArray(fillingSelect)) {
     fillingSelect = [];
   }
 
-  Object.keys(bunSelect).length === 0 ? (bunCost = 0) : (bunCost = bunSelect.price * 2);
+  bunSelect === null ? (bunCost = 0) : (bunCost = bunSelect.price * 2);
   const fillingCost =
     fillingSelect.length === 0
       ? 0

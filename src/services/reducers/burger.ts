@@ -19,7 +19,7 @@ interface IBurgerState {
   isLoading: boolean;
   hasError: boolean;
   ingredientsData: IIngredient[] | [];
-  bunSelect: IIngredient | {};
+  bunSelect: IIngredient | null;
   fillingSelect: IIngredient[] | [];
 }
 
@@ -27,7 +27,7 @@ const initialState = {
   isLoading: false,
   hasError: false,
   ingredientsData: [],
-  bunSelect: {},
+  bunSelect: null,
   fillingSelect: [],
 };
 
@@ -87,7 +87,7 @@ export const burgerReducer: Reducer<IBurgerState, BurgerAction> = (
     case CLEAR_FILLING_INGREDIENT:
       return {
         ...state,
-        bunSelect: {},
+        bunSelect: null,
         fillingSelect: [],
         ingredientsData: [...state.ingredientsData].map((ingredient) => ({ ...ingredient, qty: 0 })),
       };

@@ -1,11 +1,11 @@
 import { FC, CSSProperties } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./order-info.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
 import { IIngredient, IOrder } from "../../utils/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface OrderInfoProps {
   titleStyle?: CSSProperties;
@@ -14,9 +14,9 @@ interface OrderInfoProps {
 
 const OrderInfo: FC<OrderInfoProps> = (props) => {
   const { titleStyle, wsAuth } = props;
-  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
-  const feedData = useSelector((store: any) => store.ws);
-  const feedDataAuth = useSelector((store: any) => store.wsAuth);
+  const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
+  const feedData = useTypedSelector((store) => store.ws);
+  const feedDataAuth = useTypedSelector((store) => store.wsAuth);
   const data = wsAuth ? feedDataAuth : feedData;
   const orderSelect = useParams();
   const order = data.messages[0].orders.filter((item: IOrder) => item._id === orderSelect.id)[0];

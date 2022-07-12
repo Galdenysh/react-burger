@@ -41,7 +41,7 @@ const initialState = {
   loggedIn: false,
   isAuthChecked: false,
   resetPasswordAccess: false,
-  user: {},
+  user: null,
 };
 
 export const authReducer = (state = initialState, action: AuthAction): IAuthState => {
@@ -67,7 +67,7 @@ export const authReducer = (state = initialState, action: AuthAction): IAuthStat
     case LOGGEDIN:
       return { ...state, loggedIn: true };
     case LOGGEDOUT:
-      return { ...state, loggedIn: false, user: {} };
+      return { ...state, loggedIn: false, user: null };
     case SET_AUTH_CHECK:
       return { ...state, isAuthChecked: action.payload };
     case RESET_PASSWORD_ACCESS:

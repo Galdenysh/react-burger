@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../app-header/app-header";
 import Login from "../../pages/login/login";
@@ -20,12 +20,13 @@ import Preloader from "../preloader/preloader";
 import { getCookie } from "../../utils/cookie";
 import { fetchGetUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
 import { fetchIngredients } from "../../services/actions/burger";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 const App = () => {
-  const userData = useSelector((store: any) => store.auth);
-  const burderData = useSelector((store: any) => store.burger);
-  const feedData = useSelector((store: any) => store.ws);
-  const feedDataAuth = useSelector((store: any) => store.wsAuth);
+  const userData = useTypedSelector((store) => store.auth);
+  const burderData = useTypedSelector((store) => store.burger);
+  const feedData = useTypedSelector((store) => store.ws);
+  const feedDataAuth = useTypedSelector((store) => store.wsAuth);
   const location = useLocation();
   const state = location.state as { background: Location };
   const background = state?.background;

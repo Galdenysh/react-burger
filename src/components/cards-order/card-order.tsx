@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
@@ -7,6 +6,7 @@ import CardIngredient from "./card-ingredient";
 import styles from "./cards-order.module.scss";
 import { calcCost, dateParse } from "../../utils/funcs";
 import { IIngredient, IOrder } from "../../utils/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface CardOrderProps {
   order: IOrder;
@@ -16,7 +16,7 @@ interface CardOrderProps {
 const CardOrder: FC<CardOrderProps> = (props) => {
   const { order, wsAuth } = props;
   const ingredientQty = 6;
-  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
+  const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
   const navigate = useNavigate();
   const location = useLocation();
   let status;

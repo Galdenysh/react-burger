@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { IOrder } from "../../utils/types";
 import styles from "./order-board.module.scss";
 
 const OrderBoard: FC = () => {
-  const feedData = useSelector((store: any) => store.ws.messages[0]);
+  const feedData = useTypedSelector((store) => store.ws.messages[0]);
   const ordersDone = feedData.orders.filter((order: IOrder) => order.status === "done");
   const ordersPending = feedData.orders.filter((order: IOrder) => order.status === "pending");
 

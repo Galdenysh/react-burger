@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { IOrder } from "../../utils/types";
 import CardOrder from "./card-order";
 import styles from "./cards-order.module.scss";
@@ -10,8 +10,8 @@ interface CardsOrderProps {
 
 const CardsOrder: FC<CardsOrderProps> = (props) => {
   const { wsAuth } = props;
-  const feedData = useSelector((store: any) => store.ws.messages[0]);
-  const feedDataAuth = useSelector((store: any) => store.wsAuth.messages[0]);
+  const feedData = useTypedSelector((store) => store.ws.messages[0]);
+  const feedDataAuth = useTypedSelector((store) => store.wsAuth.messages[0]);
   const data = wsAuth ? feedDataAuth : feedData;
   const orders = wsAuth ? data.orders.sort((a: IOrder, b: IOrder) => (a.number < b.number ? 1 : -1)) : data.orders;
 

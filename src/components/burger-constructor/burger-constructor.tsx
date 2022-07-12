@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import DropTargetIngredients from "./drop-target-ingredients";
 import styles from "./burger-constructor.module.scss";
 import { calcCost } from "../../utils/funcs";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface BurgerConstructorProps {
   toggleOrder: boolean;
@@ -13,10 +13,10 @@ interface BurgerConstructorProps {
 
 const BurgerConstructor: FC<BurgerConstructorProps> = (props) => {
   const { toggleOrder, setToggleOrder } = props;
-  const bunSelect = useSelector((store: any) => store.burger.bunSelect);
-  const fillingSelect = useSelector((store: any) => store.burger.fillingSelect);
-  const orderData = useSelector((store: any) => store.order);
-  const userData = useSelector((store: any) => store.auth);
+  const bunSelect = useTypedSelector((store) => store.burger.bunSelect);
+  const fillingSelect = useTypedSelector((store) => store.burger.fillingSelect);
+  const orderData = useTypedSelector((store) => store.order);
+  const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const openPopup = () => {
@@ -40,7 +40,7 @@ const BurgerConstructor: FC<BurgerConstructorProps> = (props) => {
           type="primary"
           size="medium"
           onClick={userData.loggedIn ? openPopup : redirection}
-          disabled={orderData.isLoading || Object.keys(bunSelect).length === 0}
+          disabled={orderData.isLoading || bunSelect === null}
         >
           {orderData.isLoading ? "Идет загрузка..." : "Оформить заказ"}
         </Button>

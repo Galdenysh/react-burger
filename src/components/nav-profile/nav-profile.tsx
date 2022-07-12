@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
 import styles from "./nav-profile.module.scss";
 import { logout } from "../../services/actions/auth";
 
@@ -11,8 +11,6 @@ const links = {
 
 const NavProfile: FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userData = useSelector((store: any) => store.auth);
   const location = useLocation();
 
   const setActive = ({ isActive }: { isActive: boolean }) => {
@@ -21,9 +19,7 @@ const NavProfile: FC = () => {
 
   const exit = () => {
     //@ts-ignore
-    dispatch(logout()).then(() => {
-      if (!userData.loggenIn) navigate("/login");
-    });
+    dispatch(logout());
   };
 
   return (

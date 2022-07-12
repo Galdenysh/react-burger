@@ -1,9 +1,9 @@
 import { useState, useRef, FC, RefObject } from "react";
-import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import DraggableIngredient from "./draggable-ingredient";
 import styles from "./burger-ingredients.module.scss";
 import { IIngredient } from "../../utils/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState("bun");
@@ -11,7 +11,7 @@ const BurgerIngredients: FC = () => {
   const bunRef = useRef<HTMLUListElement>(null);
   const sauceRef = useRef<HTMLUListElement>(null);
   const mainRef = useRef<HTMLUListElement>(null);
-  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
+  const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
 
   const onTabClick = (ref: RefObject<HTMLUListElement>) => {
     ref.current?.scrollIntoView({ block: "start", behavior: "smooth" });

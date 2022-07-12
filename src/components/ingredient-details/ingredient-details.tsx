@@ -1,8 +1,8 @@
 import { FC, CSSProperties } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.scss";
 import { IIngredient } from "../../utils/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface IngredientDetailsProps {
   titleStyle?: CSSProperties;
@@ -10,7 +10,7 @@ interface IngredientDetailsProps {
 
 const IngredientDetails: FC<IngredientDetailsProps> = (props) => {
   const { titleStyle } = props;
-  const ingredients = useSelector((store: any) => store.burger.ingredientsData);
+  const ingredients = useTypedSelector((store) => store.burger.ingredientsData);
   const ingredientSelect = useParams();
   const ingredient = ingredients.filter((item: IIngredient) => item._id === ingredientSelect.id);
 

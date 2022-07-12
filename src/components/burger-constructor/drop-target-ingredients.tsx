@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
@@ -13,9 +13,10 @@ import {
 } from "../../services/actions/burger";
 import bunImage from "../../images/bun.png";
 import { IIngredient } from "../../utils/types";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface DropTargetIngredient {
-  bunSelect: IIngredient;
+  bunSelect: IIngredient | null;
   fillingSelect: IIngredient[];
 }
 
@@ -33,7 +34,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     drop: (item: DragItem) => onDropHandler(item.id),
   });
   const dispatch = useDispatch();
-  const ingredientsData = useSelector((store: any) => store.burger.ingredientsData);
+  const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
 
   const onDropHandler = (itemId: string) => {
     const ingredientTarget = ingredientsData.filter((ingredient: IIngredient) => itemId === ingredient._id);
@@ -56,7 +57,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
   return (
     <div className={styles.elements} ref={dropTarget}>
       <div className={`${styles.ingredientElement} ml-2`}>
-        {Object.keys(bunSelect).length !== 0 && (
+        {bunSelect !== null && (
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -65,7 +66,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
             thumbnail={bunSelect.image}
           />
         )}
-        {Object.keys(bunSelect).length === 0 && (
+        {bunSelect === null && (
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -102,7 +103,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
         ))}
       </ul>
       <div className={`${styles.ingredientElement} ml-2`}>
-        {Object.keys(bunSelect).length !== 0 && (
+        {bunSelect !== null && (
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -111,7 +112,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
             thumbnail={bunSelect.image}
           />
         )}
-        {Object.keys(bunSelect).length === 0 && (
+        {bunSelect === null && (
           <ConstructorElement
             type="bottom"
             isLocked={true}
