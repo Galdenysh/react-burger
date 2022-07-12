@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import NavProfile from "../../components/nav-profile/nav-profile";
 import PersonalAccount from "../../components/personal-account/personal-account";
@@ -7,9 +6,10 @@ import Preloader from "../../components/preloader/preloader";
 import NotFoundPage from "../not-found-page/not-found-page";
 import styles from "./profile.module.scss";
 import OrderHistory from "../order-history/order-history";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 const Profile: FC = () => {
-  const userData = useSelector((store: any) => store.auth);
+  const userData = useTypedSelector((store) => store.auth);
 
   return (
     <>

@@ -1,21 +1,22 @@
 import { FC, FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.scss";
-import { register } from "../../services/actions/auth";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const Register: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
-  const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.auth);
+  const { register } = useActions();
+  const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const createUser = (email: string, password: string, userName: string, callback: () => void) => {
-    // @ts-ignore
-    dispatch(register(email, password, userName)).then(() => {
+    const checkError = async () => register(email, password, userName);
+
+    checkError().then(() => {
       if (!userData.hasErrorAuth) callback();
     });
   };
@@ -38,7 +39,7 @@ const Register: FC = () => {
             size={"default"}
             value={valueUserName}
             onChange={(evt) => setValueUserName(evt.target.value)}
-            error={userData.hasErrorAuth && userData.registerErrorMessage}
+            error={userData.hasErrorAuth}
             errorText={userData.registerErrorMessage}
           ></Input>
         </span>
@@ -50,7 +51,7 @@ const Register: FC = () => {
             size={"default"}
             value={valueEmail}
             onChange={(evt) => setValueEmail(evt.target.value)}
-            error={userData.hasErrorAuth && userData.registerErrorMessage}
+            error={userData.hasErrorAuth}
             errorText={userData.registerErrorMessage}
           ></Input>
         </span>

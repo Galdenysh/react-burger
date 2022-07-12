@@ -26,7 +26,7 @@ export interface IWsConnectionClosedAuth {
 
 export interface IWsGetMessageAuth {
   readonly type: typeof WS_GET_MESSAGE_AUTH;
-  readonly payload: any[];
+  readonly payload: any;
 }
 
 export interface IWsSendMessageAuth {

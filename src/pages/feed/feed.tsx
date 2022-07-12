@@ -1,20 +1,20 @@
 import { useEffect, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import CardsOrder from "../../components/cards-order/cards-order";
 import OrderBoard from "../../components/order-board/order-board";
 import Preloader from "../../components/preloader/preloader";
-import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/webSocket";
+import { useActions } from "../../hooks/useActions";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import styles from "./feed.module.scss";
 
 const Feed: FC = () => {
-  const burderData = useSelector((store: any) => store.burger);
-  const feedData = useSelector((store: any) => store.ws);
-  const dispatch = useDispatch();
+  const burderData = useTypedSelector((store) => store.burger);
+  const feedData = useTypedSelector((store) => store.ws);
+  const { wsConnectionStart, wsConnectionClosed } = useActions();
 
   useEffect((): (() => void) => {
-    dispatch(wsConnectionStart());
+    wsConnectionStart();
 
-    return () => dispatch(wsConnectionClosed());
+    return () => wsConnectionClosed();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
@@ -8,16 +7,17 @@ import Modal from "../../components/modal/modal";
 import OrderDetails from "../../components/order-details/order-details";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./main.module.scss";
-import { fetchOrder } from "../../services/actions/order";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const Main: FC = () => {
   const [toggleOrder, setToggleOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const isInitialMount = useRef(true);
 
-  const dispatch = useDispatch();
-  const burderData = useSelector((store: any) => store.burger);
-  const orderData = useSelector((store: any) => store.order);
+  const { fetchOrder } = useActions();
+  const burderData = useTypedSelector((store) => store.burger);
+  const orderData = useTypedSelector((store) => store.order);
 
   const closePopup = () => {
     setVisibleOrder(false);
@@ -34,8 +34,7 @@ const Main: FC = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      // @ts-ignore
-      dispatch(fetchOrder(burderData));
+      fetchOrder(burderData);
       setVisibleOrder(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

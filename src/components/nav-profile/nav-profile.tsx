@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import styles from "./nav-profile.module.scss";
-import { logout } from "../../services/actions/auth";
+import { useActions } from "../../hooks/useActions";
 
 const links = {
   profile: "/profile",
@@ -10,7 +9,7 @@ const links = {
 };
 
 const NavProfile: FC = () => {
-  const dispatch = useDispatch();
+  const { logout } = useActions();
   const location = useLocation();
 
   const setActive = ({ isActive }: { isActive: boolean }) => {
@@ -18,8 +17,7 @@ const NavProfile: FC = () => {
   };
 
   const exit = () => {
-    //@ts-ignore
-    dispatch(logout());
+    logout();
   };
 
   return (

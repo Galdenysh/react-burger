@@ -1,10 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
 import OrderInfo from "../../components/order-info/order-info";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./feed-details.module.scss";
 import { FC, useEffect } from "react";
-import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/webSocket";
-import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 interface FeedDetailsProps {
   wsAuth: boolean;
@@ -12,16 +11,16 @@ interface FeedDetailsProps {
 
 const FeedDetails: FC<FeedDetailsProps> = (props) => {
   const { wsAuth } = props;
-  const burderData = useSelector((store: any) => store.burger);
-  const feedData = useSelector((store: any) => store.ws);
-  const feedDataAuth = useSelector((store: any) => store.wsAuth);
-  const dispatch = useDispatch();
+  const burderData = useTypedSelector((store) => store.burger);
+  const feedData = useTypedSelector((store) => store.ws);
+  const feedDataAuth = useTypedSelector((store) => store.wsAuth);
+  const { wsConnectionStart, wsConnectionClosed, wsConnectionStartAuth, wsConnectionClosedAuth } = useActions();
   const data = wsAuth ? feedDataAuth : feedData;
 
   useEffect((): (() => void) => {
-    dispatch(wsAuth ? wsConnectionStartAuth() : wsConnectionStart());
+    wsAuth ? wsConnectionStartAuth() : wsConnectionStart();
 
-    return () => dispatch(wsAuth ? wsConnectionClosedAuth() : wsConnectionClosed());
+    return () => (wsAuth ? wsConnectionClosedAuth() : wsConnectionClosed());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

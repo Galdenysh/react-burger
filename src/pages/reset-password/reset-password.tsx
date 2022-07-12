@@ -1,20 +1,21 @@
 import { FC, FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.scss";
-import { resetPassword } from "../../services/actions/auth";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const ResetPassword: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueToken, setValueToken] = useState("");
-  const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.auth);
+  const { resetPassword } = useActions();
+  const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const sendPassword = (password: string, token: string, callback: () => void) => {
-    // @ts-ignore
-    dispatch(resetPassword(password, token)).then(() => {
+    const checkError = async () => resetPassword(password, token);
+
+    checkError().then(() => {
       if (!userData.hasErrorUser) callback();
     });
   };
@@ -44,7 +45,7 @@ const ResetPassword: FC = () => {
             size={"default"}
             value={valueToken}
             onChange={(evt) => setValueToken(evt.target.value)}
-            error={userData.hasErrorAuth && userData.resetErrorMessage}
+            error={userData.hasErrorAuth}
             errorText={userData.resetErrorMessage}
           ></Input>
         </span>

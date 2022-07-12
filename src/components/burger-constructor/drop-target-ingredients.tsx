@@ -1,19 +1,13 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import DraggableConstructorIngredient from "./darggable-constructor-ingredient";
 import styles from "./burger-constructor.module.scss";
-import {
-  addBunIngredient,
-  addFillingIngredient,
-  increaseFillingIngredient,
-  setFillingIngredient,
-} from "../../services/actions/burger";
 import bunImage from "../../images/bun.png";
 import { IIngredient } from "../../utils/types";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 interface DropTargetIngredient {
   bunSelect: IIngredient | null;
@@ -33,7 +27,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     accept: "ingredient",
     drop: (item: DragItem) => onDropHandler(item.id),
   });
-  const dispatch = useDispatch();
+  const { addBunIngredient, addFillingIngredient, increaseFillingIngredient, setFillingIngredient } = useActions();
   const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
 
   const onDropHandler = (itemId: string) => {
@@ -42,8 +36,8 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     ingredientTargetWithId.type === "bun"
-      ? dispatch(addBunIngredient(ingredientTargetWithId))
-      : (dispatch(addFillingIngredient(ingredientTargetWithId)), dispatch(increaseFillingIngredient(itemId)));
+      ? addBunIngredient(ingredientTargetWithId)
+      : (addFillingIngredient(ingredientTargetWithId), increaseFillingIngredient(itemId));
   };
 
   const moveIngredient = (dragIndex: number, hoverIndex: number) => {
@@ -51,7 +45,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     const dragItem = newFillingSelect.splice(dragIndex, 1);
     newFillingSelect.splice(hoverIndex, 0, dragItem[0]);
 
-    dispatch(setFillingIngredient(newFillingSelect));
+    setFillingIngredient(newFillingSelect);
   };
 
   return (

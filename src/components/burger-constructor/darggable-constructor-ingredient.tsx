@@ -1,11 +1,10 @@
 import { FC, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import type { Identifier, XYCoord } from "dnd-core";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
-import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger";
 import { IIngredient } from "../../utils/types";
+import { useActions } from "../../hooks/useActions";
 
 interface DraggableConstructorIngredientProps {
   ingredient: IIngredient;
@@ -22,7 +21,7 @@ interface DragItem {
 const DraggableConstructorIngredient: FC<DraggableConstructorIngredientProps> = (props) => {
   const { ingredient, index, moveIngredient } = props;
   const ref = useRef<HTMLLIElement>(null);
-  const dispatch = useDispatch();
+  const { removeFillingIngredient, decreaseFillingIngredient } = useActions();
   const [{ isDragging }, dragRef] = useDrag({
     type: "constructorIngredient",
     item: { id: ingredient.constructorId, index },
@@ -66,8 +65,8 @@ const DraggableConstructorIngredient: FC<DraggableConstructorIngredientProps> = 
   });
 
   const remove = (ingredient: IIngredient) => {
-    dispatch(removeFillingIngredient(ingredient.constructorId));
-    dispatch(decreaseFillingIngredient(ingredient._id));
+    removeFillingIngredient(ingredient.constructorId);
+    decreaseFillingIngredient(ingredient._id);
   };
 
   dragRef(dropRef(ref));

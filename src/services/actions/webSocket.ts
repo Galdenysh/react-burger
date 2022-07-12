@@ -26,7 +26,7 @@ export interface IWsConnectionClosed {
 
 export interface IWsGetMessage {
   readonly type: typeof WS_GET_MESSAGE;
-  readonly payload: any[];
+  readonly payload: any;
 }
 
 export interface IWsSendMessage {

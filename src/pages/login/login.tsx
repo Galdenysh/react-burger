@@ -1,19 +1,18 @@
 import { FC, FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
-import { login } from "../../services/actions/auth";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { useActions } from "../../hooks/useActions";
 
 const Login: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
-  const dispatch = useDispatch();
-  const userData = useSelector((store: any) => store.auth);
+  const { login } = useActions();
+  const userData = useTypedSelector((store) => store.auth);
 
   const signIn = (email: string, password: string) => {
-    // @ts-ignore
-    dispatch(login(email, password));
+    login(email, password);
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -34,7 +33,7 @@ const Login: FC = () => {
             size={"default"}
             value={valueEmail}
             onChange={(evt) => setValueEmail(evt.target.value)}
-            error={userData.hasErrorAuth && userData.loginErrorMessage}
+            error={userData.hasErrorAuth}
             errorText={userData.loginErrorMessage}
           ></Input>
         </span>
