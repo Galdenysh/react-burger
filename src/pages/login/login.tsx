@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { login } from "../../services/actions/auth";
 
 const Login: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
-  const { login } = useActions();
+  const dispatch = useTypedDispatch();
   const userData = useTypedSelector((store) => store.auth);
 
   const signIn = (email: string, password: string) => {
-    login(email, password);
+    dispatch(login(email, password));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

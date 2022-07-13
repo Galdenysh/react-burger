@@ -18,7 +18,9 @@ import OrderInfo from "../order-info/order-info";
 import Preloader from "../preloader/preloader";
 import { getCookie } from "../../utils/cookie";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { fetchIngredients } from "../../services/actions/burger";
+import { fetchGetUserData, setAuthCheck, setRefreshToken } from "../../services/actions/auth";
 
 const App: FC = () => {
   const userData = useTypedSelector((store) => store.auth);
@@ -29,21 +31,21 @@ const App: FC = () => {
   const state = location.state as { background: Location };
   const background = state?.background;
   const navigate = useNavigate();
-  const { setAuthCheck, fetchIngredients, setRefreshToken, fetchGetUserData } = useActions();
+  const dispatch = useTypedDispatch();
 
   const closePopup = () => {
     navigate(-1);
   };
 
-  const getToken = async () => setRefreshToken();
+  const getToken = async () => dispatch(setRefreshToken());
 
   useEffect(() => {
-    setAuthCheck(false);
-    fetchIngredients();
+    dispatch(setAuthCheck(false));
+    dispatch(fetchIngredients());
 
     getToken().then(() => {
       if (getCookie("accessToken")) {
-        fetchGetUserData();
+        dispatch(fetchGetUserData());
       }
     });
 

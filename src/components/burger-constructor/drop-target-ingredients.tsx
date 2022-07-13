@@ -7,7 +7,13 @@ import styles from "./burger-constructor.module.scss";
 import bunImage from "../../images/bun.png";
 import { IIngredient } from "../../utils/types";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import {
+  addBunIngredient,
+  addFillingIngredient,
+  increaseFillingIngredient,
+  setFillingIngredient,
+} from "../../services/actions/burger";
 
 interface DropTargetIngredient {
   bunSelect: IIngredient | null;
@@ -27,17 +33,17 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     accept: "ingredient",
     drop: (item: DragItem) => onDropHandler(item.id),
   });
-  const { addBunIngredient, addFillingIngredient, increaseFillingIngredient, setFillingIngredient } = useActions();
+  const dispatch = useTypedDispatch();
   const ingredientsData = useTypedSelector((store) => store.burger.ingredientsData);
 
   const onDropHandler = (itemId: string) => {
-    const ingredientTarget = ingredientsData.filter((ingredient: IIngredient) => itemId === ingredient._id);
+    const ingredientTarget = ingredientsData.filter((ingredient) => itemId === ingredient._id);
     const ingredientTargetWithId = { ...ingredientTarget[0], constructorId: uuidv4() };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     ingredientTargetWithId.type === "bun"
-      ? addBunIngredient(ingredientTargetWithId)
-      : (addFillingIngredient(ingredientTargetWithId), increaseFillingIngredient(itemId));
+      ? dispatch(addBunIngredient(ingredientTargetWithId))
+      : (dispatch(addFillingIngredient(ingredientTargetWithId)), dispatch(increaseFillingIngredient(itemId)));
   };
 
   const moveIngredient = (dragIndex: number, hoverIndex: number) => {
@@ -45,7 +51,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
     const dragItem = newFillingSelect.splice(dragIndex, 1);
     newFillingSelect.splice(hoverIndex, 0, dragItem[0]);
 
-    setFillingIngredient(newFillingSelect);
+    dispatch(setFillingIngredient(newFillingSelect));
   };
 
   return (
@@ -87,7 +93,7 @@ const DropTargetIngredients: FC<DropTargetIngredient> = (props) => {
             </p>
           </>
         )}
-        {fillingSelect.map((ingredient: IIngredient, index: number) => (
+        {fillingSelect.map((ingredient, index) => (
           <DraggableConstructorIngredient
             ingredient={ingredient}
             index={index}

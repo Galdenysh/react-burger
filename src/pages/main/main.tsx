@@ -8,14 +8,15 @@ import OrderDetails from "../../components/order-details/order-details";
 import Preloader from "../../components/preloader/preloader";
 import styles from "./main.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { fetchOrder } from "../../services/actions/order";
 
 const Main: FC = () => {
   const [toggleOrder, setToggleOrder] = useState(false);
   const [visibleOrder, setVisibleOrder] = useState(false);
   const isInitialMount = useRef(true);
 
-  const { fetchOrder } = useActions();
+  const dispatch = useTypedDispatch();
   const burderData = useTypedSelector((store) => store.burger);
   const orderData = useTypedSelector((store) => store.order);
 
@@ -34,7 +35,7 @@ const Main: FC = () => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      fetchOrder(burderData);
+      dispatch(fetchOrder(burderData));
       setVisibleOrder(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

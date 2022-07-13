@@ -1,19 +1,20 @@
 import { FC, useEffect } from "react";
 import CardsOrder from "../../components/cards-order/cards-order";
 import Preloader from "../../components/preloader/preloader";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { wsConnectionClosedAuth, wsConnectionStartAuth } from "../../services/actions/webSocketAuth";
 import styles from "./order-history.module.scss";
 
 const OrderHistory: FC = () => {
   const burderData = useTypedSelector((store) => store.burger);
   const feedData = useTypedSelector((store) => store.wsAuth);
-  const { wsConnectionStartAuth, wsConnectionClosedAuth } = useActions();
+  const dispatch = useTypedDispatch();
 
   useEffect((): (() => void) => {
-    wsConnectionStartAuth();
+    dispatch(wsConnectionStartAuth());
 
-    return () => wsConnectionClosedAuth();
+    return () => dispatch(wsConnectionClosedAuth());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

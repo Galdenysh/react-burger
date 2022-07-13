@@ -1,7 +1,7 @@
 import { api } from "../../components/api/api";
 import { errMessage } from "../../utils/errMessage";
 import { deleteCookie, setCookie } from "../../utils/cookie";
-import { WebSocketAuthAction, wsConnectionClosedAuth, wsConnectionStartAuth } from "./webSocketAuth";
+import { wsConnectionClosedAuth, wsConnectionStartAuth } from "./webSocketAuth";
 import {
   GET_AUTH_STATUS_FALSE,
   GET_AUTH_STATUS_LOADED,
@@ -18,8 +18,8 @@ import {
   SET_AUTH_CHECK,
   SET_USER_DATA,
 } from "../constants/auth";
-import { Dispatch } from "redux";
 import { IUser } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../types";
 
 export interface ILoggetIn {
   readonly type: typeof LOGGEDIN;
@@ -99,8 +99,8 @@ export type AuthAction =
   | IGetLoginErrorMessage
   | IGetResetErrorMessage;
 
-export const fetchGetUserData = () => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const fetchGetUserData: AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     dispatch(getUserStatusLoading());
 
     api
@@ -120,8 +120,8 @@ export const fetchGetUserData = () => {
   };
 };
 
-export const fetchSetUserData = (userName: string, email: string, password: string) => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const fetchSetUserData: AppThunk = (userName: string, email: string, password: string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getUserStatusLoading());
 
     api
@@ -145,8 +145,8 @@ export const fetchSetUserData = (userName: string, email: string, password: stri
   };
 };
 
-export const register = (email: string, password: string, userName: string) => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const register: AppThunk = (email: string, password: string, userName: string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -168,8 +168,8 @@ export const register = (email: string, password: string, userName: string) => {
   };
 };
 
-export const login = (email: string, password: string) => {
-  return (dispatch: Dispatch<AuthAction | WebSocketAuthAction>) => {
+export const login: AppThunk = (email: string, password: string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getAuthStatusLoading());
 
     api
@@ -211,8 +211,8 @@ export const login = (email: string, password: string) => {
   };
 };
 
-export const logout = () => {
-  return (dispatch: Dispatch<AuthAction | WebSocketAuthAction>) => {
+export const logout: AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     return api
       .logout()
       .then((res) => {
@@ -229,8 +229,8 @@ export const logout = () => {
   };
 };
 
-export const forgotPassword = (email: string) => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const forgotPassword: AppThunk = (email: string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -250,8 +250,8 @@ export const forgotPassword = (email: string) => {
   };
 };
 
-export const resetPassword = (password: string, token: string) => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const resetPassword: AppThunk = (password: string, token: string) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getAuthStatusLoading());
 
     return api
@@ -273,8 +273,8 @@ export const resetPassword = (password: string, token: string) => {
   };
 };
 
-export const setRefreshToken = () => {
-  return (dispatch: Dispatch<AuthAction>) => {
+export const setRefreshToken: AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     dispatch(setAuthCheck(false));
 
     return api

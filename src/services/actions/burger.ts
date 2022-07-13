@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import { api } from "../../components/api/api";
 import { IIngredient } from "../../utils/types";
 import {
@@ -14,6 +13,7 @@ import {
   REMOVE_FILLING_INGREDIENT,
   SET_FILLING_INGREDIENT,
 } from "../constants/burger";
+import { AppDispatch, AppThunk } from "../types";
 
 export interface IGetIngredients {
   readonly type: typeof GET_INGREDIENTS;
@@ -79,8 +79,8 @@ export type BurgerAction =
   | IGetIngredientsStatusFalse
   | IClearFillingIngredients;
 
-export const fetchIngredients = () => {
-  return (dispatch: Dispatch<BurgerAction>) => {
+export const fetchIngredients: AppThunk = () => {
+  return (dispatch: AppDispatch) => {
     dispatch(getIngredientsStatusLoading());
 
     api

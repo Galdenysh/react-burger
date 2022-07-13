@@ -2,14 +2,15 @@ import { useState, useEffect, FC, FormEvent } from "react";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./personal-account.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { fetchSetUserData } from "../../services/actions/auth";
 
 const PersonalAccount: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [visible, setVisible] = useState(false);
-  const { fetchSetUserData } = useActions();
+  const dispatch = useTypedDispatch();
   const userData = useTypedSelector((store) => store.auth);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const PersonalAccount: FC = () => {
   }, [valueUserName, valueEmail, valuePassword]);
 
   const saveChanges = (userName: string, email: string, password: string) => {
-    fetchSetUserData(userName, email, password);
+    dispatch(fetchSetUserData(userName, email, password));
     setVisible(false);
   };
 

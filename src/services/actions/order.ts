@@ -1,13 +1,13 @@
 import { api } from "../../components/api/api";
 import { setRefreshToken } from "./auth";
-import { BurgerAction, clearFillingIngredients } from "./burger";
-import { Dispatch } from "redux";
+import { clearFillingIngredients } from "./burger";
 import {
   GET_ORDER,
   GET_ORDER_STATUS_FALSE,
   GET_ORDER_STATUS_LOADED,
   GET_ORDER_STATUS_LOADING,
 } from "../constants/order";
+import { AppDispatch, AppThunk } from "../types";
 
 export interface IGetOrder {
   readonly type: typeof GET_ORDER;
@@ -28,8 +28,8 @@ export interface IGetOrderStatusLoading {
 
 export type OrderAction = IGetOrder | IGetOrderStatusFalse | IGetOrderStatusLoaded | IGetOrderStatusLoading;
 
-export const fetchOrder = (data: any) => {
-  return (dispatch: Dispatch<OrderAction | BurgerAction>) => {
+export const fetchOrder: AppThunk = (data: any) => {
+  return (dispatch: AppDispatch) => {
     dispatch(getOrderStatusLoading());
 
     api

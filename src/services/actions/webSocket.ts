@@ -13,15 +13,17 @@ export interface IWsConnectionStart {
 
 export interface IWsConnectionSuccess {
   readonly type: typeof WS_CONNECTION_SUCCESS;
+  readonly payload: any;
 }
 
 export interface IWsConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: string;
+  readonly payload: any;
 }
 
 export interface IWsConnectionClosed {
   readonly type: typeof WS_CONNECTION_CLOSED;
+  readonly payload: any;
 }
 
 export interface IWsGetMessage {
@@ -47,8 +49,36 @@ export const wsConnectionStart = () => {
   };
 };
 
-export const wsConnectionClosed = () => {
+export const wsConnectionSuccess = (payload?: any) => {
+  return {
+    type: WS_CONNECTION_SUCCESS,
+    payload,
+  };
+};
+
+export const wsConnectionError = (payload: any) => {
+  return {
+    type: WS_CONNECTION_ERROR,
+    payload,
+  };
+};
+
+export const wsConnectionClosed = (payload?: any) => {
   return {
     type: WS_CONNECTION_CLOSED,
+    payload,
+  };
+};
+
+export const wsGetMessage = (payload: any) => {
+  return {
+    type: WS_GET_MESSAGE,
+    payload,
+  };
+};
+
+export const wsSendMessage = () => {
+  return {
+    type: WS_SEND_MESSAGE,
   };
 };

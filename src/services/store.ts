@@ -34,12 +34,12 @@ const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 const wsUrlAuth = "wss://norma.nomoreparties.space/orders";
 
 export interface IWsActions {
-  wsInit: string;
-  wsSendMessage: string;
-  onOpen: string;
-  onClose: string;
-  onError: string;
-  onMessage: string;
+  readonly wsInit: typeof WS_CONNECTION_START | typeof WS_CONNECTION_START_AUTH;
+  readonly wsSendMessage: typeof WS_SEND_MESSAGE | typeof WS_SEND_MESSAGE_AUTH;
+  readonly onOpen: typeof WS_CONNECTION_SUCCESS | typeof WS_CONNECTION_SUCCESS_AUTH;
+  readonly onClose: typeof WS_CONNECTION_CLOSED | typeof WS_CONNECTION_CLOSED_AUTH;
+  readonly onError: typeof WS_CONNECTION_ERROR | typeof WS_CONNECTION_ERROR_AUTH;
+  readonly onMessage: typeof WS_GET_MESSAGE | typeof WS_GET_MESSAGE_AUTH;
 }
 
 const wsActions = {

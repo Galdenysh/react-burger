@@ -4,7 +4,8 @@ import type { Identifier, XYCoord } from "dnd-core";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.scss";
 import { IIngredient } from "../../utils/types";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { decreaseFillingIngredient, removeFillingIngredient } from "../../services/actions/burger";
 
 interface DraggableConstructorIngredientProps {
   ingredient: IIngredient;
@@ -21,7 +22,7 @@ interface DragItem {
 const DraggableConstructorIngredient: FC<DraggableConstructorIngredientProps> = (props) => {
   const { ingredient, index, moveIngredient } = props;
   const ref = useRef<HTMLLIElement>(null);
-  const { removeFillingIngredient, decreaseFillingIngredient } = useActions();
+  const dispatch = useTypedDispatch();
   const [{ isDragging }, dragRef] = useDrag({
     type: "constructorIngredient",
     item: { id: ingredient.constructorId, index },
@@ -65,8 +66,8 @@ const DraggableConstructorIngredient: FC<DraggableConstructorIngredientProps> = 
   });
 
   const remove = (ingredient: IIngredient) => {
-    removeFillingIngredient(ingredient.constructorId);
-    decreaseFillingIngredient(ingredient._id);
+    dispatch(removeFillingIngredient(ingredient.constructorId));
+    dispatch(decreaseFillingIngredient(ingredient._id));
   };
 
   dragRef(dropRef(ref));

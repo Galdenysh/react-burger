@@ -13,15 +13,17 @@ export interface IWsConnectionStartAuth {
 
 export interface IWsConnectionSuccessAuth {
   readonly type: typeof WS_CONNECTION_SUCCESS_AUTH;
+  readonly payload: any;
 }
 
 export interface IWsConnectionErrorAuth {
   readonly type: typeof WS_CONNECTION_ERROR_AUTH;
-  readonly payload: string;
+  readonly payload: any;
 }
 
 export interface IWsConnectionClosedAuth {
   readonly type: typeof WS_CONNECTION_CLOSED_AUTH;
+  readonly payload: any;
 }
 
 export interface IWsGetMessageAuth {
@@ -47,8 +49,36 @@ export const wsConnectionStartAuth = () => {
   };
 };
 
-export const wsConnectionClosedAuth = () => {
+export const wsConnectionSuccessAuth = (payload?: any) => {
+  return {
+    type: WS_CONNECTION_SUCCESS_AUTH,
+    payload,
+  };
+};
+
+export const wsConnectionErrorAuth = (payload: any) => {
+  return {
+    type: WS_CONNECTION_ERROR_AUTH,
+    payload,
+  };
+};
+
+export const wsConnectionClosedAuth = (payload?: any) => {
   return {
     type: WS_CONNECTION_CLOSED_AUTH,
+    payload,
+  };
+};
+
+export const wsGetMessageAuth = (payload: any) => {
+  return {
+    type: WS_GET_MESSAGE_AUTH,
+    payload,
+  };
+};
+
+export const wsSendMessageAuth = () => {
+  return {
+    type: WS_SEND_MESSAGE_AUTH,
   };
 };

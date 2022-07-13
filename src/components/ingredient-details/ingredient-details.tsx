@@ -12,7 +12,7 @@ const IngredientDetails: FC<IngredientDetailsProps> = (props) => {
   const { titleStyle } = props;
   const ingredients = useTypedSelector((store) => store.burger.ingredientsData);
   const ingredientSelect = useParams();
-  const ingredient = ingredients.filter((item: IIngredient) => item._id === ingredientSelect.id);
+  const ingredient = ingredients.filter((item) => item._id === ingredientSelect.id);
 
   return (
     <>

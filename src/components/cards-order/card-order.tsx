@@ -23,15 +23,15 @@ const CardOrder: FC<CardOrderProps> = (props) => {
 
   const ingredients = order.ingredients
     .filter(Boolean)
-    .map((ingredientId: string) => {
-      return ingredientsData.filter(({ _id }: { _id: string }) => ingredientId.includes(_id))[0];
+    .map((ingredientId) => {
+      return ingredientsData.filter(({ _id }) => ingredientId.includes(_id))[0];
     })
-    .map((ingredient: IIngredient) => {
+    .map((ingredient) => {
       return { ...ingredient, uniqueId: uuidv4() };
     });
 
-  const bun = ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun")[0];
-  const filling = ingredients.filter((ingredient: IIngredient) => ingredient.type !== "bun");
+  const bun = ingredients.filter((ingredient) => ingredient.type === "bun")[0];
+  const filling = ingredients.filter((ingredient) => ingredient.type !== "bun");
 
   const filteredIngredient = filling.slice(0);
   if (bun) filteredIngredient.unshift(bun);
@@ -64,7 +64,7 @@ const CardOrder: FC<CardOrderProps> = (props) => {
         <div className={`${styles.ingredientsWrap} mt-6`}>
           <ul className={styles.ingredientsList}>
             {filteredIngredient
-              .map((ingredient: IIngredient, index: number) => (
+              .map((ingredient, index) => (
                 <CardIngredient
                   ingredient={ingredient}
                   index={index}

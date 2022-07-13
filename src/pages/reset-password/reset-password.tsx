@@ -3,17 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { resetPassword } from "../../services/actions/auth";
 
 const ResetPassword: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueToken, setValueToken] = useState("");
-  const { resetPassword } = useActions();
+  const dispatch = useTypedDispatch();
   const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const sendPassword = (password: string, token: string, callback: () => void) => {
-    const checkError = async () => resetPassword(password, token);
+    const checkError = async () => dispatch(resetPassword(password, token));
 
     checkError().then(() => {
       if (!userData.hasErrorUser) callback();

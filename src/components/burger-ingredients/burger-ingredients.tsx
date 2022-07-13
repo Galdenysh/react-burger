@@ -71,19 +71,19 @@ const BurgerIngredients: FC = () => {
       </div>
       <div className={styles.container} onScroll={onContainterScroll} ref={containerRef}>
         {ingredientsList(
-          ingredientsData.filter((item: IIngredient) => item.type === "bun"), // Получаем массив с булками
+          ingredientsData.filter((item) => item.type === "bun"), // Получаем массив с булками
           "Булки",
           bunRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item: IIngredient) => item.type === "sauce"), // Получаем массив с соусами
+          ingredientsData.filter((item) => item.type === "sauce"), // Получаем массив с соусами
           "Соусы",
           sauceRef
         )}
 
         {ingredientsList(
-          ingredientsData.filter((item: IIngredient) => item.type === "main"), // Получаем массив с начинками
+          ingredientsData.filter((item) => item.type === "main"), // Получаем массив с начинками
           "Начинки",
           mainRef
         )}
@@ -97,7 +97,7 @@ const ingredientsList = (ingredients: IIngredient[], type: string, tabRef: RefOb
     <ul className={styles.ingredientsWrap} ref={tabRef}>
       <h2 className={`text text_type_main-medium pt-10`}>{type}</h2>
       <ul className={`${styles.ingredientsList} mt-6`}>
-        {ingredients.map((ingredient: IIngredient) => (
+        {ingredients.map((ingredient) => (
           <DraggableIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </ul>

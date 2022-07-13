@@ -3,18 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { register } from "../../services/actions/auth";
 
 const Register: FC = () => {
   const [valuePassword, setValuePassword] = useState("");
   const [valueUserName, setValueUserName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
-  const { register } = useActions();
+  const dispatch = useTypedDispatch();
   const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const createUser = (email: string, password: string, userName: string, callback: () => void) => {
-    const checkError = async () => register(email, password, userName);
+    const checkError = async () => dispatch(register(email, password, userName));
 
     checkError().then(() => {
       if (!userData.hasErrorAuth) callback();

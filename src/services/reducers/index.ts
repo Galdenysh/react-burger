@@ -12,5 +12,3 @@ export const rootReducer = combineReducers({
   ws: webSocketReducer,
   wsAuth: webSocketReducerAuth,
 });
-
-export type RootState = ReturnType<typeof rootReducer>;

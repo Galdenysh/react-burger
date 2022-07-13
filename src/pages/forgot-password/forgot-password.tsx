@@ -3,16 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.scss";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
+import { useTypedDispatch } from "../../hooks/useTypedDispatch";
+import { forgotPassword } from "../../services/actions/auth";
 
 const ForgotPassword: FC = () => {
   const [valueEmail, setValueEmail] = useState("");
-  const { forgotPassword } = useActions();
+  const dispatch = useTypedDispatch();
   const userData = useTypedSelector((store) => store.auth);
   const navigate = useNavigate();
 
   const sendEmail = (email: string, callback: () => void) => {
-    const checkError = async () => forgotPassword(email);
+    const checkError = async () => dispatch(forgotPassword(email));
 
     checkError().then(() => {
       if (!userData.hasErrorUser) callback();
