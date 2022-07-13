@@ -1,13 +1,12 @@
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import App from "./components/app/app.jsx";
+import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { store } from "./services/store";
 
 const container = document.getElementById("root");
-// @ts-ignore
 const root = createRoot(container!);
 
 root.render(
